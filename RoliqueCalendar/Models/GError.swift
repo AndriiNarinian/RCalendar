@@ -1,0 +1,29 @@
+//
+//  GError.swift
+//  RoliqueCalendar
+//
+//  Created by Andrii Narinian on 9/26/17.
+//  Copyright © 2017 Rolique. All rights reserved.
+//
+
+import Foundation
+
+struct GError: GModel {
+    var domain: String?
+    var message: String?
+    var reason: String?
+    
+    init(dict: [String : Any?]) {
+        domain = dict["domain"] as? String
+        message = dict["message"] as? String
+        reason = dict["reason"] as? String
+    }
+    
+    var encoded: [String : Any?] {
+        return [
+            "domain": domain,
+            "reason": reason,
+            "message": message
+        ]
+    }
+}
