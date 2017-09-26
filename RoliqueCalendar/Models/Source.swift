@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Source: GModel {
+struct Source: GModelType {
     var url: String?
     var title: String?
     

@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Properties: GModel {
+struct Properties: GModelType {
     var `private`: [String: String]?
     var shared: [String: String]?
     

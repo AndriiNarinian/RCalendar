@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Notification: GModel {
+struct Notification: GModelType {
     var type: String?
     var method: String?
     var encoded: [String: Any?] {

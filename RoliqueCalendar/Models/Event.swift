@@ -11,14 +11,14 @@ import Foundation
 typealias EventCompletion = (Event) -> Void
 typealias EventsCompletion = ([Event]) -> Void
 
-struct Event: GModel {
+struct Event: GModelType {
     var kind: String?
     var etag: String?
     var id: String?
     var status: String?
     var htmlLink: String?
-    var created: String?
-    var updated: String?
+    var created: DateNoTz?
+    var updated: DateNoTz?
     var summary: String?
     var description: String?
     var location: String?
@@ -57,8 +57,8 @@ struct Event: GModel {
                 "id": id,
                 "status": status,
                 "htmlLink": htmlLink,
-                "created": created,
-                "updated": updated,
+                "created": created?.stringValue,
+                "updated": updated?.stringValue,
                 "summary": summary,
                 "description": description,
                 "location": location,
@@ -98,8 +98,8 @@ struct Event: GModel {
         id = dict["id"] as? String
         status = dict["status"] as? String
         htmlLink = dict["htmlLink"] as? String
-        created = dict["created"] as? String
-        updated = dict["updated"] as? String
+        created = DateNoTz(dict["created"] as? String)
+        updated = DateNoTz(dict["updated"] as? String)
         summary = dict["summary"] as? String
         description = dict["description"] as? String
         location = dict["location"] as? String

@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct GError: GModel {
+struct GError: GModelType {
     var domain: String?
     var message: String?
     var reason: String?

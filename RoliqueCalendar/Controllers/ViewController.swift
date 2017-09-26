@@ -46,9 +46,8 @@ extension ViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let calendarList = calendarLists[indexPath.row]
-        print(calendarList.dictDescription)
         Event.findAll(withCalendarId: calendarList.id, owner: self) { [weak self] events in
-            events.forEach { self?.displayString($0.dictDescription) }
+            self?.displayString("[\(events.map { $0.dictNoNilDescription }.reduce(with: ",\n\n"))]")
         }
     }
 }

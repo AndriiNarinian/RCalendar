@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Gadget: GModel {
+struct Gadget: GModelType {
     var type: String?
     var title: String?
     var link: String?

@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct EventReminders: GModel {
+struct EventReminders: GModelType {
     var useDefault: Bool?
     var overrides: [Reminder]?
     

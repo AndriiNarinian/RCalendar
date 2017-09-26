@@ -13,7 +13,7 @@ import Foundation
 typealias CalendarCompletion = (Calendar) -> Void
 typealias CalendarsCompletion = ([Calendar]) -> Void
 
-struct Calendar: GModel {
+struct Calendar: GModelType {
     var kind: String?
     var etag: String?
     var id: String?

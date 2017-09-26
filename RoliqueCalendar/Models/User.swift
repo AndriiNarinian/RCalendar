@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct User: GModel {
+struct User: GModelType {
     var id: String?
     var email: String?
     var displayName: String?

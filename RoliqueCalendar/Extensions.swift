@@ -28,6 +28,67 @@ extension UIColor {
     }
 }
 
+extension String {
+    
+    static var emptyEntity: Any {
+        return "" as Any
+    }
+    
+    static var emptyNilEntity: Any {
+        let empty: String? = nil
+        return empty as Any
+    }
+    
+    var localized: String {
+        return NSLocalizedString(self, comment: "")
+    }
+    
+    func localizedWithFormat(arguments: CVarArg...) -> String {
+        return String.localizedStringWithFormat(self.localized, arguments)
+    }
+    
+    func chopPrefix(_ count: Int = 1) -> String {
+        return substring(from: index(startIndex, offsetBy: count))
+    }
+    
+    func chopSuffix(_ count: Int = 1) -> String {
+        return substring(to: index(endIndex, offsetBy: -count))
+    }
+    
+    func trimmed(leavingCharactersCount count: Int) -> String {
+        let countToChop = characters.count - count
+        return countToChop > 0 ? (self.chopSuffix(countToChop)) + "..." : self
+    }
+    
+    var withoutSpacesAndNewLines: String {
+        return trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+    
+    func removingWhitespaces() -> String {
+        return components(separatedBy: .whitespaces).joined()
+    }
+}
+
+extension Array where Iterator.Element == String {
+    func reduce(with separator: String) -> String {
+        return self.reduce("", { lh, rh in
+            let lhs = String(describing: lh)
+            let rhs = String(describing: rh)
+            var str: String {
+                if lhs == "" {
+                    return rhs
+                } else if rhs == "" {
+                    return lhs
+                }  else {
+                    return lhs + separator + rhs
+                }
+            }
+            
+            return str
+        })
+    }
+}
+
 extension Optional {
     func string<W: ExpressibleByStringLiteral>() -> W {
         switch self {

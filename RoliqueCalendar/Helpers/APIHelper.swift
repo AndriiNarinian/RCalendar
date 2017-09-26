@@ -14,6 +14,7 @@ typealias APICompletionArray = ([[String: Any]]) -> Void
 
 // MARK: Configuration
 extension APIHelper {
+    static let isDebug = true
     static func configureGoogleAPI() {
         GIDSignIn.sharedInstance().scopes = [
             "https://www.googleapis.com/auth/calendar",
@@ -80,6 +81,12 @@ fileprivate extension APIHelper {
                 "authorization": "Bearer \(token)"
             ]
             
+            if isDebug {
+                print(">>>>>>>>>>")
+                print("\nAPIHelper request with url:\n[\(router.urlString)]\n")
+                print("<<<<<<<<<<")
+            }
+            
             let request = NSMutableURLRequest(url: NSURL(string: router.urlString)! as URL,
                                               cachePolicy: .useProtocolCachePolicy,
                                               timeoutInterval: 10.0)
@@ -109,20 +116,26 @@ fileprivate extension APIHelper {
     static func handleResponce(forArray owner: BaseVC, completion: @escaping APICompletionArray) -> (Data?, URLResponse?, Error?) -> Void {
         return { data, responce, error in
             if let error = error {
-                owner.displayError(error.localizedDescription)
+                handleErrorString(error.localizedDescription, with: owner)
             } else if let data = data {
                 if let serialized = try? JSONSerialization.jsonObject(with: data) as? [String: Any] {
                     if let json = serialized?["items"] as? [[String: Any]] {
                         DispatchQueue.main.async {
+                            let string = json.map { GModel(dict: $0).dictDescription }.reduce(with: ",\n\n")
+                            if isDebug {
+                                print(">>>>>>>>>>")
+                                print("\nAPIHelper received objects:\n[\(string)]\n")
+                                print("<<<<<<<<<<")
+                            }
                             completion(json)
                         }
                     } else if let errorDict = serialized?["error"] as? [String: Any] {
                         let errorModel = ErrorModel(dict: errorDict)
-                        owner.displayError(errorModel.dictDescription)
+                        handleErrorString(errorModel.dictNoNilDescription, with: owner)
                     }
                 }
             } else {
-                owner.displayError("unknown error")
+                handleErrorString("no data", with: owner)
             }
         }
     }
@@ -130,21 +143,35 @@ fileprivate extension APIHelper {
     static func handleResponce(forObject owner: BaseVC, completion: @escaping APICompletion) -> (Data?, URLResponse?, Error?) -> Void {
         return { data, responce, error in
             if let error = error {
-                owner.displayError(error.localizedDescription)
+                handleErrorString(error.localizedDescription, with: owner)
             } else if let data = data {
                 if let serialized = try? JSONSerialization.jsonObject(with: data) as? [String: Any] {
                     if let json = serialized {
                         DispatchQueue.main.async {
+                            if isDebug {
+                                print(">>>>>>>>>>")
+                                print("\nAPIHelper received object:\n\(GModel(dict: json).dictDescription)\n")
+                                print("<<<<<<<<<<")
+                            }
                             completion(json)
                         }
                     } else if let errorDict = serialized?["error"] as? [String: Any] {
                         let errorModel = ErrorModel(dict: errorDict)
-                        owner.displayError(String(describing: errorModel))
+                        handleErrorString(errorModel.dictNoNilDescription, with: owner)
                     }
                 }
             } else {
-                owner.displayError("unknown error")
+                handleErrorString("no data", with: owner)
             }
         }
+    }
+    
+    static func handleErrorString(_ errStr: String, with owner: BaseVC) {
+        if isDebug {
+            print(">>>>>>>>>>")
+            print("\nAPIHelper got an errror:\n\(errStr)\n")
+            print("<<<<<<<<<<")
+        }
+        owner.displayError(errStr)
     }
 }

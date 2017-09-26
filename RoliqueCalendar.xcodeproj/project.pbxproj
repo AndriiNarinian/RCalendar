@@ -17,6 +17,7 @@
 		B59BAD8E1F7AA3BA00A65AD1 /* BaseVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B59BAD8D1F7AA3BA00A65AD1 /* BaseVC.swift */; };
 		B59BAD901F7AA3D400A65AD1 /* ErrorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B59BAD8F1F7AA3D400A65AD1 /* ErrorModel.swift */; };
 		B59BAD921F7AA3EC00A65AD1 /* GError.swift in Sources */ = {isa = PBXBuildFile; fileRef = B59BAD911F7AA3EC00A65AD1 /* GError.swift */; };
+		B5D83BC31F7ADA9E004C7A12 /* Formatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D83BC21F7ADA9E004C7A12 /* Formatters.swift */; };
 		B5F638931F78F5BC00E80DEC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F638921F78F5BC00E80DEC /* AppDelegate.swift */; };
 		B5F638981F78F5BC00E80DEC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B5F638961F78F5BC00E80DEC /* Main.storyboard */; };
 		B5F6389A1F78F5BC00E80DEC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B5F638991F78F5BC00E80DEC /* Assets.xcassets */; };
@@ -29,7 +30,7 @@
 		B5F638B41F7908E400E80DEC /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F638B31F7908E400E80DEC /* Constants.swift */; };
 		B5F638B71F79421C00E80DEC /* MultiActionAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F638B61F79421C00E80DEC /* MultiActionAlert.swift */; };
 		B5F638BE1F794DF300E80DEC /* CalendarExtended.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F638BD1F794DF300E80DEC /* CalendarExtended.swift */; };
-		B5F638C01F7A48C400E80DEC /* GModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F638BF1F7A48C400E80DEC /* GModel.swift */; };
+		B5F638C01F7A48C400E80DEC /* GModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F638BF1F7A48C400E80DEC /* GModelType.swift */; };
 		B5F638C21F7A493F00E80DEC /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F638C11F7A493F00E80DEC /* Extensions.swift */; };
 		B5F638C51F7A62E100E80DEC /* APIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F638C31F7A62E100E80DEC /* APIHelper.swift */; };
 		B5F638C61F7A62E100E80DEC /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F638C41F7A62E100E80DEC /* Router.swift */; };
@@ -52,6 +53,7 @@
 		B59BAD8D1F7AA3BA00A65AD1 /* BaseVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseVC.swift; sourceTree = "<group>"; };
 		B59BAD8F1F7AA3D400A65AD1 /* ErrorModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorModel.swift; sourceTree = "<group>"; };
 		B59BAD911F7AA3EC00A65AD1 /* GError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GError.swift; sourceTree = "<group>"; };
+		B5D83BC21F7ADA9E004C7A12 /* Formatters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Formatters.swift; sourceTree = "<group>"; };
 		B5F6388F1F78F5BC00E80DEC /* RoliqueCalendar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RoliqueCalendar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5F638921F78F5BC00E80DEC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B5F638971F78F5BC00E80DEC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -65,7 +67,7 @@
 		B5F638B31F7908E400E80DEC /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		B5F638B61F79421C00E80DEC /* MultiActionAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiActionAlert.swift; sourceTree = "<group>"; };
 		B5F638BD1F794DF300E80DEC /* CalendarExtended.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarExtended.swift; sourceTree = "<group>"; };
-		B5F638BF1F7A48C400E80DEC /* GModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GModel.swift; sourceTree = "<group>"; };
+		B5F638BF1F7A48C400E80DEC /* GModelType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GModelType.swift; sourceTree = "<group>"; };
 		B5F638C11F7A493F00E80DEC /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		B5F638C31F7A62E100E80DEC /* APIHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIHelper.swift; sourceTree = "<group>"; };
 		B5F638C41F7A62E100E80DEC /* Router.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
@@ -95,6 +97,7 @@
 			isa = PBXGroup;
 			children = (
 				B59BAD8D1F7AA3BA00A65AD1 /* BaseVC.swift */,
+				B5D83BC21F7ADA9E004C7A12 /* Formatters.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -166,7 +169,7 @@
 		B5F638BC1F794CFE00E80DEC /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				B5F638BF1F7A48C400E80DEC /* GModel.swift */,
+				B5F638BF1F7A48C400E80DEC /* GModelType.swift */,
 				B5F638BD1F794DF300E80DEC /* CalendarExtended.swift */,
 				B5F638CF1F7A874100E80DEC /* Calendar.swift */,
 				B5F638D11F7A8D9F00E80DEC /* Event.swift */,
@@ -264,6 +267,7 @@
 				B59BAD921F7AA3EC00A65AD1 /* GError.swift in Sources */,
 				B5F638C61F7A62E100E80DEC /* Router.swift in Sources */,
 				B59BAD8E1F7AA3BA00A65AD1 /* BaseVC.swift in Sources */,
+				B5D83BC31F7ADA9E004C7A12 /* Formatters.swift in Sources */,
 				B59BAD8B1F7A9B8E00A65AD1 /* Attachment.swift in Sources */,
 				B5F638C21F7A493F00E80DEC /* Extensions.swift in Sources */,
 				B5F638B71F79421C00E80DEC /* MultiActionAlert.swift in Sources */,
@@ -280,7 +284,7 @@
 				B5F638D01F7A874100E80DEC /* Calendar.swift in Sources */,
 				B58EECEA1F7A967A0076EFDD /* Properties.swift in Sources */,
 				B5F638CC1F7A666A00E80DEC /* Notification.swift in Sources */,
-				B5F638C01F7A48C400E80DEC /* GModel.swift in Sources */,
+				B5F638C01F7A48C400E80DEC /* GModelType.swift in Sources */,
 				B5F638D21F7A8D9F00E80DEC /* Event.swift in Sources */,
 				B58EECE81F7A935F0076EFDD /* TimeStamp.swift in Sources */,
 				B5F638CA1F7A664500E80DEC /* NotificationSettings.swift in Sources */,

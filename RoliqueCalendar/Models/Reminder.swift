@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Reminder: GModel {
+struct Reminder: GModelType {
     var method: String?
     var minutes: Int?
     

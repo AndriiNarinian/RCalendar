@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct NotificationSettings: GModel {
+struct NotificationSettings: GModelType {
     var notifications: [Notification]?
     
     var encoded: [String: Any?] {

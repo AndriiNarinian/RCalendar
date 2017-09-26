@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Attachment: GModel {
+struct Attachment: GModelType {
     var fileUrl: String?
     var title: String?
     var mimeType: String?

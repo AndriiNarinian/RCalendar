@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct ErrorModel: GModel {
+struct ErrorModel: GModelType {
     var errors: [GError]?
     var code: Int?
     var message: String?
