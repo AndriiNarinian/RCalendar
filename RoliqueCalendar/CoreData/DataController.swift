@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-//        let calendarExtendedList = NSEntityDescription.insertNewObjectForEntityForName("CalendarExtendedList", inManagedObjectContext: dataController.managedObjectContext) as! CalendarMO
+//        let calendarExtendedList = NSEntityDescription.insertNewObjectForEntityForName("GCalendarExtendedList", inManagedObjectContext: dataController.managedObjectContext) as! CalendarMO
 
 class DataController: NSObject {
     var managedObjectContext: NSManagedObjectContext

@@ -1,5 +1,5 @@
 //
-//  TimeStamp.swift
+//  GTimeStamp.swift
 //  RoliqueCalendar
 //
 //  Created by Andrii Narinian on 9/26/17.
@@ -8,15 +8,15 @@
 
 import Foundation
 
-struct TimeStamp: GModelType {
+struct GTimeStamp: GModelType {
     var date: Date?
-    var dateTime: DateTz?
+    var dateTime: GDateTz?
     var timeZone: String?
     
     init?(dict: [String : Any?]?) {
         guard let dict = dict else { return nil }
         date = dict["date"] as? Date
-        dateTime = DateTz(dict["dateTime"] as? String)
+        dateTime = GDateTz(dict["dateTime"] as? String)
         timeZone = dict["timeZone"] as? String
     }
     

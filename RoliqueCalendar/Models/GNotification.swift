@@ -1,5 +1,5 @@
 //
-//  Reminder.swift
+//  GNotification.swift
 //  RoliqueCalendar
 //
 //  Created by Andrii Narinian on 9/26/17.
@@ -8,17 +8,16 @@
 
 import Foundation
 
-struct Reminder: GModelType {
+struct GNotification: GModelType {
+    var type: String?
     var method: String?
-    var minutes: Int?
     
     var encoded: [String: Any?] {
-        return ["method": method, "minutes": minutes]
+        return ["type": type, "method": method]
     }
-    
     init?(dict: [String: Any?]?) {
         guard let dict = dict else { return nil }
+        type = dict["type"] as? String
         method = dict["method"] as? String
-        minutes = dict["minutes"] as? Int
     }
 }

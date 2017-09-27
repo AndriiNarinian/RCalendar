@@ -9,19 +9,18 @@
 import UIKit
 import CoreData
 
-extension ViewController: CoreDataTableViewOwner {
-    var _tableView: UITableView { return tableView }
-}
-
-class ViewController: BaseVC {
+class ViewController: VC, CoreDataTableCompatibleVC, GoogleAPICompatible {
+    var gIDSignInProxy = GIDSignInProxy()
+    var coreDataProxy: CoreDataProxy!
+    
     @IBOutlet weak var tableView: UITableView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        initializeFetchedResultsController()
         tableView.rowHeight = 80
+        coreDataProxy = CoreDataProxy(tableView: tableView)
         
-        CalendarExtended.findAll(for: self) { [unowned self] calendarList in
+        GCalendarExtended.findAll(for: self) { [unowned self] calendarList in
             if let extendedCalendars = calendarList.items {
                 extendedCalendars.forEach { calendar in
                     self.save(calendar)
@@ -29,45 +28,4 @@ class ViewController: BaseVC {
             }
         }
     }
-    
-    fileprivate func save(_ calendar: CalendarExtended) {
-        var calendarMO = existingCalendarExtended(with: calendar.id)
-        
-        if calendarMO == nil {
-            let entity = NSEntityDescription.entity(forEntityName: "CalendarExtended", in: self.managedObjectContext)
-        
-            calendarMO = CalendarExtendedMO(entity: entity!, insertInto: self.managedObjectContext)
-        }
-        calendarMO?.id = calendar.id
-        calendarMO?.etag = calendar.etag
-        calendarMO?.summary = calendar.summary
-        calendarMO?.descr = calendar.description
-        calendarMO?.backgroundColor = calendar.backgroundColor
-        calendarMO?.foregroundColor = calendar.foregroundColor
-        
-        do {
-            try self.managedObjectContext.save()
-        } catch {
-            print(error)
-        }
-    }
-    
-    func existingCalendarExtended(with id: String?) -> CalendarExtendedMO? {
-        guard let id = id else { return nil }
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "CalendarExtended")
-        fetchRequest.predicate = NSPredicate(format: "id == %@", id)
-        fetchRequest.includesSubentities = false
-        
-        var managedExtendedCalendar: CalendarExtendedMO?
-        
-        do {
-            managedExtendedCalendar = try self.managedObjectContext.fetch(fetchRequest).first as? CalendarExtendedMO
-        }
-        catch {
-            print("error executing fetch request: \(error)")
-        }
-        
-        return managedExtendedCalendar
-    }
-    
 }

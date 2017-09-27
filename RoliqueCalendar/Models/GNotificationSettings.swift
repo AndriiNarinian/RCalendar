@@ -1,5 +1,5 @@
 //
-//  NotificationSettings.swift
+//  GNotificationSettings.swift
 //  RoliqueCalendar
 //
 //  Created by Andrii Narinian on 9/26/17.
@@ -8,8 +8,8 @@
 
 import Foundation
 
-struct NotificationSettings: GModelType {
-    var notifications: [Notification]?
+struct GNotificationSettings: GModelType {
+    var notifications: [GNotification]?
     
     var encoded: [String: Any?] {
         return ["notifications": notifications?.map { $0.encoded }]
@@ -17,6 +17,6 @@ struct NotificationSettings: GModelType {
     
     init?(dict: [String: Any?]?) {
         guard let dict = dict else { return nil }
-        notifications = (dict["notifications"] as? [[String: Any]])?.flatMap { Notification(dict: $0) }
+        notifications = (dict["notifications"] as? [[String: Any]])?.flatMap { GNotification(dict: $0) }
     }
 }

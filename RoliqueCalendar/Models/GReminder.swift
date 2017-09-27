@@ -1,5 +1,5 @@
 //
-//  Source.swift
+//  GReminder.swift
 //  RoliqueCalendar
 //
 //  Created by Andrii Narinian on 9/26/17.
@@ -8,16 +8,17 @@
 
 import Foundation
 
-struct Source: GModelType {
-    var url: String?
-    var title: String?
+struct GReminder: GModelType {
+    var method: String?
+    var minutes: Int?
     
     var encoded: [String: Any?] {
-        return ["url": url, "title": title]
+        return ["method": method, "minutes": minutes]
     }
+    
     init?(dict: [String: Any?]?) {
         guard let dict = dict else { return nil }
-        url = dict["url"] as? String
-        title = dict["title"] as? String
+        method = dict["method"] as? String
+        minutes = dict["minutes"] as? Int
     }
 }

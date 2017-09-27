@@ -1,5 +1,5 @@
 //
-//  User.swift
+//  GUser.swift
 //  RoliqueCalendar
 //
 //  Created by Andrii Narinian on 9/26/17.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct User: GModelType {
+struct GUser: GModelType {
     var id: String?
     var email: String?
     var displayName: String?

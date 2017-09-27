@@ -1,5 +1,5 @@
 //
-//  CalendarList.swift
+//  GCalendarExtended.swift
 //  RoliqueCalendar
 //
 //  Created by Andrii Narinian on 9/25/17.
@@ -8,10 +8,10 @@
 
 import Foundation
 
-typealias ExtendedCalendarCompletion = (CalendarExtended) -> Void
-typealias ExtendedCalendarListCompletion = (CalendarExtendedList) -> Void
+typealias ExtendedCalendarCompletion = (GCalendarExtended) -> Void
+typealias ExtendedCalendarListCompletion = (GCalendarExtendedList) -> Void
 
-struct CalendarExtended: GModelType {
+struct GCalendarExtended: GModelType {
     var kind: String?
     var etag: String?
     var id: String?
@@ -24,8 +24,8 @@ struct CalendarExtended: GModelType {
     var foregroundColor: String?
     var isSelected: Bool?
     var accessRole: String?
-    var defaultReminders: [Reminder]?
-    var notificationSettings: NotificationSettings?
+    var defaultReminders: [GReminder]?
+    var notificationSettings: GNotificationSettings?
     var isPrimary: Bool?
     var isDeleted: Bool?
     
@@ -64,24 +64,24 @@ struct CalendarExtended: GModelType {
         foregroundColor = dict["foregroundColor"] as? String
         isSelected = dict["selected"] as? Bool
         accessRole = dict["accessRole"] as? String
-        defaultReminders = (dict["defaultReminders"] as? [[String: Any]])?.flatMap { Reminder(dict: $0) }
-        notificationSettings = NotificationSettings(dict: (dict["notificationSettings"] as? [String: Any]))
+        defaultReminders = (dict["defaultReminders"] as? [[String: Any]])?.flatMap { GReminder(dict: $0) }
+        notificationSettings = GNotificationSettings(dict: (dict["notificationSettings"] as? [String: Any]))
         isPrimary = dict["primary"] as? Bool
         isDeleted = dict["deleted"] as? Bool
     }
 }
 
-extension CalendarExtended {
-    static func findAll(for owner: BaseVC, completion: @escaping ExtendedCalendarListCompletion) {
+extension GCalendarExtended {
+    static func findAll(for owner: GoogleAPICompatible, completion: @escaping ExtendedCalendarListCompletion) {
         APIHelper.getExtendedCalendarList(owner: owner) { dict in
-            guard let extendedCalendarList = CalendarExtendedList(dict: dict) else { return }
+            guard let extendedCalendarList = GCalendarExtendedList(dict: dict) else { return }
             completion(extendedCalendarList)
         }
     }
     
-    static func find(withCalendarId calendarId: String, owner: BaseVC, completion: @escaping ExtendedCalendarCompletion) {
+    static func find(withCalendarId calendarId: String, owner: GoogleAPICompatible, completion: @escaping ExtendedCalendarCompletion) {
         APIHelper.getExtendedCalendar(with: calendarId, for: owner) { dict in
-            guard let extendedCalendar = CalendarExtended(dict: dict) else { return }
+            guard let extendedCalendar = GCalendarExtended(dict: dict) else { return }
             completion(extendedCalendar)
         }
     }

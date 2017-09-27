@@ -1,5 +1,5 @@
 //
-//  ErrorModel.swift
+//  GErrorModel.swift
 //  RoliqueCalendar
 //
 //  Created by Andrii Narinian on 9/26/17.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct ErrorModel: GModelType {
+struct GErrorModel: GModelType {
     var errors: [GError]?
     var code: Int?
     var message: String?

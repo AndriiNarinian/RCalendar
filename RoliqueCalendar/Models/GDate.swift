@@ -26,7 +26,7 @@ extension GDate {
     }
 }
 
-struct DateTz: GDate {
+struct GDateTz: GDate {
     var stringValue: String
     init?(_ stringValue: String?) {
         guard let stringValue = stringValue else { return nil }
@@ -35,7 +35,7 @@ struct DateTz: GDate {
     var formatter: DateFormatter { return Formatters.gcFormatTz }
 }
 
-struct DateNoTz: GDate {
+struct GDateNoTz: GDate {
     var stringValue: String
     init?(_ stringValue: String?) {
         guard let stringValue = stringValue else { return nil }

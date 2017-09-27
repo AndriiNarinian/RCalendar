@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         APIHelper.configureGoogleAPI()
         dataController = DataController {
             self.window = UIWindow(frame: UIScreen.main.bounds)
-            
+            self.window?.backgroundColor = .white
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             
             let initialViewController = storyboard.instantiateViewController(withIdentifier: "ViewController")

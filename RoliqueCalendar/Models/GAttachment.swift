@@ -1,5 +1,5 @@
 //
-//  Attachment.swift
+//  GAttachment.swift
 //  RoliqueCalendar
 //
 //  Created by Andrii Narinian on 9/26/17.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Attachment: GModelType {
+struct GAttachment: GModelType {
     var fileUrl: String?
     var title: String?
     var mimeType: String?

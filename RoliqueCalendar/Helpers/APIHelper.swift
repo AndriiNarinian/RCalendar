@@ -46,26 +46,26 @@ class APIHelper {
         GIDSignIn.sharedInstance().signOut()
     }
     
-    static func getExtendedCalendarList(owner: BaseVC, completion: @escaping APICompletion) {
+    static func getExtendedCalendarList(owner: GoogleAPICompatible, completion: @escaping APICompletion) {
         requestFromGoogleAPI(owner: owner, router: .getExtendedCalendarList, completion: handleResponce(forObject: owner, completion: completion))
     }
     
-    static func getExtendedCalendar(with id: String?, for owner: BaseVC, completion: @escaping APICompletion) {
+    static func getExtendedCalendar(with id: String?, for owner: GoogleAPICompatible, completion: @escaping APICompletion) {
         guard let id = id else { owner.displayError("calendar id is missing"); return }
         requestFromGoogleAPI(owner: owner, router: .getExtendedCalendar(id: id), completion: handleResponce(forObject: owner, completion: completion))
     }
     
-    static func getCalendar(with id: String?, for owner: BaseVC, completion: @escaping APICompletion) {
+    static func getCalendar(with id: String?, for owner: GoogleAPICompatible, completion: @escaping APICompletion) {
         guard let id = id else { owner.displayError("calendar id is missing"); return }
         requestFromGoogleAPI(owner: owner, router: .getCalendar(id: id), completion: handleResponce(forObject: owner, completion: completion))
     }
     
-    static func getEventList(with calendarId: String?, for owner: BaseVC, completion: @escaping APICompletion) {
+    static func getEventList(with calendarId: String?, for owner: GoogleAPICompatible, completion: @escaping APICompletion) {
         guard let calendarId = calendarId else { owner.displayError("calendar id is missing"); return }
         requestFromGoogleAPI(owner: owner, router: .getEventList(calendarId: calendarId), completion: handleResponce(forObject: owner, completion: completion))
     }
     
-    static func getEvent(with calendarId: String?, eventId: String?, for owner: BaseVC, completion: @escaping APICompletion) {
+    static func getEvent(with calendarId: String?, eventId: String?, for owner: GoogleAPICompatible, completion: @escaping APICompletion) {
         guard let calendarId = calendarId, let eventId = eventId else { owner.displayError("calendar id is missing"); return }
         requestFromGoogleAPI(owner: owner, router: .getEvent(calendarId: calendarId, eventId: eventId), completion: handleResponce(forObject: owner, completion: completion))
     }
@@ -75,7 +75,7 @@ class APIHelper {
 fileprivate extension APIHelper {
     static let kClientID = "343892928011-4ibhevkj1jabjk527b4rhnve41995e1p.apps.googleusercontent.com"
     
-    static func requestFromGoogleAPI(owner: BaseVC, router: Router, completion: @escaping (Data?, URLResponse?, Error?) -> Void) {
+    static func requestFromGoogleAPI(owner: GoogleAPICompatible, router: Router, completion: @escaping (Data?, URLResponse?, Error?) -> Void) {
         getAccessToken(owner: owner) { token in
             let headers = [
                 "authorization": "Bearer \(token)"
@@ -101,19 +101,19 @@ fileprivate extension APIHelper {
         }
     }
     
-    static func getAccessToken(owner: BaseVC, completion: @escaping (String) -> Void) {
+    static func getAccessToken(owner: GoogleAPICompatible, completion: @escaping (String) -> Void) {
         if let currentUser = GIDSignIn.sharedInstance().currentUser {
             completion(currentUser.authentication.accessToken)
         } else {
-            GIDSignIn.sharedInstance().delegate = owner
-            GIDSignIn.sharedInstance().uiDelegate = owner
+            GIDSignIn.sharedInstance().delegate = owner.gIDSignInProxy
+            GIDSignIn.sharedInstance().uiDelegate = owner.gIDSignInProxy
             owner.observeToken(completion: { token in
                 completion(token)
             })
         }
     }
     
-    static func handleResponce(forArray owner: BaseVC, completion: @escaping APICompletionArray) -> (Data?, URLResponse?, Error?) -> Void {
+    static func handleResponce(forArray owner: GoogleAPICompatible, completion: @escaping APICompletionArray) -> (Data?, URLResponse?, Error?) -> Void {
         return { data, responce, error in
             if let error = error {
                 handleErrorString(error.localizedDescription, with: owner)
@@ -130,7 +130,7 @@ fileprivate extension APIHelper {
                             completion(json)
                         }
                     } else if let errorDict = serialized?["error"] as? [String: Any] {
-                        guard let errorModel = ErrorModel(dict: errorDict) else { return }
+                        guard let errorModel = GErrorModel(dict: errorDict) else { return }
                         handleErrorString(errorModel.dictNoNilDescription, with: owner)
                     }
                 }
@@ -140,7 +140,7 @@ fileprivate extension APIHelper {
         }
     }
     
-    static func handleResponce(forObject owner: BaseVC, completion: @escaping APICompletion) -> (Data?, URLResponse?, Error?) -> Void {
+    static func handleResponce(forObject owner: GoogleAPICompatible, completion: @escaping APICompletion) -> (Data?, URLResponse?, Error?) -> Void {
         return { data, responce, error in
             if let error = error {
                 handleErrorString(error.localizedDescription, with: owner)
@@ -156,7 +156,7 @@ fileprivate extension APIHelper {
                             completion(json)
                         }
                     } else if let errorDict = serialized?["error"] as? [String: Any] {
-                        guard let errorModel = ErrorModel(dict: errorDict) else { return }
+                        guard let errorModel = GErrorModel(dict: errorDict) else { return }
                         handleErrorString(errorModel.dictNoNilDescription, with: owner)
                     }
                 }
@@ -166,7 +166,7 @@ fileprivate extension APIHelper {
         }
     }
     
-    static func handleErrorString(_ errStr: String, with owner: BaseVC) {
+    static func handleErrorString(_ errStr: String, with owner: GoogleAPICompatible) {
         if isDebug {
             print(">>>>>>>>>>")
             print("\nAPIHelper got an errror:\n\(errStr)\n")

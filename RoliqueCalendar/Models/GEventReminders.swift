@@ -1,5 +1,5 @@
 //
-//  EventReminders.swift
+//  GEventReminders.swift
 //  RoliqueCalendar
 //
 //  Created by Andrii Narinian on 9/26/17.
@@ -8,14 +8,14 @@
 
 import Foundation
 
-struct EventReminders: GModelType {
+struct GEventReminders: GModelType {
     var useDefault: Bool?
-    var overrides: [Reminder]?
+    var overrides: [GReminder]?
     
     init?(dict: [String: Any?]?) {
         guard let dict = dict else { return nil }
         useDefault = dict["useDefault"] as? Bool
-        overrides = (dict["overrides"] as? [[String: Any]])?.flatMap { Reminder(dict: $0) }
+        overrides = (dict["overrides"] as? [[String: Any]])?.flatMap { GReminder(dict: $0) }
     }
     
     var encoded: [String: Any?] {

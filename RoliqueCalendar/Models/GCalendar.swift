@@ -1,5 +1,5 @@
 //
-//  Calendar.swift
+//  GCalendar.swift
 //  RoliqueCalendar
 //
 //  Created by Andrii Narinian on 9/26/17.
@@ -10,10 +10,10 @@ import Foundation
 
 import Foundation
 
-typealias CalendarCompletion = (Calendar) -> Void
-typealias CalendarsCompletion = ([Calendar]) -> Void
+typealias CalendarCompletion = (GCalendar) -> Void
+typealias CalendarsCompletion = ([GCalendar]) -> Void
 
-struct Calendar: GModelType {
+struct GCalendar: GModelType {
     var kind: String?
     var etag: String?
     var id: String?
@@ -46,10 +46,10 @@ struct Calendar: GModelType {
     }
 }
 
-extension Calendar {
-    static func find(withCalendarId calendarId: String?, owner: BaseVC, completion: @escaping CalendarCompletion) {
+extension GCalendar {
+    static func find(withCalendarId calendarId: String?, owner: GoogleAPICompatible, completion: @escaping CalendarCompletion) {
         APIHelper.getCalendar(with: calendarId, for: owner) { dict in
-            guard let calendar = Calendar(dict: dict) else { return }
+            guard let calendar = GCalendar(dict: dict) else { return }
             completion(calendar)
         }
     }

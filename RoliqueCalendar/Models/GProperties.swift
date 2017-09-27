@@ -1,5 +1,5 @@
 //
-//  Properties.swift
+//  GProperties.swift
 //  RoliqueCalendar
 //
 //  Created by Andrii Narinian on 9/26/17.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Properties: GModelType {
+struct GProperties: GModelType {
     var `private`: [String: String]?
     var shared: [String: String]?
     

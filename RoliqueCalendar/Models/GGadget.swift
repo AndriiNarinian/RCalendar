@@ -1,5 +1,5 @@
 //
-//  Gadget.swift
+//  GGadget.swift
 //  RoliqueCalendar
 //
 //  Created by Andrii Narinian on 9/26/17.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Gadget: GModelType {
+struct GGadget: GModelType {
     var type: String?
     var title: String?
     var link: String?
