@@ -12,7 +12,8 @@ struct Properties: GModelType {
     var `private`: [String: String]?
     var shared: [String: String]?
     
-    init(dict: [String : Any?]) {
+    init?(dict: [String : Any?]?) {
+        guard let dict = dict else { return nil }
         `private` = dict["private"] as? [String: String]
         shared = dict["shared"] as? [String: String]
     }

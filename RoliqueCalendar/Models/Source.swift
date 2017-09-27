@@ -15,7 +15,8 @@ struct Source: GModelType {
     var encoded: [String: Any?] {
         return ["url": url, "title": title]
     }
-    init (dict: [String: Any?]) {
+    init?(dict: [String: Any?]?) {
+        guard let dict = dict else { return nil }
         url = dict["url"] as? String
         title = dict["title"] as? String
     }

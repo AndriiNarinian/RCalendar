@@ -12,9 +12,10 @@ struct EventReminders: GModelType {
     var useDefault: Bool?
     var overrides: [Reminder]?
     
-    init (dict: [String: Any?]) {
+    init?(dict: [String: Any?]?) {
+        guard let dict = dict else { return nil }
         useDefault = dict["useDefault"] as? Bool
-        overrides = (dict["overrides"] as? [[String: Any]])?.map { Reminder(dict: $0) }
+        overrides = (dict["overrides"] as? [[String: Any]])?.flatMap { Reminder(dict: $0) }
     }
     
     var encoded: [String: Any?] {

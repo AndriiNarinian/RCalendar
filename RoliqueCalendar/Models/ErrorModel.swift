@@ -13,8 +13,9 @@ struct ErrorModel: GModelType {
     var code: Int?
     var message: String?
     
-    init(dict: [String : Any?]) {
-        errors = (dict["errors"] as? [[String: Any]])?.map { GError(dict: $0) }
+    init?(dict: [String : Any?]?) {
+        guard let dict = dict else { return nil }
+        errors = (dict["errors"] as? [[String: Any]])?.flatMap { GError(dict: $0) }
         code = dict["code"] as? Int
         message = dict["message"] as? String
     }

@@ -18,7 +18,8 @@ struct Gadget: GModelType {
     var display: String?
     var preferences: [String: String]?
     
-    init(dict: [String : Any?]) {
+    init?(dict: [String : Any?]?) {
+        guard let dict = dict else { return nil }
         type = dict["id"] as? String
         title = dict["title"] as? String
         link = dict["link"] as? String

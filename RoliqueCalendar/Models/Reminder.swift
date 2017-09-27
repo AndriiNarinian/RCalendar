@@ -16,7 +16,8 @@ struct Reminder: GModelType {
         return ["method": method, "minutes": minutes]
     }
     
-    init (dict: [String: Any?]) {
+    init?(dict: [String: Any?]?) {
+        guard let dict = dict else { return nil }
         method = dict["method"] as? String
         minutes = dict["minutes"] as? Int
     }

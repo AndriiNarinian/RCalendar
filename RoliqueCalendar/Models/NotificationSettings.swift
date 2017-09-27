@@ -15,7 +15,8 @@ struct NotificationSettings: GModelType {
         return ["notifications": notifications?.map { $0.encoded }]
     }
     
-    init (dict: [String: Any?]) {
-        notifications = (dict["notifications"] as? [[String: Any]])?.map { Notification(dict: $0) }
+    init?(dict: [String: Any?]?) {
+        guard let dict = dict else { return nil }
+        notifications = (dict["notifications"] as? [[String: Any]])?.flatMap { Notification(dict: $0) }
     }
 }

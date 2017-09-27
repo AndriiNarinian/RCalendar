@@ -25,7 +25,8 @@ struct Attachment: GModelType {
         ]
     }
     
-    init (dict: [String: Any?]) {
+    init?(dict: [String: Any?]?) {
+        guard let dict = dict else { return nil }
         fileUrl = dict["fileUrl"] as? String
         title = dict["title"] as? String
         mimeType = dict["mimeType"] as? String

@@ -38,8 +38,16 @@ extension APIHelper {
 
 // MARK: Public
 class APIHelper {
-    static func getExtendedCalendars(owner: BaseVC, completion: @escaping APICompletionArray) {
-        requestFromGoogleAPI(owner: owner, router: .getExtendedCalendars, completion: handleResponce(forArray: owner, completion: completion))
+    static func signIn() {
+        GIDSignIn.sharedInstance().signIn()
+    }
+    
+    static func signOut() {
+        GIDSignIn.sharedInstance().signOut()
+    }
+    
+    static func getExtendedCalendarList(owner: BaseVC, completion: @escaping APICompletion) {
+        requestFromGoogleAPI(owner: owner, router: .getExtendedCalendarList, completion: handleResponce(forObject: owner, completion: completion))
     }
     
     static func getExtendedCalendar(with id: String?, for owner: BaseVC, completion: @escaping APICompletion) {
@@ -52,9 +60,9 @@ class APIHelper {
         requestFromGoogleAPI(owner: owner, router: .getCalendar(id: id), completion: handleResponce(forObject: owner, completion: completion))
     }
     
-    static func getEvents(with calendarId: String?, for owner: BaseVC, completion: @escaping APICompletionArray) {
+    static func getEventList(with calendarId: String?, for owner: BaseVC, completion: @escaping APICompletion) {
         guard let calendarId = calendarId else { owner.displayError("calendar id is missing"); return }
-        requestFromGoogleAPI(owner: owner, router: .getEvents(calendarId: calendarId), completion: handleResponce(forArray: owner, completion: completion))
+        requestFromGoogleAPI(owner: owner, router: .getEventList(calendarId: calendarId), completion: handleResponce(forObject: owner, completion: completion))
     }
     
     static func getEvent(with calendarId: String?, eventId: String?, for owner: BaseVC, completion: @escaping APICompletion) {
@@ -66,14 +74,6 @@ class APIHelper {
 // MARK: Private
 fileprivate extension APIHelper {
     static let kClientID = "343892928011-4ibhevkj1jabjk527b4rhnve41995e1p.apps.googleusercontent.com"
-    
-    static func signIn() {
-        GIDSignIn.sharedInstance().signIn()
-    }
-    
-    static func signOut() {
-        GIDSignIn.sharedInstance().signOut()
-    }
     
     static func requestFromGoogleAPI(owner: BaseVC, router: Router, completion: @escaping (Data?, URLResponse?, Error?) -> Void) {
         getAccessToken(owner: owner) { token in
@@ -121,7 +121,7 @@ fileprivate extension APIHelper {
                 if let serialized = try? JSONSerialization.jsonObject(with: data) as? [String: Any] {
                     if let json = serialized?["items"] as? [[String: Any]] {
                         DispatchQueue.main.async {
-                            let string = json.map { GModel(dict: $0).dictDescription }.reduce(with: ",\n\n")
+                            let string = json.map { GModel(dict: $0)?.dictDescription ?? "" }.reduce(with: ",\n\n")
                             if isDebug {
                                 print(">>>>>>>>>>")
                                 print("\nAPIHelper received objects:\n[\(string)]\n")
@@ -130,7 +130,7 @@ fileprivate extension APIHelper {
                             completion(json)
                         }
                     } else if let errorDict = serialized?["error"] as? [String: Any] {
-                        let errorModel = ErrorModel(dict: errorDict)
+                        guard let errorModel = ErrorModel(dict: errorDict) else { return }
                         handleErrorString(errorModel.dictNoNilDescription, with: owner)
                     }
                 }
@@ -150,13 +150,13 @@ fileprivate extension APIHelper {
                         DispatchQueue.main.async {
                             if isDebug {
                                 print(">>>>>>>>>>")
-                                print("\nAPIHelper received object:\n\(GModel(dict: json).dictDescription)\n")
+                                print("\nAPIHelper received object:\n\(GModel(dict: json)?.dictDescription ?? "")\n")
                                 print("<<<<<<<<<<")
                             }
                             completion(json)
                         }
                     } else if let errorDict = serialized?["error"] as? [String: Any] {
-                        let errorModel = ErrorModel(dict: errorDict)
+                        guard let errorModel = ErrorModel(dict: errorDict) else { return }
                         handleErrorString(errorModel.dictNoNilDescription, with: owner)
                     }
                 }

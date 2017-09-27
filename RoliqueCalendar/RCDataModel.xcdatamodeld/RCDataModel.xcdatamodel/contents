@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="12141" systemVersion="16G29" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Calendar" representedClassName="CalendarMO" syncable="YES" codeGenerationType="class">
+        <attribute name="descr" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="etag" attributeType="String" syncable="YES"/>
+        <attribute name="id" attributeType="String" syncable="YES"/>
+        <attribute name="kind" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="location" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="summary" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="timeZone" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="CalendarExtended" representedClassName="CalendarExtendedMO" parentEntity="Calendar" syncable="YES" codeGenerationType="class">
+        <attribute name="accessRole" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="backgroundColor" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="colorId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="foregroundColor" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="isPrimary" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="isSelected" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="wasDeleted" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="defaultReminders" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Reminder" syncable="YES"/>
+        <relationship name="notificationSettings" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="NotificationSettings" syncable="YES"/>
+    </entity>
+    <entity name="DateNoTz" representedClassName="DateNoTzMO" parentEntity="GDate" syncable="YES" codeGenerationType="class"/>
+    <entity name="DateTz" representedClassName="DateTzMO" parentEntity="GDate" syncable="YES" codeGenerationType="class"/>
+    <entity name="GDate" representedClassName="GDateMO" isAbstract="YES" syncable="YES" codeGenerationType="class">
+        <attribute name="date" optional="YES" transient="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="shortString" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
+        <attribute name="stringValue" attributeType="String" defaultValueString="&quot;&quot;" syncable="YES"/>
+        <attribute name="timeStamp" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="Notification" representedClassName="NotificationMO" syncable="YES" codeGenerationType="class">
+        <attribute name="method" attributeType="String" syncable="YES"/>
+        <attribute name="type" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="NotificationSettings" representedClassName="NotificationSettingsMO" syncable="YES" codeGenerationType="class">
+        <relationship name="notifications" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Notification" syncable="YES"/>
+    </entity>
+    <entity name="Reminder" representedClassName="ReminderMO" syncable="YES" codeGenerationType="class">
+        <attribute name="method" attributeType="String" syncable="YES"/>
+        <attribute name="minutes" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+    </entity>
+    <entity name="TimeStamp" representedClassName="TimeStampMO" syncable="YES" codeGenerationType="class">
+        <attribute name="date" attributeType="Date" defaultDateTimeInterval="-31582800" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="dateTime" attributeType="String" syncable="YES"/>
+        <relationship name="timeZone" maxCount="1" deletionRule="Nullify" destinationEntity="DateTz" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Calendar" positionX="-614" positionY="-486" width="128" height="148"/>
+        <element name="DateNoTz" positionX="-126" positionY="-243" width="128" height="43"/>
+        <element name="DateTz" positionX="-272" positionY="-243" width="128" height="43"/>
+        <element name="GDate" positionX="-216" positionY="-423" width="128" height="103"/>
+        <element name="TimeStamp" positionX="-191" positionY="-153" width="128" height="88"/>
+        <element name="CalendarExtended" positionX="-614" positionY="-306" width="128" height="178"/>
+        <element name="Reminder" positionX="-416" positionY="-126" width="128" height="73"/>
+        <element name="NotificationSettings" positionX="-623" positionY="-58" width="128" height="58"/>
+        <element name="Notification" positionX="-396" positionY="35" width="128" height="73"/>
+    </elements>
+</model>

@@ -9,7 +9,7 @@
 import Foundation
 
 typealias EventCompletion = (Event) -> Void
-typealias EventsCompletion = ([Event]) -> Void
+typealias EventListCompletion = (EventList) -> Void
 
 struct Event: GModelType {
     var kind: String?
@@ -63,36 +63,37 @@ struct Event: GModelType {
                 "description": description,
                 "location": location,
                 "colorId": colorId,
-                "creator": creator,
-                "organizer": organizer,
-                "start": start,
-                "end": end,
+                "creator": creator?.encoded,
+                "organizer": organizer?.encoded,
+                "start": start?.encoded,
+                "end": end?.encoded,
                 "endTimeUnspecified": endTimeUnspecified,
                 "recurrence": recurrence,
                 "recurringEventId": recurringEventId,
-                "originalStartTime": originalStartTime,
+                "originalStartTime": originalStartTime?.encoded,
                 "transparency": transparency,
                 "visibility": visibility,
                 "iCalUID": iCalUID,
                 "sequence": sequence,
-                "attendees": attendees,
+                "attendees": attendees?.map { $0.encoded },
                 "attendeesOmitted": attendeesOmitted,
-                "extendedProperties": extendedProperties,
+                "extendedProperties": extendedProperties?.encoded,
                 "hangoutLink": hangoutLink,
-                "gadget": gadget,
+                "gadget": gadget?.encoded,
                 "anyoneCanAddSelf": anyoneCanAddSelf,
                 "guestsCanInviteOthers": guestsCanInviteOthers,
                 "guestsCanModify": guestsCanModify,
                 "guestsCanSeeOtherGuests": guestsCanSeeOtherGuests,
                 "privateCopy": privateCopy,
                 "locked": locked,
-                "reminders": reminders,
-                "source": source,
-                "attachments": attachments
+                "reminders": reminders?.encoded,
+                "source": source?.encoded,
+                "attachments": attachments?.map { $0.encoded }
         ]
     }
     
-    init (dict: [String: Any?]) {
+    init?(dict: [String: Any?]?) {
+        guard let dict = dict else { return nil }
         kind = dict["kind"] as? String
         etag = dict["etag"] as? String
         id = dict["id"] as? String
@@ -104,45 +105,47 @@ struct Event: GModelType {
         description = dict["description"] as? String
         location = dict["location"] as? String
         colorId = dict["colorId"] as? String
-        creator = User(dict: (dict["creator"] as? [String: Any]) ?? [String: Any]())
-        organizer = User(dict: (dict["organizer"] as? [String: Any]) ?? [String: Any]())
-        start = TimeStamp(dict: (dict["start"] as? [String: Any]) ?? [String: Any]())
-        end = TimeStamp(dict: (dict["end"] as? [String: Any]) ?? [String: Any]())
+        creator = User(dict: (dict["creator"] as? [String: Any]))
+        organizer = User(dict: (dict["organizer"] as? [String: Any]))
+        start = TimeStamp(dict: (dict["start"] as? [String: Any]))
+        end = TimeStamp(dict: (dict["end"] as? [String: Any]))
         endTimeUnspecified = dict["endTimeUnspecified"] as? Bool
         recurrence = dict["recurrence"] as? [String]
         recurringEventId = dict["recurringEventId"] as? String
-        originalStartTime = TimeStamp(dict: (dict["originalStartTime"] as? [String: Any]) ?? [String: Any]())
+        originalStartTime = TimeStamp(dict: dict["originalStartTime"] as? [String: Any?])
         transparency = dict["transparency"] as? String
         visibility = dict["visibility"] as? String
         iCalUID = dict["iCalUID"] as? String
         sequence = dict["sequence"] as? Int
-        attendees = (dict["attendees"] as? [[String: Any]])?.map { User(dict: $0) }
+        attendees = (dict["attendees"] as? [[String: Any]])?.flatMap { User(dict: $0) }
         attendeesOmitted = dict["attendeesOmitted"] as? Bool
-        extendedProperties = Properties(dict: (dict["extendedProperties"] as? [String: Any]) ?? [String: Any]())
+        extendedProperties = Properties(dict: dict["extendedProperties"] as? [String: Any])
         hangoutLink = dict["hangoutLink"] as? String
-        gadget = Gadget(dict: (dict["gadget"] as? [String: Any]) ?? [String: Any]())
+        gadget = Gadget(dict: dict["gadget"] as? [String: Any])
         anyoneCanAddSelf = dict["anyoneCanAddSelf"] as? Bool
         guestsCanInviteOthers = dict["guestsCanInviteOthers"] as? Bool
         guestsCanModify = dict["guestsCanModify"] as? Bool
         guestsCanSeeOtherGuests = dict["guestsCanSeeOtherGuests"] as? Bool
         privateCopy = dict["privateCopy"] as? Bool
         locked = dict["locked"] as? Bool
-        reminders = EventReminders(dict: (dict["reminders"] as? [String: Any]) ?? [String: Any]())
-        source = Source(dict: (dict["source"] as? [String: Any]) ?? [String: Any]())
-        attachments = (dict["attachments"] as? [[String: Any]])?.map { Attachment(dict: $0) }
+        reminders = EventReminders(dict: dict["reminders"] as? [String: Any])
+        source = Source(dict: (dict["source"] as? [String: Any]))
+        attachments = (dict["attachments"] as? [[String: Any]])?.flatMap { Attachment(dict: $0) }
     }
 }
 
 extension Event {
-    static func findAll(withCalendarId calendarId: String?, owner: BaseVC, completion: @escaping EventsCompletion) {
-        APIHelper.getEvents(with: calendarId, for: owner) { events in
-            completion(events.map { Event(dict: $0) })
+    static func findAll(withCalendarId calendarId: String?, owner: BaseVC, completion: @escaping EventListCompletion) {
+        APIHelper.getEventList(with: calendarId, for: owner) { eventListDict in
+            guard let eventList = EventList(dict: eventListDict) else { return }
+            completion(eventList)
         }
     }
     
     static func find(withCalendarId calendarId: String?, eventId: String?, owner: BaseVC, completion: @escaping EventCompletion) {
-        APIHelper.getEvent(with: calendarId, eventId: eventId, for: owner) { event in
-            completion(Event(dict: event))
+        APIHelper.getEvent(with: calendarId, eventId: eventId, for: owner) { eventDict in
+            guard let event = Event(dict: eventDict) else { return }
+            completion(event)
         }
     }
 }

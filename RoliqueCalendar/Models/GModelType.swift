@@ -10,13 +10,14 @@ import Foundation
 
 protocol GModelType {
     var encoded: [String: Any?] { get }
-    init (dict: [String: Any?])
+    init? (dict: [String: Any?]?)
 }
 
 struct GModel: GModelType {
     var dict: [String: Any?]
     
-    init (dict: [String: Any?]) {
+    init? (dict: [String: Any?]?) {
+        guard let dict = dict else { return nil }
         self.dict = dict
     }
     
@@ -41,10 +42,22 @@ extension GModelType {
             } else {
                 return String(describing: value)
             }
+        } else if let value = value as? BooleanLiteralType {
+            if let count = stringTrimmingCount {
+                return String(describing: value).trimmed(leavingCharactersCount: count)
+            } else {
+                return String(describing: value)
+            }
+        } else if let value = value as? IntegerLiteralType {
+            if let count = stringTrimmingCount {
+                return String(describing: value).trimmed(leavingCharactersCount: count)
+            } else {
+                return String(describing: value)
+            }
         } else if let dict = value as? [String: Any?] {
             return getDescription(for: dict, shouldShowNil: shouldShowNil, stringTrimmingCount: stringTrimmingCount)
         } else if let dicts = value as? [[String: Any?]] {
-            return "[ \(dicts.map{ getDescription(for: $0, shouldShowNil: shouldShowNil, stringTrimmingCount: stringTrimmingCount) }.reduce("", { $0 == "" ? $1 : $0 + ",\n" + $1 })) ]"
+            return "(\(dicts.count))[ \(dicts.map{ getDescription(for: $0, shouldShowNil: shouldShowNil, stringTrimmingCount: stringTrimmingCount) }.reduce("", { $0 == "" ? $1 : $0 + ",\n" + $1 })) ]"
         } else {
             return nil
         }

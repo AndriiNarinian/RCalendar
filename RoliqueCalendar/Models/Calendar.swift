@@ -34,7 +34,8 @@ struct Calendar: GModelType {
         ]
     }
     
-    init (dict: [String: Any?]) {
+    init?(dict: [String: Any?]?) {
+        guard let dict = dict else { return nil }
         kind = dict["kind"] as? String
         etag = dict["etag"] as? String
         id = dict["id"] as? String
@@ -48,7 +49,8 @@ struct Calendar: GModelType {
 extension Calendar {
     static func find(withCalendarId calendarId: String?, owner: BaseVC, completion: @escaping CalendarCompletion) {
         APIHelper.getCalendar(with: calendarId, for: owner) { dict in
-            completion(Calendar(dict: dict))
+            guard let calendar = Calendar(dict: dict) else { return }
+            completion(calendar)
         }
     }
 }

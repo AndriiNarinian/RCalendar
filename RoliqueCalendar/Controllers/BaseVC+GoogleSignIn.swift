@@ -1,5 +1,5 @@
 //
-//  BaseVC.swift
+//  BaseVC+GoogleSignIn.swift
 //  RoliqueCalendar
 //
 //  Created by Andrii Narinian on 9/26/17.
@@ -8,23 +8,6 @@
 
 import UIKit
 import GoogleSignIn
-
-class BaseVC: VC {
-    var observeTokenCompletion: ((String) -> Void)?
-    
-    func observeToken(completion: @escaping (String) -> Void) {
-        self.observeTokenCompletion = completion
-        GIDSignIn.sharedInstance().signIn()
-    }
-    
-    func displayError(_ error: String) {
-        MultiActionAlert(style: .alert, title: "Error", message: error, buttonTitles: ["Ok"], actions: [{}], owner: self).showAlert()
-    }
-    
-    func displayString(_ string: String) {
-        MultiActionAlert(style: .alert, message: string, buttonTitles: ["Ok"], actions: [{}], owner: self).showAlert()
-    }
-}
 
 extension BaseVC: GIDSignInDelegate {
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {

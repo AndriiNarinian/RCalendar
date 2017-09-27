@@ -11,10 +11,12 @@ import Foundation
 struct Notification: GModelType {
     var type: String?
     var method: String?
+    
     var encoded: [String: Any?] {
         return ["type": type, "method": method]
     }
-    init (dict: [String: Any?]) {
+    init?(dict: [String: Any?]?) {
+        guard let dict = dict else { return nil }
         type = dict["type"] as? String
         method = dict["method"] as? String
     }

@@ -19,7 +19,8 @@ struct User: GModelType {
     var comment: String?
     var additionalGuests: Int?
     
-    init(dict: [String : Any?]) {
+    init?(dict: [String : Any?]?) {
+        guard let dict = dict else { return nil }
         id = dict["id"] as? String
         email = dict["email"] as? String
         displayName = dict["displayName"] as? String

@@ -13,7 +13,8 @@ struct GError: GModelType {
     var message: String?
     var reason: String?
     
-    init(dict: [String : Any?]) {
+    init?(dict: [String : Any?]?) {
+        guard let dict = dict else { return nil }
         domain = dict["domain"] as? String
         message = dict["message"] as? String
         reason = dict["reason"] as? String

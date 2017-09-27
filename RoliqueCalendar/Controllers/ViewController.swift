@@ -7,47 +7,67 @@
 //
 
 import UIKit
+import CoreData
+
+extension ViewController: CoreDataTableViewOwner {
+    var _tableView: UITableView { return tableView }
+}
 
 class ViewController: BaseVC {
+    @IBOutlet weak var tableView: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        initializeFetchedResultsController()
         tableView.rowHeight = 80
-        CalendarExtended.findAll(for: self) { [weak self] calendarLists in
-            self?.calendarLists = calendarLists
+        
+        CalendarExtended.findAll(for: self) { [unowned self] calendarList in
+            if let extendedCalendars = calendarList.items {
+                extendedCalendars.forEach { calendar in
+                    self.save(calendar)
+                }
+            }
         }
-    }
-
-    @IBOutlet weak var tableView: UITableView!
-    var calendarLists = [CalendarExtended]() {
-        didSet {
-            tableView.reloadData()
-        }
-    }
-}
-
-extension ViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return calendarLists.count
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "cell")
-        let calendarList = calendarLists[indexPath.row]
-        cell.textLabel?.text = calendarList.summary
-        cell.detailTextLabel?.text = calendarList.description
-        cell.contentView.backgroundColor = UIColor(hexString: calendarList.backGroundColor.string())
-        cell.textLabel?.textColor = UIColor(hexString: calendarList.foregroundColor.string())
-        return cell
-    }
-}
-
-extension ViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-        let calendarList = calendarLists[indexPath.row]
-        Event.findAll(withCalendarId: calendarList.id, owner: self) { [weak self] events in
-            self?.displayString("[\(events.map { $0.dictNoNilDescription }.reduce(with: ",\n\n"))]")
+    fileprivate func save(_ calendar: CalendarExtended) {
+        var calendarMO = existingCalendarExtended(with: calendar.id)
+        
+        if calendarMO == nil {
+            let entity = NSEntityDescription.entity(forEntityName: "CalendarExtended", in: self.managedObjectContext)
+        
+            calendarMO = CalendarExtendedMO(entity: entity!, insertInto: self.managedObjectContext)
+        }
+        calendarMO?.id = calendar.id
+        calendarMO?.etag = calendar.etag
+        calendarMO?.summary = calendar.summary
+        calendarMO?.descr = calendar.description
+        calendarMO?.backgroundColor = calendar.backgroundColor
+        calendarMO?.foregroundColor = calendar.foregroundColor
+        
+        do {
+            try self.managedObjectContext.save()
+        } catch {
+            print(error)
         }
     }
+    
+    func existingCalendarExtended(with id: String?) -> CalendarExtendedMO? {
+        guard let id = id else { return nil }
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "CalendarExtended")
+        fetchRequest.predicate = NSPredicate(format: "id == %@", id)
+        fetchRequest.includesSubentities = false
+        
+        var managedExtendedCalendar: CalendarExtendedMO?
+        
+        do {
+            managedExtendedCalendar = try self.managedObjectContext.fetch(fetchRequest).first as? CalendarExtendedMO
+        }
+        catch {
+            print("error executing fetch request: \(error)")
+        }
+        
+        return managedExtendedCalendar
+    }
+    
 }

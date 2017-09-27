@@ -9,7 +9,7 @@
 import Foundation
 
 typealias ExtendedCalendarCompletion = (CalendarExtended) -> Void
-typealias ExtendedCalendarsCompletion = ([CalendarExtended]) -> Void
+typealias ExtendedCalendarListCompletion = (CalendarExtendedList) -> Void
 
 struct CalendarExtended: GModelType {
     var kind: String?
@@ -20,7 +20,7 @@ struct CalendarExtended: GModelType {
     var location: String?
     var timeZone: String?
     var colorId: String?
-    var backGroundColor: String?
+    var backgroundColor: String?
     var foregroundColor: String?
     var isSelected: Bool?
     var accessRole: String?
@@ -39,7 +39,7 @@ struct CalendarExtended: GModelType {
             "location": location,
             "timeZone": timeZone,
             "colorId": colorId,
-            "backgroundColor": backGroundColor,
+            "backgroundColor": backgroundColor,
             "foregroundColor": foregroundColor,
             "selected": isSelected,
             "accessRole": accessRole,
@@ -50,7 +50,8 @@ struct CalendarExtended: GModelType {
         ]
     }
     
-    init (dict: [String: Any?]) {
+    init?(dict: [String: Any?]?) {
+        guard let dict = dict else { return nil }
         kind = dict["kind"] as? String
         etag = dict["etag"] as? String
         id = dict["id"] as? String
@@ -59,27 +60,29 @@ struct CalendarExtended: GModelType {
         location = dict["location"] as? String
         timeZone = dict["timeZone"] as? String
         colorId = dict["colorId"] as? String
-        backGroundColor = dict["backgroundColor"] as? String
+        backgroundColor = dict["backgroundColor"] as? String
         foregroundColor = dict["foregroundColor"] as? String
         isSelected = dict["selected"] as? Bool
         accessRole = dict["accessRole"] as? String
-        defaultReminders = (dict["defaultReminders"] as? [[String: Any]])?.map { Reminder(dict: $0) }
-        notificationSettings = NotificationSettings(dict: (dict["notificationSettings"] as? [String: Any]) ?? [String: Any]())
+        defaultReminders = (dict["defaultReminders"] as? [[String: Any]])?.flatMap { Reminder(dict: $0) }
+        notificationSettings = NotificationSettings(dict: (dict["notificationSettings"] as? [String: Any]))
         isPrimary = dict["primary"] as? Bool
         isDeleted = dict["deleted"] as? Bool
     }
 }
 
 extension CalendarExtended {
-    static func findAll(for owner: BaseVC, completion: @escaping ExtendedCalendarsCompletion) {
-        APIHelper.getExtendedCalendars(owner: owner) { dicts in
-            completion(dicts.map { CalendarExtended(dict: $0) })
+    static func findAll(for owner: BaseVC, completion: @escaping ExtendedCalendarListCompletion) {
+        APIHelper.getExtendedCalendarList(owner: owner) { dict in
+            guard let extendedCalendarList = CalendarExtendedList(dict: dict) else { return }
+            completion(extendedCalendarList)
         }
     }
     
     static func find(withCalendarId calendarId: String, owner: BaseVC, completion: @escaping ExtendedCalendarCompletion) {
         APIHelper.getExtendedCalendar(with: calendarId, for: owner) { dict in
-            completion(CalendarExtended(dict: dict))
+            guard let extendedCalendar = CalendarExtended(dict: dict) else { return }
+            completion(extendedCalendar)
         }
     }
 }
