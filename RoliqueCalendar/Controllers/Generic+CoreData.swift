@@ -1,47 +1,50 @@
 //
-//  BaseVC+CoreData.swift
+//  Generic+CoreData.swift
 //  RoliqueCalendar
 //
-//  Created by Andrii Narinian on 9/27/17.
+//  Created by Andrii Narinian on 9/28/17.
 //  Copyright © 2017 Rolique. All rights reserved.
 //
 
 import UIKit
 import CoreData
 
-protocol CoreDataProxy {
+protocol Proxy {
     var managedObjectContext: NSManagedObjectContext { get }
-    func configure(with tableView: UITableView)
+    func configure(with tableView: UITableView, config: ProxyConfig)
 }
 
-extension CoreDataProxy {
+extension Proxy {
     var managedObjectContext: NSManagedObjectContext {
         return (UIApplication.shared.delegate as! AppDelegate).dataController.managedObjectContext
     }
 }
 
-class CoreDataProxyObject: NSObject, CoreDataProxy, UITableViewDelegate, UITableViewDataSource, NSFetchedResultsControllerDelegate {
+typealias SortDescriptor = (String, Bool)
 
+struct ProxyConfig {
+    var entityName: String
+    var sortDescriptors: [SortDescriptor]
+}
+
+class ProxyObject<ResultType>: NSObject, Proxy, UITableViewDelegate, UITableViewDataSource, NSFetchedResultsControllerDelegate where ResultType : NSFetchRequestResult {
+    
     var tableView: UITableView?
-    var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>?
+    var config: ProxyConfig?
+    var fetchedResultsController: NSFetchedResultsController<ResultType>?
     
-    override init() {
-        super.init()
-        self.fetchedResultsController = initializeFetchedResultsController()
-    }
-    
-    func configure(with tableView: UITableView) {
+    func configure(with tableView: UITableView, config: ProxyConfig) {
         self.tableView = tableView
+        self.config = config
+        self.fetchedResultsController = initializeFetchedResultsController()
         self.tableView?.delegate = self
         self.tableView?.dataSource = self
     }
     
-    fileprivate func initializeFetchedResultsController() -> NSFetchedResultsController<NSFetchRequestResult>? {
-        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "CalendarExtended")
-        let summarySort = NSSortDescriptor(key: "summary", ascending: true)
-        let idSort = NSSortDescriptor(key: "id", ascending: true)
-        request.sortDescriptors = [summarySort, idSort]
-        
+    fileprivate func initializeFetchedResultsController() -> NSFetchedResultsController<ResultType>? {
+        guard let config = config else { return nil }
+        let request = NSFetchRequest<ResultType>(entityName: config.entityName)
+        request.sortDescriptors = config.sortDescriptors.map { NSSortDescriptor(key: $0.0, ascending: $0.1) }
         let fetchedResultsController = NSFetchedResultsController(
             fetchRequest: request,
             managedObjectContext: managedObjectContext,
@@ -58,62 +61,7 @@ class CoreDataProxyObject: NSObject, CoreDataProxy, UITableViewDelegate, UITable
         
         return fetchedResultsController
     }
-}
-
-protocol CoreDataTableCompatibleVC {
-    var coreDataProxy: CoreDataProxyObject { get }
-    func existingCalendarExtended(with id: String?) -> CalendarExtended?
-    func save(_ calendar: GCalendarExtended)
-}
-
-extension CoreDataTableCompatibleVC {
-    var managedObjectContext: NSManagedObjectContext {
-        return (UIApplication.shared.delegate as! AppDelegate).dataController.managedObjectContext
-    }
     
-    func existingCalendarExtended(with id: String?) -> CalendarExtended? {
-        guard let id = id else { return nil }
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "CalendarExtended")
-        fetchRequest.predicate = NSPredicate(format: "id == %@", id)
-        fetchRequest.includesSubentities = false
-        
-        var managedExtendedCalendar: CalendarExtended?
-        
-        do {
-            managedExtendedCalendar = try self.managedObjectContext.fetch(fetchRequest).first as? CalendarExtended
-        }
-        catch {
-            print("error executing fetch request: \(error)")
-        }
-        
-        return managedExtendedCalendar
-    }
-    
-    func save(_ calendar: GCalendarExtended) {
-        var calendarMO = existingCalendarExtended(with: calendar.id)
-        
-        if calendarMO == nil {
-            let entity = NSEntityDescription.entity(forEntityName: "CalendarExtended", in: self.managedObjectContext)
-            
-            calendarMO = CalendarExtended(entity: entity!, insertInto: self.managedObjectContext)
-        }
-        calendarMO?.id = calendar.id
-        calendarMO?.etag = calendar.etag
-        calendarMO?.summary = calendar.summary
-        calendarMO?.descr = calendar.description
-        calendarMO?.backgroundColor = calendar.backgroundColor
-        calendarMO?.foregroundColor = calendar.foregroundColor
-        
-        do {
-            try managedObjectContext.save()
-        }
-        catch {
-            print(error)
-        }
-    }
-}
-
-extension CoreDataProxyObject {
     func numberOfSections(in tableView: UITableView) -> Int {
         return fetchedResultsController?.sections?.count ?? 0
     }
@@ -135,16 +83,12 @@ extension CoreDataProxyObject {
         cell.textLabel?.textColor = UIColor(hexString: extendedCalendar.foregroundColor.string())
         return cell
     }
-}
-
-extension CoreDataProxyObject {
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         // let extendedCalendar = fetchedResultsController?.object(at: indexPath)
     }
-}
-
-extension CoreDataProxyObject {
+    
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView?.beginUpdates()
     }
@@ -177,5 +121,57 @@ extension CoreDataProxyObject {
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView?.endUpdates()
+    }
+}
+
+protocol TableCompatibleVC {
+    associatedtype ResultType: NSFetchRequestResult
+    
+    var coreDataProxy: ProxyObject<ResultType> { get }
+    func existingObject(with id: String?) -> ResultType?
+    func save(with id: String?)
+}
+
+extension TableCompatibleVC where ResultType: NSFetchRequestResult {
+    var managedObjectContext: NSManagedObjectContext {
+        return (UIApplication.shared.delegate as! AppDelegate).dataController.managedObjectContext
+    }
+    
+    func existingObject(with id: String?) -> ResultType? {
+        guard let id = id, let config = coreDataProxy.config else { return nil }
+        let fetchRequest = NSFetchRequest<ResultType>(entityName: config.entityName)
+        fetchRequest.predicate = NSPredicate(format: "id == %@", id)
+        fetchRequest.includesSubentities = false
+        
+        var managedObject: ResultType?
+        
+        do {
+            managedObject = try self.managedObjectContext.fetch(fetchRequest).first
+        }
+        catch {
+            print("error executing fetch request: \(error)")
+        }
+        
+        return managedObject
+    }
+    
+    func save(with id: String?) {
+        var managedObject = existingObject(with: id)
+        
+        if managedObject == nil {
+            guard let config = coreDataProxy.config else { return }
+            let entity = NSEntityDescription.entity(forEntityName: config.entityName, in: self.managedObjectContext)
+            
+            managedObject = NSManagedObject(entity: entity!, insertInto: self.managedObjectContext) as? ResultType
+        }
+        
+        // TODO: implement logic for updating properties of one managed object with another
+        
+        do {
+            try managedObjectContext.save()
+        }
+        catch {
+            print(error)
+        }
     }
 }

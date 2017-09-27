@@ -8,23 +8,28 @@
 
 import UIKit
 
-class ViewController: VC, CoreDataTableCompatibleVC, GoogleAPICompatible {
+class ViewController: VC, TableCompatibleVC, GoogleAPICompatible {
+    typealias ResultType = CalendarExtended
     
     var gIDSignInProxy = GIDSignInProxyObject()
-    var coreDataProxy = CoreDataProxyObject()
+    var coreDataProxy = ProxyObject<ResultType>()
     
     @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         tableView.rowHeight = 80
         gIDSignInProxy.configure(with: self)
-        coreDataProxy.configure(with: tableView)
+        
+        let config = ProxyConfig(entityName: "CalendarExtended", sortDescriptors: [("summary", true)])
+        
+        coreDataProxy.configure(with: tableView, config: config)
         
         GCalendarExtended.findAll(for: self) { [unowned self] calendarList in
             if let extendedCalendars = calendarList.items {
                 extendedCalendars.forEach { calendar in
-                    self.save(calendar)
+                    self.save(with: calendar.id)
                 }
             }
         }

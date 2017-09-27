@@ -13,6 +13,7 @@
 		B51C549B1F7BCE9E00A7D2CF /* BaseVC+CoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51C549A1F7BCE9E00A7D2CF /* BaseVC+CoreData.swift */; };
 		B51C549D1F7BCF6A00A7D2CF /* BaseVC+GoogleSignIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51C549C1F7BCF6A00A7D2CF /* BaseVC+GoogleSignIn.swift */; };
 		B52161EA1F7C18A2005A55FD /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52161E91F7C18A2005A55FD /* Model.swift */; };
+		B56E7AA91F7C63700007B4DC /* Generic+CoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56E7AA81F7C63700007B4DC /* Generic+CoreData.swift */; };
 		B58EECE61F7A92550076EFDD /* GUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58EECE51F7A92550076EFDD /* GUser.swift */; };
 		B58EECE81F7A935F0076EFDD /* GTimeStamp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58EECE71F7A935F0076EFDD /* GTimeStamp.swift */; };
 		B58EECEA1F7A967A0076EFDD /* GProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58EECE91F7A967A0076EFDD /* GProperties.swift */; };
@@ -56,6 +57,7 @@
 		B51C549A1F7BCE9E00A7D2CF /* BaseVC+CoreData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BaseVC+CoreData.swift"; sourceTree = "<group>"; };
 		B51C549C1F7BCF6A00A7D2CF /* BaseVC+GoogleSignIn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BaseVC+GoogleSignIn.swift"; sourceTree = "<group>"; };
 		B52161E91F7C18A2005A55FD /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		B56E7AA81F7C63700007B4DC /* Generic+CoreData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Generic+CoreData.swift"; sourceTree = "<group>"; };
 		B58EECE51F7A92550076EFDD /* GUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GUser.swift; sourceTree = "<group>"; };
 		B58EECE71F7A935F0076EFDD /* GTimeStamp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GTimeStamp.swift; sourceTree = "<group>"; };
 		B58EECE91F7A967A0076EFDD /* GProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GProperties.swift; sourceTree = "<group>"; };
@@ -195,6 +197,7 @@
 			children = (
 				B5F638C71F7A64C500E80DEC /* ViewController.swift */,
 				B51C549A1F7BCE9E00A7D2CF /* BaseVC+CoreData.swift */,
+				B56E7AA81F7C63700007B4DC /* Generic+CoreData.swift */,
 				B51C549C1F7BCF6A00A7D2CF /* BaseVC+GoogleSignIn.swift */,
 			);
 			path = Controllers;
@@ -321,6 +324,7 @@
 				B5F638BE1F794DF300E80DEC /* GCalendarExtended.swift in Sources */,
 				B58EECE61F7A92550076EFDD /* GUser.swift in Sources */,
 				B5F638C51F7A62E100E80DEC /* APIHelper.swift in Sources */,
+				B56E7AA91F7C63700007B4DC /* Generic+CoreData.swift in Sources */,
 				B5F638D01F7A874100E80DEC /* GCalendar.swift in Sources */,
 				B58EECEA1F7A967A0076EFDD /* GProperties.swift in Sources */,
 				B5F638CC1F7A666A00E80DEC /* GNotification.swift in Sources */,
