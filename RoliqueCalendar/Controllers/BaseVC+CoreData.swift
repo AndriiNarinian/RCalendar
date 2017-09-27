@@ -9,23 +9,30 @@
 import UIKit
 import CoreData
 
-protocol CoreDataProxyDelegate: class {
-    
+protocol CoreDataProxy {
+    var managedObjectContext: NSManagedObjectContext { get }
+    func configure(with tableView: UITableView)
 }
 
-class CoreDataProxy: NSObject, UITableViewDelegate, UITableViewDataSource, NSFetchedResultsControllerDelegate {
-    var tableView: UITableView
-    var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>?
-    init (tableView: UITableView) {
-        self.tableView = tableView
-        super.init()
-        self.tableView.delegate = self
-        self.tableView.dataSource = self
-        self.fetchedResultsController = initializeFetchedResultsController()
-    }
-    
+extension CoreDataProxy {
     var managedObjectContext: NSManagedObjectContext {
         return (UIApplication.shared.delegate as! AppDelegate).dataController.managedObjectContext
+    }
+}
+
+class CoreDataProxyObject: NSObject, CoreDataProxy, UITableViewDelegate, UITableViewDataSource, NSFetchedResultsControllerDelegate {
+    var tableView: UITableView?
+    var fetchedResultsController: NSFetchedResultsController<NSFetchRequestResult>?
+    
+    override init() {
+        super.init()
+        self.fetchedResultsController = initializeFetchedResultsController()
+    }
+
+    func configure(with tableView: UITableView) {
+        self.tableView = tableView
+        self.tableView?.delegate = self
+        self.tableView?.dataSource = self
     }
     
     fileprivate func initializeFetchedResultsController() -> NSFetchedResultsController<NSFetchRequestResult>? {
@@ -53,7 +60,7 @@ class CoreDataProxy: NSObject, UITableViewDelegate, UITableViewDataSource, NSFet
 }
 
 protocol CoreDataTableCompatibleVC {
-    var coreDataProxy: CoreDataProxy! { get }
+    var coreDataProxy: CoreDataProxyObject { get }
     func existingCalendarExtended(with id: String?) -> CalendarExtended?
     func save(_ calendar: GCalendarExtended)
 }
@@ -96,10 +103,16 @@ extension CoreDataTableCompatibleVC {
         calendarMO?.backgroundColor = calendar.backgroundColor
         calendarMO?.foregroundColor = calendar.foregroundColor
         
+        do {
+            try managedObjectContext.save()
+        }
+        catch {
+            print(error)
+        }
     }
 }
 
-extension CoreDataProxy {
+extension CoreDataProxyObject {
     func numberOfSections(in tableView: UITableView) -> Int {
         return fetchedResultsController?.sections?.count ?? 0
     }
@@ -123,23 +136,24 @@ extension CoreDataProxy {
     }
 }
 
-extension CoreDataProxy {
+extension CoreDataProxyObject {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         // let extendedCalendar = fetchedResultsController?.object(at: indexPath)
     }
 }
 
-extension CoreDataProxy {
+extension CoreDataProxyObject {
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        tableView.beginUpdates()
+        tableView?.beginUpdates()
     }
     
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
         switch type {
         case .insert:
-            tableView.insertSections(IndexSet(integer: sectionIndex), with: .fade)
+            tableView?.insertSections(IndexSet(integer: sectionIndex), with: .fade)
         case .delete:
-            tableView.deleteSections(IndexSet(integer: sectionIndex), with: .fade)
+            tableView?.deleteSections(IndexSet(integer: sectionIndex), with: .fade)
         case .move:
             break
         case .update:
@@ -150,17 +164,17 @@ extension CoreDataProxy {
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         switch type {
         case .insert:
-            tableView.insertRows(at: [newIndexPath!], with: .fade)
+            tableView?.insertRows(at: [newIndexPath!], with: .fade)
         case .delete:
-            tableView.deleteRows(at: [indexPath!], with: .fade)
+            tableView?.deleteRows(at: [indexPath!], with: .fade)
         case .update:
-            tableView.reloadRows(at: [indexPath!], with: .fade)
+            tableView?.reloadRows(at: [indexPath!], with: .fade)
         case .move:
-            tableView.moveRow(at: indexPath!, to: newIndexPath!)
+            tableView?.moveRow(at: indexPath!, to: newIndexPath!)
         }
     }
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        tableView.endUpdates()
+        tableView?.endUpdates()
     }
 }

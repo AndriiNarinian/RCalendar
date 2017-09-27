@@ -6,25 +6,29 @@
 //  Copyright © 2017 Rolique. All rights reserved.
 //
 
-import UIKit
+import Foundation
 import GoogleSignIn
 
-protocol GIDSignInProxyDelegate: class {
-    func sign(_ signIn: GIDSignIn!, present viewController: UIViewController!)
-    func sign(_ signIn: GIDSignIn!, dismiss viewController: UIViewController!)
+protocol GIDSignInProxy {
+    var observeTokenCompletion: ((String) -> Void)? { get set }
+    func configure(with viewController: VC?)
 }
 
-class GIDSignInProxy: NSObject, GIDSignInDelegate, GIDSignInUIDelegate {
+class GIDSignInProxyObject: NSObject, GIDSignInProxy, GIDSignInDelegate, GIDSignInUIDelegate {
     var observeTokenCompletion: ((String) -> Void)?
-    weak var delegate: GIDSignInProxyDelegate?
+    var viewController: VC?
+    func configure(with viewController: VC?) {
+        self.viewController = viewController
+    }
 }
 
 protocol GoogleAPICompatible {
-    var gIDSignInProxy: GIDSignInProxy { get }
+    var gIDSignInProxy: GIDSignInProxyObject { get }
     func observeToken(completion: @escaping (String) -> Void)
     func displayString(_ string: String)
     func displayError(_ error: String)
 }
+
 // MARK: GIDSignInDelegate
 extension GoogleAPICompatible where Self: UIViewController {
     func displayError(_ error: String) {
@@ -42,7 +46,7 @@ extension GoogleAPICompatible where Self: UIViewController {
 }
 
 // MARK: GIDSignInDelegate
-extension GIDSignInProxy {
+extension GIDSignInProxyObject {
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
         if (error == nil) {
             // Perform any operations on signed in user here.
@@ -66,12 +70,12 @@ extension GIDSignInProxy {
 }
 
 // MARK: GIDSignInUIDelegate
-extension GIDSignInProxy {
+extension GIDSignInProxyObject {
     func sign(_ signIn: GIDSignIn!, present viewController: UIViewController!) {
-        delegate?.sign(signIn, present: viewController)
+        self.viewController?.present(viewController, animated: true, completion: nil)
     }
     
     func sign(_ signIn: GIDSignIn!, dismiss viewController: UIViewController!) {
-        delegate?.sign(signIn, dismiss: viewController)
+        viewController.dismiss(animated: true, completion: nil)
     }
 }

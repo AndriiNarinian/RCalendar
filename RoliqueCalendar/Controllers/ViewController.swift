@@ -7,18 +7,19 @@
 //
 
 import UIKit
-import CoreData
 
 class ViewController: VC, CoreDataTableCompatibleVC, GoogleAPICompatible {
-    var gIDSignInProxy = GIDSignInProxy()
-    var coreDataProxy: CoreDataProxy!
+    
+    var gIDSignInProxy = GIDSignInProxyObject()
+    var coreDataProxy = CoreDataProxyObject()
     
     @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.rowHeight = 80
-        coreDataProxy = CoreDataProxy(tableView: tableView)
+        gIDSignInProxy.configure(with: self)
+        coreDataProxy.configure(with: tableView)
         
         GCalendarExtended.findAll(for: self) { [unowned self] calendarList in
             if let extendedCalendars = calendarList.items {
