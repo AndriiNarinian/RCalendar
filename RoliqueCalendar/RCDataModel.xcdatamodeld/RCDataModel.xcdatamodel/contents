@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13240" systemVersion="16G29" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="12141" systemVersion="16G29" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Calendar" representedClassName="Calendar" syncable="YES" codeGenerationType="class">
         <attribute name="descr" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="etag" attributeType="String" syncable="YES"/>
@@ -20,6 +20,7 @@
         <relationship name="defaultReminders" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Reminder" syncable="YES"/>
         <relationship name="notificationSettings" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="NotificationSettings" syncable="YES"/>
     </entity>
+    <entity name="CalendarExtendedList" representedClassName="CalendarExtendedList" syncable="YES" codeGenerationType="class"/>
     <entity name="DateMO" representedClassName="DateMO" isAbstract="YES" syncable="YES" codeGenerationType="class">
         <attribute name="date" optional="YES" transient="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="shortString" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
@@ -47,12 +48,13 @@
     <elements>
         <element name="Calendar" positionX="-614" positionY="-486" width="128" height="148"/>
         <element name="CalendarExtended" positionX="-614" positionY="-306" width="128" height="178"/>
-        <element name="DateNoTz" positionX="-126" positionY="-243" width="128" height="43"/>
-        <element name="DateTz" positionX="-272" positionY="-243" width="128" height="43"/>
         <element name="DateMO" positionX="-216" positionY="-423" width="128" height="103"/>
+        <element name="DateNoTz" positionX="-126" positionY="-243" width="128" height="45"/>
+        <element name="DateTz" positionX="-272" positionY="-243" width="128" height="45"/>
         <element name="Notification" positionX="-396" positionY="35" width="128" height="73"/>
         <element name="NotificationSettings" positionX="-623" positionY="-58" width="128" height="58"/>
         <element name="Reminder" positionX="-416" positionY="-126" width="128" height="73"/>
         <element name="TimeStamp" positionX="-191" positionY="-153" width="128" height="88"/>
+        <element name="CalendarExtendedList" positionX="-432" positionY="-333" width="128" height="45"/>
     </elements>
 </model>

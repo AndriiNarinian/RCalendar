@@ -46,6 +46,10 @@ class APIHelper {
         GIDSignIn.sharedInstance().signOut()
     }
     
+    static func getExtendedCalendars(owner: GoogleAPICompatible, completion: @escaping APICompletionArray) {
+        requestFromGoogleAPI(owner: owner, router: .getExtendedCalendarList, completion: handleResponce(forArray: owner, completion: completion))
+    }
+    
     static func getExtendedCalendarList(owner: GoogleAPICompatible, completion: @escaping APICompletion) {
         requestFromGoogleAPI(owner: owner, router: .getExtendedCalendarList, completion: handleResponce(forObject: owner, completion: completion))
     }

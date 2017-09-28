@@ -10,10 +10,10 @@
 		B51C548D1F7BA6FA00A7D2CF /* GEventList.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51C548C1F7BA6FA00A7D2CF /* GEventList.swift */; };
 		B51C54931F7BC5D100A7D2CF /* GDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51C54921F7BC5D100A7D2CF /* GDate.swift */; };
 		B51C54971F7BC71F00A7D2CF /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51C54961F7BC71F00A7D2CF /* DataController.swift */; };
-		B51C549B1F7BCE9E00A7D2CF /* BaseVC+CoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51C549A1F7BCE9E00A7D2CF /* BaseVC+CoreData.swift */; };
 		B51C549D1F7BCF6A00A7D2CF /* BaseVC+GoogleSignIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51C549C1F7BCF6A00A7D2CF /* BaseVC+GoogleSignIn.swift */; };
 		B52161EA1F7C18A2005A55FD /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52161E91F7C18A2005A55FD /* Model.swift */; };
-		B56E7AA91F7C63700007B4DC /* Generic+CoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56E7AA81F7C63700007B4DC /* Generic+CoreData.swift */; };
+		B56E7AAB1F7C8C7B0007B4DC /* Calendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56E7AAA1F7C8C7B0007B4DC /* Calendar.swift */; };
+		B56E7ACE1F7D73D70007B4DC /* CoreDataProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56E7ACD1F7D73D70007B4DC /* CoreDataProxy.swift */; };
 		B58EECE61F7A92550076EFDD /* GUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58EECE51F7A92550076EFDD /* GUser.swift */; };
 		B58EECE81F7A935F0076EFDD /* GTimeStamp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58EECE71F7A935F0076EFDD /* GTimeStamp.swift */; };
 		B58EECEA1F7A967A0076EFDD /* GProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58EECE91F7A967A0076EFDD /* GProperties.swift */; };
@@ -54,10 +54,10 @@
 		B51C548C1F7BA6FA00A7D2CF /* GEventList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GEventList.swift; sourceTree = "<group>"; };
 		B51C54921F7BC5D100A7D2CF /* GDate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GDate.swift; sourceTree = "<group>"; };
 		B51C54961F7BC71F00A7D2CF /* DataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
-		B51C549A1F7BCE9E00A7D2CF /* BaseVC+CoreData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BaseVC+CoreData.swift"; sourceTree = "<group>"; };
 		B51C549C1F7BCF6A00A7D2CF /* BaseVC+GoogleSignIn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BaseVC+GoogleSignIn.swift"; sourceTree = "<group>"; };
 		B52161E91F7C18A2005A55FD /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
-		B56E7AA81F7C63700007B4DC /* Generic+CoreData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Generic+CoreData.swift"; sourceTree = "<group>"; };
+		B56E7AAA1F7C8C7B0007B4DC /* Calendar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Calendar.swift; sourceTree = "<group>"; };
+		B56E7ACD1F7D73D70007B4DC /* CoreDataProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataProxy.swift; sourceTree = "<group>"; };
 		B58EECE51F7A92550076EFDD /* GUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GUser.swift; sourceTree = "<group>"; };
 		B58EECE71F7A935F0076EFDD /* GTimeStamp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GTimeStamp.swift; sourceTree = "<group>"; };
 		B58EECE91F7A967A0076EFDD /* GProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GProperties.swift; sourceTree = "<group>"; };
@@ -113,6 +113,7 @@
 			isa = PBXGroup;
 			children = (
 				B51C54961F7BC71F00A7D2CF /* DataController.swift */,
+				B56E7ACD1F7D73D70007B4DC /* CoreDataProxy.swift */,
 				B51C54951F7BC64B00A7D2CF /* Models */,
 			);
 			path = CoreData;
@@ -122,6 +123,7 @@
 			isa = PBXGroup;
 			children = (
 				B52161E91F7C18A2005A55FD /* Model.swift */,
+				B56E7AAA1F7C8C7B0007B4DC /* Calendar.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -196,8 +198,6 @@
 			isa = PBXGroup;
 			children = (
 				B5F638C71F7A64C500E80DEC /* ViewController.swift */,
-				B51C549A1F7BCE9E00A7D2CF /* BaseVC+CoreData.swift */,
-				B56E7AA81F7C63700007B4DC /* Generic+CoreData.swift */,
 				B51C549C1F7BCF6A00A7D2CF /* BaseVC+GoogleSignIn.swift */,
 			);
 			path = Controllers;
@@ -320,23 +320,23 @@
 				B5F638931F78F5BC00E80DEC /* AppDelegate.swift in Sources */,
 				B5F638B41F7908E400E80DEC /* Constants.swift in Sources */,
 				B59BAD891F7A9B3600A65AD1 /* GSource.swift in Sources */,
-				B51C549B1F7BCE9E00A7D2CF /* BaseVC+CoreData.swift in Sources */,
 				B5F638BE1F794DF300E80DEC /* GCalendarExtended.swift in Sources */,
 				B58EECE61F7A92550076EFDD /* GUser.swift in Sources */,
 				B5F638C51F7A62E100E80DEC /* APIHelper.swift in Sources */,
-				B56E7AA91F7C63700007B4DC /* Generic+CoreData.swift in Sources */,
 				B5F638D01F7A874100E80DEC /* GCalendar.swift in Sources */,
 				B58EECEA1F7A967A0076EFDD /* GProperties.swift in Sources */,
 				B5F638CC1F7A666A00E80DEC /* GNotification.swift in Sources */,
 				B51C549D1F7BCF6A00A7D2CF /* BaseVC+GoogleSignIn.swift in Sources */,
 				B5C4F5D71F7B976500C1FF23 /* RCDataModel.xcdatamodeld in Sources */,
 				B5F638C01F7A48C400E80DEC /* GModelType.swift in Sources */,
+				B56E7ACE1F7D73D70007B4DC /* CoreDataProxy.swift in Sources */,
 				B51C54971F7BC71F00A7D2CF /* DataController.swift in Sources */,
 				B5F638D21F7A8D9F00E80DEC /* GEvent.swift in Sources */,
 				B58EECE81F7A935F0076EFDD /* GTimeStamp.swift in Sources */,
 				B52161EA1F7C18A2005A55FD /* Model.swift in Sources */,
 				B5F638CA1F7A664500E80DEC /* GNotificationSettings.swift in Sources */,
 				B58EECEC1F7A97560076EFDD /* GGadget.swift in Sources */,
+				B56E7AAB1F7C8C7B0007B4DC /* Calendar.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

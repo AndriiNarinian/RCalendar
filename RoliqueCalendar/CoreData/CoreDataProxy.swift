@@ -1,5 +1,5 @@
 //
-//  Generic+CoreData.swift
+//  CoreDataProxy.swift
 //  RoliqueCalendar
 //
 //  Created by Andrii Narinian on 9/28/17.
@@ -9,31 +9,30 @@
 import UIKit
 import CoreData
 
-protocol Proxy {
-    var managedObjectContext: NSManagedObjectContext { get }
-    func configure(with tableView: UITableView, config: ProxyConfig)
+protocol ProxyCompatible {
+    associatedtype ResultType: NSFetchRequestResult
+    
+    var coreDataProxy: CoreDataProxy<ResultType> { get }
 }
 
-extension Proxy {
-    var managedObjectContext: NSManagedObjectContext {
-        return (UIApplication.shared.delegate as! AppDelegate).dataController.managedObjectContext
-    }
+protocol ProxyType {
+    func configure(with tableView: UITableView, config: CoreDataProxyConfig)
 }
 
 typealias SortDescriptor = (String, Bool)
 
-struct ProxyConfig {
+struct CoreDataProxyConfig {
     var entityName: String
     var sortDescriptors: [SortDescriptor]
 }
 
-class ProxyObject<ResultType>: NSObject, Proxy, UITableViewDelegate, UITableViewDataSource, NSFetchedResultsControllerDelegate where ResultType : NSFetchRequestResult {
+class CoreDataProxy<ResultType>: NSObject, ProxyType, UITableViewDelegate, UITableViewDataSource, NSFetchedResultsControllerDelegate where ResultType : NSFetchRequestResult {
     
     var tableView: UITableView?
-    var config: ProxyConfig?
+    var config: CoreDataProxyConfig?
     var fetchedResultsController: NSFetchedResultsController<ResultType>?
     
-    func configure(with tableView: UITableView, config: ProxyConfig) {
+    func configure(with tableView: UITableView, config: CoreDataProxyConfig) {
         self.tableView = tableView
         self.config = config
         self.fetchedResultsController = initializeFetchedResultsController()
@@ -47,7 +46,7 @@ class ProxyObject<ResultType>: NSObject, Proxy, UITableViewDelegate, UITableView
         request.sortDescriptors = config.sortDescriptors.map { NSSortDescriptor(key: $0.0, ascending: $0.1) }
         let fetchedResultsController = NSFetchedResultsController(
             fetchRequest: request,
-            managedObjectContext: managedObjectContext,
+            managedObjectContext: CoreData.context,
             sectionNameKeyPath: nil,
             cacheName: nil
         )
@@ -121,57 +120,5 @@ class ProxyObject<ResultType>: NSObject, Proxy, UITableViewDelegate, UITableView
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView?.endUpdates()
-    }
-}
-
-protocol TableCompatibleVC {
-    associatedtype ResultType: NSFetchRequestResult
-    
-    var coreDataProxy: ProxyObject<ResultType> { get }
-    func existingObject(with id: String?) -> ResultType?
-    func save(with id: String?)
-}
-
-extension TableCompatibleVC where ResultType: NSFetchRequestResult {
-    var managedObjectContext: NSManagedObjectContext {
-        return (UIApplication.shared.delegate as! AppDelegate).dataController.managedObjectContext
-    }
-    
-    func existingObject(with id: String?) -> ResultType? {
-        guard let id = id, let config = coreDataProxy.config else { return nil }
-        let fetchRequest = NSFetchRequest<ResultType>(entityName: config.entityName)
-        fetchRequest.predicate = NSPredicate(format: "id == %@", id)
-        fetchRequest.includesSubentities = false
-        
-        var managedObject: ResultType?
-        
-        do {
-            managedObject = try self.managedObjectContext.fetch(fetchRequest).first
-        }
-        catch {
-            print("error executing fetch request: \(error)")
-        }
-        
-        return managedObject
-    }
-    
-    func save(with id: String?) {
-        var managedObject = existingObject(with: id)
-        
-        if managedObject == nil {
-            guard let config = coreDataProxy.config else { return }
-            let entity = NSEntityDescription.entity(forEntityName: config.entityName, in: self.managedObjectContext)
-            
-            managedObject = NSManagedObject(entity: entity!, insertInto: self.managedObjectContext) as? ResultType
-        }
-        
-        // TODO: implement logic for updating properties of one managed object with another
-        
-        do {
-            try managedObjectContext.save()
-        }
-        catch {
-            print(error)
-        }
     }
 }
