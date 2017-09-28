@@ -48,6 +48,9 @@
 		B5F638CE1F7A668000E80DEC /* GReminder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F638CD1F7A668000E80DEC /* GReminder.swift */; };
 		B5F638D01F7A874100E80DEC /* GCalendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F638CF1F7A874100E80DEC /* GCalendar.swift */; };
 		B5F638D21F7A8D9F00E80DEC /* GEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F638D11F7A8D9F00E80DEC /* GEvent.swift */; };
+		B5FFD1F81F7D77A00034CAB8 /* Reminder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FFD1F71F7D77A00034CAB8 /* Reminder.swift */; };
+		B5FFD1FA1F7D7EAD0034CAB8 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FFD1F91F7D7EAD0034CAB8 /* Notification.swift */; };
+		B5FFD1FC1F7D7F1A0034CAB8 /* NotificationSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FFD1FB1F7D7F1A0034CAB8 /* NotificationSettings.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -93,6 +96,9 @@
 		B5F638CD1F7A668000E80DEC /* GReminder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GReminder.swift; sourceTree = "<group>"; };
 		B5F638CF1F7A874100E80DEC /* GCalendar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GCalendar.swift; sourceTree = "<group>"; };
 		B5F638D11F7A8D9F00E80DEC /* GEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GEvent.swift; sourceTree = "<group>"; };
+		B5FFD1F71F7D77A00034CAB8 /* Reminder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reminder.swift; sourceTree = "<group>"; };
+		B5FFD1F91F7D7EAD0034CAB8 /* Notification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
+		B5FFD1FB1F7D7F1A0034CAB8 /* NotificationSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationSettings.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,6 +130,9 @@
 			children = (
 				B52161E91F7C18A2005A55FD /* Model.swift */,
 				B56E7AAA1F7C8C7B0007B4DC /* Calendar.swift */,
+				B5FFD1F71F7D77A00034CAB8 /* Reminder.swift */,
+				B5FFD1F91F7D7EAD0034CAB8 /* Notification.swift */,
+				B5FFD1FB1F7D7F1A0034CAB8 /* NotificationSettings.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -321,6 +330,7 @@
 				B5F638B41F7908E400E80DEC /* Constants.swift in Sources */,
 				B59BAD891F7A9B3600A65AD1 /* GSource.swift in Sources */,
 				B5F638BE1F794DF300E80DEC /* GCalendarExtended.swift in Sources */,
+				B5FFD1F81F7D77A00034CAB8 /* Reminder.swift in Sources */,
 				B58EECE61F7A92550076EFDD /* GUser.swift in Sources */,
 				B5F638C51F7A62E100E80DEC /* APIHelper.swift in Sources */,
 				B5F638D01F7A874100E80DEC /* GCalendar.swift in Sources */,
@@ -332,8 +342,10 @@
 				B56E7ACE1F7D73D70007B4DC /* CoreDataProxy.swift in Sources */,
 				B51C54971F7BC71F00A7D2CF /* DataController.swift in Sources */,
 				B5F638D21F7A8D9F00E80DEC /* GEvent.swift in Sources */,
+				B5FFD1FC1F7D7F1A0034CAB8 /* NotificationSettings.swift in Sources */,
 				B58EECE81F7A935F0076EFDD /* GTimeStamp.swift in Sources */,
 				B52161EA1F7C18A2005A55FD /* Model.swift in Sources */,
+				B5FFD1FA1F7D7EAD0034CAB8 /* Notification.swift in Sources */,
 				B5F638CA1F7A664500E80DEC /* GNotificationSettings.swift in Sources */,
 				B58EECEC1F7A97560076EFDD /* GGadget.swift in Sources */,
 				B56E7AAB1F7C8C7B0007B4DC /* Calendar.swift in Sources */,

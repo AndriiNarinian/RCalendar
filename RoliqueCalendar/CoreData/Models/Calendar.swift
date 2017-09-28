@@ -9,10 +9,6 @@
 import Foundation
 import CoreData
 
-typealias CalendarsExtendedCompletion = ([CalendarExtended]) -> Void
-typealias CalendarExtendedCompletion = (CalendarExtended) -> Void
-typealias CalendarExtendedListCompletion = (CalendarExtendedList) -> Void
-
 extension Calendar {
     static func all(for vc: GoogleAPICompatible) {
         APIHelper.getExtendedCalendars(owner: vc) { dicts in
@@ -25,7 +21,7 @@ extension Calendar {
             if exististsCalendarExtended(with: dict["id"] as? String) {
                 clearCalendar(withId: dict["id"] as! String)
             }
-            insertCalendar(from: dict)
+            insert(from: dict)
         }
         CoreData.controller.saveContext()
     }
@@ -63,7 +59,7 @@ extension Calendar {
         } catch { print(error); return false }
     }
     
-    static func insertCalendar(from dict: [String: Any]) {
+    @discardableResult static func insert(from dict: [String: Any]) -> CalendarExtended {
         let calendar = CalendarExtended(context: CoreData.context)
         calendar.kind = dict["kind"] as? String
         calendar.etag = dict["etag"] as? String
@@ -77,10 +73,15 @@ extension Calendar {
         calendar.foregroundColor = dict["foregroundColor"] as? String
         calendar.isSelected = dict["selected"] as? Bool ?? false
         calendar.accessRole = dict["accessRole"] as? String
-        //            let set = NSOrderedSet(array: )
-        //            calendar.defaultReminders = (dict["defaultReminders"] as? [[String: Any]])?.flatMap { GReminder(dict: $0) }
-        //            calendar.notificationSettings = GNotificationSettings(dict: (dict["notificationSettings"] as? [String: Any]))
+        if let dicts = dict["defaultReminders"] as? [[String: Any]] {
+            calendar.defaultReminders = NSMutableOrderedSet(array: dicts.map { Reminder.insert(from: $0) })
+        }
+        if let dict = dict["notificationSettings"] as? [String: Any] {
+            calendar.notificationSettings =  NotificationSettings.insert(from: dict)
+        }
         calendar.isPrimary = dict["primary"] as? Bool ?? false
         calendar.wasDeleted = dict["deleted"] as? Bool ?? false
+        
+        return calendar
     }
 }

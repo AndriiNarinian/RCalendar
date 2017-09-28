@@ -80,6 +80,7 @@ class CoreDataProxy<ResultType>: NSObject, ProxyType, UITableViewDelegate, UITab
         cell.detailTextLabel?.text = extendedCalendar.descr
         cell.contentView.backgroundColor = UIColor(hexString: extendedCalendar.backgroundColor.string())
         cell.textLabel?.textColor = UIColor(hexString: extendedCalendar.foregroundColor.string())
+        
         return cell
     }
     
