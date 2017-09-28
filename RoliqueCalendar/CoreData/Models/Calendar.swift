@@ -12,51 +12,8 @@ import CoreData
 extension Calendar {
     static func all(for vc: GoogleAPICompatible) {
         APIHelper.getExtendedCalendars(owner: vc) { dicts in
-            self.updateWith(array: dicts)
+            Dealer<CalendarExtended>.updateWith(array: dicts, insertion: insert(from:))
         }
-    }
-    
-    static func updateWith(array: [[String: Any]]) {
-        array.forEach { dict in
-            if exististsCalendarExtended(with: dict["id"] as? String) {
-                clearCalendar(withId: dict["id"] as! String)
-            }
-            insert(from: dict)
-        }
-        CoreData.controller.saveContext()
-    }
-    
-    static func clearAllCalendars() {
-        let context = CoreData.context
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: String(describing: CalendarExtended.self))
-        do {
-            let objects = try context.fetch(fetchRequest) as? [NSManagedObject]
-            _ = objects.map{$0.map{context.delete($0)}}
-            CoreData.controller.saveContext()
-        } catch let error {
-            print("ERROR DELETING : \(error)")
-        }
-    }
-    
-    static func clearCalendar(withId id: String) {
-        let context = CoreData.context
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: String(describing: CalendarExtended.self))
-        fetchRequest.predicate = NSPredicate(format: "id == %@", id)
-        do {
-            let objects = try context.fetch(fetchRequest) as? [NSManagedObject]
-            _ = objects.map{$0.map{context.delete($0)}}
-        } catch let error {
-            print("ERROR DELETING : \(error)")
-        }
-    }
- 
-    static func exististsCalendarExtended(with id: String?) -> Bool {
-        guard let id = id else { return false }
-        let fetchRequest = NSFetchRequest<CalendarExtended>(entityName: "CalendarExtended")
-        fetchRequest.predicate = NSPredicate(format: "id == %@", id)
-        do {
-            return try CoreData.context.count(for: fetchRequest) > 0
-        } catch { print(error); return false }
     }
     
     @discardableResult static func insert(from dict: [String: Any]) -> CalendarExtended {
