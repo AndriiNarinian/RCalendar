@@ -202,7 +202,141 @@ extension Array where Iterator.Element == String {
 }
 
 extension Optional {
-    func string<W: ExpressibleByStringLiteral>() -> W {
+    var stringValue: String {
+        switch self {
+        case .some(let wrapped):
+            if let str = (wrapped as? String) {
+                return str
+            }
+        default: break
+        }
+        return ""
+    }
+    
+    var string: String? {
+        switch self {
+        case .some(let wrapped):
+            if let str = (wrapped as? String) {
+                return str
+            }
+        default: break
+        }
+        return nil
+    }
+    
+    var stringArrayValue: [String] {
+        switch self {
+        case .some(let wrapped):
+            if let str = (wrapped as? [String]) {
+                return str
+            }
+        default: break
+        }
+        return [""]
+    }
+    
+    var stringArray: [String]? {
+        switch self {
+        case .some(let wrapped):
+            if let str = (wrapped as? [String]) {
+                return str
+            }
+        default: break
+        }
+        return nil
+    }
+    
+    var int64Value: Int64 {
+        switch self {
+        case .some(let wrapped):
+            if let int = (wrapped as? Int) {
+                return Int64(int)
+            }
+        default: break
+        }
+        return 0
+    }
+    
+    var int64: Int64? {
+        switch self {
+        case .some(let wrapped):
+            if let int = (wrapped as? Int) {
+                return Int64(int)
+            }
+        default: break
+        }
+        return nil
+    }
+    
+    var boolValue: Bool {
+        switch self {
+        case .some(let wrapped):
+            if let bool = (wrapped as? Bool) {
+                return bool
+            }
+        default: break
+        }
+        return false
+    }
+    
+    var bool: Bool? {
+        switch self {
+        case .some(let wrapped):
+            if let bool = (wrapped as? Bool) {
+                return bool
+            }
+        default: break
+        }
+        return nil
+    }
+    
+    var jsonArrayValue: [[String: Any]] {
+        switch self {
+        case .some(let wrapped):
+            if let array = (wrapped as? [[String: Any]]) {
+                return array
+            }
+        default: break
+        }
+        return [[String: Any]]()
+    }
+    
+    var jsonArray: [[String: Any]]? {
+        switch self {
+        case .some(let wrapped):
+            if let array = (wrapped as? [[String: Any]]) {
+                return array
+            }
+        default: break
+        }
+        return nil
+    }
+    
+    var jsonValue: [String: Any] {
+        switch self {
+        case .some(let wrapped):
+            if let json = (wrapped as? [String: Any]) {
+                return json
+            }
+        default: break
+        }
+        return [String: Any]()
+    }
+    
+    var json: [String: Any]? {
+        switch self {
+        case .some(let wrapped):
+            if let json = (wrapped as? [String: Any]) {
+                return json
+            }
+        default: break
+        }
+        return nil
+    }
+}
+
+extension Optional {
+    func unwrapString<W: ExpressibleByStringLiteral>() -> W {
         switch self {
         case .some(let wrapped):
             return wrapped as! W
@@ -212,7 +346,7 @@ extension Optional {
 }
 
 extension Optional {
-    func int<W: ExpressibleByIntegerLiteral>() -> W {
+    func unwrapInt<W: ExpressibleByIntegerLiteral>() -> W {
         switch self {
         case .some(let wrapped):
             return wrapped as! W
@@ -222,7 +356,7 @@ extension Optional {
 }
 
 extension Optional {
-    func float<W: ExpressibleByFloatLiteral>() -> W {
+    func unwrapFloat<W: ExpressibleByFloatLiteral>() -> W {
         switch self {
         case .some(let wrapped):
             return wrapped as! W

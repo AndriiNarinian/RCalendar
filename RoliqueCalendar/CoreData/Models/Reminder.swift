@@ -11,10 +11,8 @@ import Foundation
 extension Reminder {
     @discardableResult static func insert(from dict: [String: Any]) -> Reminder {
         let reminder = Reminder(context: CoreData.context)
-        reminder.method = dict["method"] as? String
-        if let minutes = dict["minutes"] as? Int {
-            reminder.minutes = Int64(minutes)
-        }
+        reminder.method = dict["method"].string
+        reminder.minutes = dict["minutes"].int64Value
         return reminder
     }
 }

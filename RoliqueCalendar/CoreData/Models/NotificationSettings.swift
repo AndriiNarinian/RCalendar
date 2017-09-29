@@ -11,9 +11,9 @@ import Foundation
 extension NotificationSettings {
     @discardableResult static func insert(from dict: [String: Any]) -> NotificationSettings {
         let notificationSettings = NotificationSettings(context: CoreData.context)
-        if let dicts = dict["notifications"] as? [[String: Any]] {
-            notificationSettings.notifications = NSMutableOrderedSet(array: dicts.map { Notification.insert(from: $0) })
-        }
+        
+        notificationSettings.notifications = dict["notifications"].maybeInsertDictArray { Notification.insert(from: $0.dictValue) }
+        
         return notificationSettings
     }
 }

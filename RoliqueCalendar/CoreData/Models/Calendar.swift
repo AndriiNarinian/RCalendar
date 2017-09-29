@@ -12,32 +12,28 @@ import CoreData
 extension Calendar {
     static func all(for vc: GoogleAPICompatible) {
         APIHelper.getExtendedCalendars(owner: vc) { dicts in
-            Dealer<CalendarExtended>.updateWith(array: dicts, insertion: insert(from:))
+            Dealer<Calendar>.updateWith(array: dicts, insertion: insert(from:))
         }
     }
     
-    @discardableResult static func insert(from dict: [String: Any]) -> CalendarExtended {
-        let calendar = CalendarExtended(context: CoreData.context)
+    @discardableResult static func insert(from dict: [String: Any]) -> Calendar {
+        let calendar = Calendar(context: CoreData.context)
         calendar.kind = dict["kind"] as? String
-        calendar.etag = dict["etag"] as? String
-        calendar.id = dict["id"] as? String
-        calendar.summary = dict["summary"] as? String
-        calendar.descr = dict["description"] as? String
-        calendar.location = dict["location"] as? String
-        calendar.timeZone = dict["timeZone"] as? String
-        calendar.colorId = dict["colorId"] as? String
-        calendar.backgroundColor = dict["backgroundColor"] as? String
-        calendar.foregroundColor = dict["foregroundColor"] as? String
-        calendar.isSelected = dict["selected"] as? Bool ?? false
-        calendar.accessRole = dict["accessRole"] as? String
-        if let dicts = dict["defaultReminders"] as? [[String: Any]] {
-            calendar.defaultReminders = NSMutableOrderedSet(array: dicts.map { Reminder.insert(from: $0) })
-        }
-        if let dict = dict["notificationSettings"] as? [String: Any] {
-            calendar.notificationSettings =  NotificationSettings.insert(from: dict)
-        }
-        calendar.isPrimary = dict["primary"] as? Bool ?? false
-        calendar.wasDeleted = dict["deleted"] as? Bool ?? false
+        calendar.etag = dict["etag"].string
+        calendar.id = dict["id"].string
+        calendar.summary = dict["summary"].string
+        calendar.descr = dict["description"].string
+        calendar.location = dict["location"].string
+        calendar.timeZone = dict["timeZone"].string
+        calendar.colorId = dict["colorId"].string
+        calendar.backgroundColor = dict["backgroundColor"].string
+        calendar.foregroundColor = dict["foregroundColor"].string
+        calendar.isSelected = dict["selected"].boolValue
+        calendar.accessRole = dict["accessRole"].string
+        calendar.defaultReminders = dict["defaultReminders"].maybeInsertDictArray { Reminder.insert(from: $0.dictValue) }
+        calendar.notificationSettings = dict["notificationSettings"].maybeInsertDictObject { NotificationSettings.insert(from: $0.dictValue) }
+        calendar.isPrimary = dict["primary"].boolValue
+        calendar.wasDeleted = dict["deleted"].boolValue
         
         return calendar
     }

@@ -24,14 +24,26 @@ class CoreData: NSObject {
 }
 
 class Dealer<R: NSFetchRequestResult> {
-    static func updateWith(array: [[String: Any]], insertion: ([String: Any]) -> R) {
+    static func updateWith(array: [[String: Any]], shouldClearAllBeforeInsert: Bool = false, insertion: ([String: Any]) -> R) {
+        if shouldClearAllBeforeInsert { clearAllObjects() }
         array.forEach { dict in
-            if exististsObject(with: dict["id"] as? String) {
-                clearObject(withId: dict["id"] as! String)
+            if !shouldClearAllBeforeInsert {
+                clearIfNeeded(with: "id", value: dict["id"] as? String)
             }
             _ = insertion(dict)
         }
+        CoreData.context.shouldDeleteInaccessibleFaults = true
         CoreData.controller.saveContext()
+    }
+    
+    static func clearIfNeeded(with key: String, value: String?) {
+        if let value = value {
+            if exististsObject(with: key, value: value) {
+                clearObject(with: key, value: value)
+            }
+        } else {
+            print("no value for key: \(key) for \(String(describing: R.self))")
+        }
     }
     
     static func clearAllObjects() {
@@ -39,31 +51,34 @@ class Dealer<R: NSFetchRequestResult> {
         let fetchRequest = NSFetchRequest<R>(entityName: String(describing: R.self))
         do {
             let objects = try context.fetch(fetchRequest) as? [NSManagedObject]
-            _ = objects.map{$0.map{context.delete($0)}}
+            _ = objects.map { $0.map { context.delete($0) } }
             CoreData.controller.saveContext()
         } catch let error {
             print("ERROR DELETING : \(error)")
         }
     }
     
-    static func clearObject(withId id: String) {
+    static func clearObject(with key: String, value: String?) {
         let context = CoreData.context
+        guard let value = value else { return }
         let fetchRequest = NSFetchRequest<R>(entityName: String(describing: R.self))
-        fetchRequest.predicate = NSPredicate(format: "id == %@", id)
+        fetchRequest.predicate = NSPredicate(format: "\(key) == %@", value)
         do {
             let objects = try context.fetch(fetchRequest) as? [NSManagedObject]
-            _ = objects.map{$0.map{context.delete($0)}}
+            _ = objects.map { $0.map { context.delete($0) } }
         } catch let error {
             print("ERROR DELETING : \(error)")
         }
     }
     
-    static func exististsObject(with id: String?) -> Bool {
-        guard let id = id else { return false }
+    static func exististsObject(with key: String, value: String?) -> Bool {
+        guard let value = value else { return false }
         let fetchRequest = NSFetchRequest<R>(entityName: String(describing: R.self))
-        fetchRequest.predicate = NSPredicate(format: "id == %@", id)
+        fetchRequest.predicate = NSPredicate(format: "\(key) == %@", value)
         do {
-            return try CoreData.context.count(for: fetchRequest) > 0
+            let count = try CoreData.context.count(for: fetchRequest)
+            print("fetch \(String(describing: R.self)) for key: \(key), value: \(value) found \(count) items")
+            return count > 0
         } catch { print(error); return false }
     }
 }
@@ -121,5 +136,81 @@ class DataController: NSObject {
                 fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
             }
         }
+    }
+}
+
+enum InsertionType {
+    case dict, string
+}
+
+protocol Insertion {
+    var type: InsertionType { get set }
+    var container: Any { get set }
+    var dict: [String: Any]? { get }
+    var dictValue: [String: Any] { get }
+    var string: String? { get }
+    var stringValue: String { get }
+}
+
+extension Insertion {
+    var dict: [String: Any]? {
+        return container as? [String: Any]
+    }
+    var string: String? {
+        return container as? String
+    }
+    var dictValue: [String: Any] {
+        return container as? [String: Any] ?? [String: Any]()
+    }
+    var stringValue: String {
+        return container as? String ?? ""
+    }
+}
+
+struct DictInsertion: Insertion {
+    var type: InsertionType
+    var container: Any
+    init(_ dict: [String: Any]) {
+        self.container = dict
+        self.type = .dict
+    }
+}
+
+struct StringInsertion: Insertion {
+    var type: InsertionType
+    var container: Any
+    init(_ string: String) {
+        self.container = string
+        self.type = .string
+    }
+}
+
+extension Optional {
+    func maybeInsertDictArray<R: NSFetchRequestResult>(_ insertion: @escaping (Insertion) -> R) -> NSMutableOrderedSet? {
+        if let array = jsonArray {
+            return NSMutableOrderedSet(array: array.map {
+                return insertion(DictInsertion($0))
+            })
+        } else { return nil }
+    }
+    
+    func maybeInsertDictObject<R: NSFetchRequestResult>(_ insertion: (Insertion) -> R) -> R? {
+        if let json = json {
+            return insertion(DictInsertion(json))
+        } else { return nil }
+    }
+    
+    func maybeInsertStringArray<R: NSFetchRequestResult>(_ insertion: (Insertion) -> R) -> NSMutableOrderedSet? {
+        if let array = stringArray {
+            return NSMutableOrderedSet(array: array.map {
+                return insertion(StringInsertion($0))
+            })
+        } else { return nil }
+    }
+    
+    func maybeInsertStringObject<R: NSFetchRequestResult>(_ insertion: (Insertion) -> R) -> R? {
+        if let string = string {
+            return insertion(StringInsertion(string))
+        } else { return nil }
     }
 }

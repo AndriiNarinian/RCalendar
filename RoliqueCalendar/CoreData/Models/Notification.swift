@@ -11,8 +11,8 @@ import Foundation
 extension Notification {
     @discardableResult static func insert(from dict: [String: Any]) -> Notification {
         let notification = Notification(context: CoreData.context)
-        notification.type = dict["type"] as? String
-        notification.method = dict["method"] as? String
+        notification.type = dict["type"].string
+        notification.method = dict["method"].string
         return notification
     }
 }

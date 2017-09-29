@@ -12,6 +12,15 @@
 		B51C54971F7BC71F00A7D2CF /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51C54961F7BC71F00A7D2CF /* DataController.swift */; };
 		B51C549D1F7BCF6A00A7D2CF /* BaseVC+GoogleSignIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51C549C1F7BCF6A00A7D2CF /* BaseVC+GoogleSignIn.swift */; };
 		B52161EA1F7C18A2005A55FD /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52161E91F7C18A2005A55FD /* Model.swift */; };
+		B52C4ED11F7E6F1E000CECC3 /* Attachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52C4ED01F7E6F1E000CECC3 /* Attachment.swift */; };
+		B52C4ED31F7E6FC0000CECC3 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52C4ED21F7E6FC0000CECC3 /* User.swift */; };
+		B52C4ED51F7E9D5E000CECC3 /* DateNoTz.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52C4ED41F7E9D5E000CECC3 /* DateNoTz.swift */; };
+		B52C4ED71F7EA128000CECC3 /* TimeStamp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52C4ED61F7EA128000CECC3 /* TimeStamp.swift */; };
+		B52C4ED91F7EA8CA000CECC3 /* Properties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52C4ED81F7EA8CA000CECC3 /* Properties.swift */; };
+		B52C4EDB1F7EAA70000CECC3 /* Gadget.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52C4EDA1F7EAA70000CECC3 /* Gadget.swift */; };
+		B52C4EDD1F7EABFE000CECC3 /* EventReminders.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52C4EDC1F7EABFE000CECC3 /* EventReminders.swift */; };
+		B52C4EDF1F7EAC81000CECC3 /* Source.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52C4EDE1F7EAC81000CECC3 /* Source.swift */; };
+		B52C4EE11F7EACD2000CECC3 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52C4EE01F7EACD2000CECC3 /* Event.swift */; };
 		B56E7AAB1F7C8C7B0007B4DC /* Calendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56E7AAA1F7C8C7B0007B4DC /* Calendar.swift */; };
 		B56E7ACE1F7D73D70007B4DC /* CoreDataProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56E7ACD1F7D73D70007B4DC /* CoreDataProxy.swift */; };
 		B58EECE61F7A92550076EFDD /* GUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58EECE51F7A92550076EFDD /* GUser.swift */; };
@@ -51,6 +60,7 @@
 		B5FFD1F81F7D77A00034CAB8 /* Reminder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FFD1F71F7D77A00034CAB8 /* Reminder.swift */; };
 		B5FFD1FA1F7D7EAD0034CAB8 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FFD1F91F7D7EAD0034CAB8 /* Notification.swift */; };
 		B5FFD1FC1F7D7F1A0034CAB8 /* NotificationSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FFD1FB1F7D7F1A0034CAB8 /* NotificationSettings.swift */; };
+		B5FFD1FE1F7E51000034CAB8 /* CalendarList.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FFD1FD1F7E51000034CAB8 /* CalendarList.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -59,6 +69,15 @@
 		B51C54961F7BC71F00A7D2CF /* DataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 		B51C549C1F7BCF6A00A7D2CF /* BaseVC+GoogleSignIn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BaseVC+GoogleSignIn.swift"; sourceTree = "<group>"; };
 		B52161E91F7C18A2005A55FD /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		B52C4ED01F7E6F1E000CECC3 /* Attachment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Attachment.swift; sourceTree = "<group>"; };
+		B52C4ED21F7E6FC0000CECC3 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		B52C4ED41F7E9D5E000CECC3 /* DateNoTz.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateNoTz.swift; sourceTree = "<group>"; };
+		B52C4ED61F7EA128000CECC3 /* TimeStamp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeStamp.swift; sourceTree = "<group>"; };
+		B52C4ED81F7EA8CA000CECC3 /* Properties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Properties.swift; sourceTree = "<group>"; };
+		B52C4EDA1F7EAA70000CECC3 /* Gadget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Gadget.swift; sourceTree = "<group>"; };
+		B52C4EDC1F7EABFE000CECC3 /* EventReminders.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventReminders.swift; sourceTree = "<group>"; };
+		B52C4EDE1F7EAC81000CECC3 /* Source.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Source.swift; sourceTree = "<group>"; };
+		B52C4EE01F7EACD2000CECC3 /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		B56E7AAA1F7C8C7B0007B4DC /* Calendar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Calendar.swift; sourceTree = "<group>"; };
 		B56E7ACD1F7D73D70007B4DC /* CoreDataProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataProxy.swift; sourceTree = "<group>"; };
 		B58EECE51F7A92550076EFDD /* GUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GUser.swift; sourceTree = "<group>"; };
@@ -99,6 +118,7 @@
 		B5FFD1F71F7D77A00034CAB8 /* Reminder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reminder.swift; sourceTree = "<group>"; };
 		B5FFD1F91F7D7EAD0034CAB8 /* Notification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		B5FFD1FB1F7D7F1A0034CAB8 /* NotificationSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationSettings.swift; sourceTree = "<group>"; };
+		B5FFD1FD1F7E51000034CAB8 /* CalendarList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarList.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,9 +150,19 @@
 			children = (
 				B52161E91F7C18A2005A55FD /* Model.swift */,
 				B56E7AAA1F7C8C7B0007B4DC /* Calendar.swift */,
+				B5FFD1FD1F7E51000034CAB8 /* CalendarList.swift */,
 				B5FFD1F71F7D77A00034CAB8 /* Reminder.swift */,
 				B5FFD1F91F7D7EAD0034CAB8 /* Notification.swift */,
 				B5FFD1FB1F7D7F1A0034CAB8 /* NotificationSettings.swift */,
+				B52C4ED01F7E6F1E000CECC3 /* Attachment.swift */,
+				B52C4ED21F7E6FC0000CECC3 /* User.swift */,
+				B52C4ED41F7E9D5E000CECC3 /* DateNoTz.swift */,
+				B52C4ED61F7EA128000CECC3 /* TimeStamp.swift */,
+				B52C4ED81F7EA8CA000CECC3 /* Properties.swift */,
+				B52C4EDA1F7EAA70000CECC3 /* Gadget.swift */,
+				B52C4EDC1F7EABFE000CECC3 /* EventReminders.swift */,
+				B52C4EDE1F7EAC81000CECC3 /* Source.swift */,
+				B52C4EE01F7EACD2000CECC3 /* Event.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -319,17 +349,26 @@
 				B5F638C61F7A62E100E80DEC /* Router.swift in Sources */,
 				B5D83BC31F7ADA9E004C7A12 /* Formatters.swift in Sources */,
 				B59BAD8B1F7A9B8E00A65AD1 /* GAttachment.swift in Sources */,
+				B52C4ED91F7EA8CA000CECC3 /* Properties.swift in Sources */,
 				B5F638C21F7A493F00E80DEC /* Extensions.swift in Sources */,
+				B52C4EE11F7EACD2000CECC3 /* Event.swift in Sources */,
 				B5F638B71F79421C00E80DEC /* MultiActionAlert.swift in Sources */,
+				B5FFD1FE1F7E51000034CAB8 /* CalendarList.swift in Sources */,
 				B5C4F5D91F7BA2D300C1FF23 /* GCalendarExtendedList.swift in Sources */,
+				B52C4ED51F7E9D5E000CECC3 /* DateNoTz.swift in Sources */,
 				B5F638CE1F7A668000E80DEC /* GReminder.swift in Sources */,
 				B58EECEE1F7A99170076EFDD /* GEventReminders.swift in Sources */,
+				B52C4EDD1F7EABFE000CECC3 /* EventReminders.swift in Sources */,
 				B5F638C81F7A64C500E80DEC /* ViewController.swift in Sources */,
 				B59BAD901F7AA3D400A65AD1 /* GErrorModel.swift in Sources */,
+				B52C4ED71F7EA128000CECC3 /* TimeStamp.swift in Sources */,
 				B5F638931F78F5BC00E80DEC /* AppDelegate.swift in Sources */,
 				B5F638B41F7908E400E80DEC /* Constants.swift in Sources */,
+				B52C4EDB1F7EAA70000CECC3 /* Gadget.swift in Sources */,
 				B59BAD891F7A9B3600A65AD1 /* GSource.swift in Sources */,
 				B5F638BE1F794DF300E80DEC /* GCalendarExtended.swift in Sources */,
+				B52C4EDF1F7EAC81000CECC3 /* Source.swift in Sources */,
+				B52C4ED11F7E6F1E000CECC3 /* Attachment.swift in Sources */,
 				B5FFD1F81F7D77A00034CAB8 /* Reminder.swift in Sources */,
 				B58EECE61F7A92550076EFDD /* GUser.swift in Sources */,
 				B5F638C51F7A62E100E80DEC /* APIHelper.swift in Sources */,
@@ -337,6 +376,7 @@
 				B58EECEA1F7A967A0076EFDD /* GProperties.swift in Sources */,
 				B5F638CC1F7A666A00E80DEC /* GNotification.swift in Sources */,
 				B51C549D1F7BCF6A00A7D2CF /* BaseVC+GoogleSignIn.swift in Sources */,
+				B52C4ED31F7E6FC0000CECC3 /* User.swift in Sources */,
 				B5C4F5D71F7B976500C1FF23 /* RCDataModel.xcdatamodeld in Sources */,
 				B5F638C01F7A48C400E80DEC /* GModelType.swift in Sources */,
 				B56E7ACE1F7D73D70007B4DC /* CoreDataProxy.swift in Sources */,

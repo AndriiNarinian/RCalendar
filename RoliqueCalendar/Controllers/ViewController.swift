@@ -7,11 +7,13 @@
 //
 
 import UIKit
+import CoreData
 
 class ViewController: VC, GoogleAPICompatible {
     
     var gIDSignInProxy = GIDSignInProxyObject()
-    var coreDataProxy = CoreDataProxy<CalendarExtended>()
+    var calendarProxy = CoreDataProxy<Calendar>()
+    var eventProxy = CoreDataProxy<Event>()
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -22,13 +24,48 @@ class ViewController: VC, GoogleAPICompatible {
         
         gIDSignInProxy.configure(with: self)
         
-        let config = CoreDataProxyConfig(
-            entityName: String(describing: CalendarExtended.self),
-            sortDescriptors: [("summary", true)]
-        )
-        coreDataProxy.configure(with: tableView, config: config)
+        let calendarProxyConfig = ProxyConfigWithDelegate(delegate: self, sortDescriptors: [("summary", true)])
         
-        Calendar.all(for: self)
+        let eventProxyConfig = ProxyConfigWithTableView(tableView: tableView, sortDescriptors: [("summary", true)]) { (object, indexPath) -> UITableViewCell in
+            if let event = object as? Event {
+                let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "cell")
+                cell.textLabel?.text = event.summary
+                cell.detailTextLabel?.text = event.createdAt?.shortString
+//                cell.contentView.backgroundColor = UIColor(hexString: calendar.backgroundColor.stringValue)
+//                cell.textLabel?.textColor = UIColor(hexString: calendar.foregroundColor.stringValue)
+                return cell
+            }
+            return UITableViewCell()
+        }
+        
+        calendarProxy.configure(config: calendarProxyConfig)
+        eventProxy.configure(config: eventProxyConfig)
+        
+        CalendarList.get(for: self)
+        //Calendar.all(for: self)
     }
 
+}
+
+extension ViewController: CoreDataProxyDelegate {
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        
+    }
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
+        
+    }
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        switch type {
+        case.insert:
+            guard let calendar = anObject as? Calendar else { return }
+            Event.all(calendarId: calendar.id!, for: self)
+        default: break
+        }
+    }
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        
+    }
 }
