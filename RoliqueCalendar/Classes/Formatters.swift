@@ -21,6 +21,12 @@ struct Formatters {
         return formatter
     }
     
+    static var gcFormatDate: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        return formatter
+    }
+    
     static var dateAndTime: DateFormatter {
         let formatter = DateFormatter()
         formatter.dateFormat = "dd.MM.yyyy HH:mm"

@@ -21,6 +21,7 @@
 		B52C4EDD1F7EABFE000CECC3 /* EventReminders.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52C4EDC1F7EABFE000CECC3 /* EventReminders.swift */; };
 		B52C4EDF1F7EAC81000CECC3 /* Source.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52C4EDE1F7EAC81000CECC3 /* Source.swift */; };
 		B52C4EE11F7EACD2000CECC3 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52C4EE01F7EACD2000CECC3 /* Event.swift */; };
+		B52C4EE31F7F06C4000CECC3 /* Day.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52C4EE21F7F06C4000CECC3 /* Day.swift */; };
 		B56E7AAB1F7C8C7B0007B4DC /* Calendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56E7AAA1F7C8C7B0007B4DC /* Calendar.swift */; };
 		B56E7ACE1F7D73D70007B4DC /* CoreDataProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56E7ACD1F7D73D70007B4DC /* CoreDataProxy.swift */; };
 		B58EECE61F7A92550076EFDD /* GUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58EECE51F7A92550076EFDD /* GUser.swift */; };
@@ -78,6 +79,7 @@
 		B52C4EDC1F7EABFE000CECC3 /* EventReminders.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventReminders.swift; sourceTree = "<group>"; };
 		B52C4EDE1F7EAC81000CECC3 /* Source.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Source.swift; sourceTree = "<group>"; };
 		B52C4EE01F7EACD2000CECC3 /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
+		B52C4EE21F7F06C4000CECC3 /* Day.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Day.swift; sourceTree = "<group>"; };
 		B56E7AAA1F7C8C7B0007B4DC /* Calendar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Calendar.swift; sourceTree = "<group>"; };
 		B56E7ACD1F7D73D70007B4DC /* CoreDataProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataProxy.swift; sourceTree = "<group>"; };
 		B58EECE51F7A92550076EFDD /* GUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GUser.swift; sourceTree = "<group>"; };
@@ -163,6 +165,7 @@
 				B52C4EDC1F7EABFE000CECC3 /* EventReminders.swift */,
 				B52C4EDE1F7EAC81000CECC3 /* Source.swift */,
 				B52C4EE01F7EACD2000CECC3 /* Event.swift */,
+				B52C4EE21F7F06C4000CECC3 /* Day.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -382,6 +385,7 @@
 				B56E7ACE1F7D73D70007B4DC /* CoreDataProxy.swift in Sources */,
 				B51C54971F7BC71F00A7D2CF /* DataController.swift in Sources */,
 				B5F638D21F7A8D9F00E80DEC /* GEvent.swift in Sources */,
+				B52C4EE31F7F06C4000CECC3 /* Day.swift in Sources */,
 				B5FFD1FC1F7D7F1A0034CAB8 /* NotificationSettings.swift in Sources */,
 				B58EECE81F7A935F0076EFDD /* GTimeStamp.swift in Sources */,
 				B52161EA1F7C18A2005A55FD /* Model.swift in Sources */,

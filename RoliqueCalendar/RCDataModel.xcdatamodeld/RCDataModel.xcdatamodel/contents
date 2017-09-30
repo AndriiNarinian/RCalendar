@@ -38,10 +38,15 @@
     </entity>
     <entity name="DateNoTz" representedClassName="DateNoTz" parentEntity="DateMO" syncable="YES" codeGenerationType="class"/>
     <entity name="DateTz" representedClassName="DateTz" parentEntity="DateMO" syncable="YES" codeGenerationType="class"/>
+    <entity name="Day" representedClassName="Day" syncable="YES" codeGenerationType="class">
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <relationship name="events" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Event" inverseName="day" inverseEntity="Event" syncable="YES"/>
+    </entity>
     <entity name="Event" representedClassName="Event" syncable="YES" codeGenerationType="class">
         <attribute name="anyoneCanAddSelf" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="attendeesOmitted" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="colorId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="dayString" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="descr" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="endTimeUnspecified" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="etag" optional="YES" attributeType="String" syncable="YES"/>
@@ -56,7 +61,7 @@
         <attribute name="location" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="locked" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="privateCopy" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="recurrence" optional="YES" attributeType="Transformable" customClassName="NSMutableArray" syncable="YES"/>
+        <attribute name="recurrence" optional="YES" attributeType="Transformable" customClassName="NSMutableOrderedSet" syncable="YES"/>
         <attribute name="recurringEventId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="sequence" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="status" optional="YES" attributeType="String" syncable="YES"/>
@@ -65,8 +70,10 @@
         <attribute name="visibility" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="attachments" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="Attachment" syncable="YES"/>
         <relationship name="attendees" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="User" syncable="YES"/>
+        <relationship name="calendar" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Calendar" syncable="YES"/>
         <relationship name="createdAt" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="DateNoTz" syncable="YES"/>
         <relationship name="creator" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="User" syncable="YES"/>
+        <relationship name="day" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Day" inverseName="events" inverseEntity="Day" syncable="YES"/>
         <relationship name="end" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="TimeStamp" syncable="YES"/>
         <relationship name="extendedProperties" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="Properties" syncable="YES"/>
         <relationship name="gadget" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="Gadget" syncable="YES"/>
@@ -112,9 +119,10 @@
         <attribute name="url" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="TimeStamp" representedClassName="TimeStamp" syncable="YES" codeGenerationType="class">
-        <attribute name="date" attributeType="String" defaultValueString="1/1/00, 1:00 PM" syncable="YES"/>
-        <attribute name="dateTime" attributeType="String" syncable="YES"/>
-        <relationship name="timeZone" maxCount="1" deletionRule="Cascade" destinationEntity="DateTz" syncable="YES"/>
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="dateTime" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="dateToUse" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <relationship name="timeZone" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="DateTz" syncable="YES"/>
     </entity>
     <entity name="User" representedClassName="User" syncable="YES" codeGenerationType="class">
         <attribute name="additionalGuests" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
@@ -129,21 +137,22 @@
         <attribute name="responseStatus" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
+        <element name="Attachment" positionX="-540" positionY="-217" width="128" height="118"/>
         <element name="Calendar" positionX="-749" positionY="-666" width="128" height="298"/>
         <element name="CalendarList" positionX="-720" positionY="-846" width="128" height="118"/>
-        <element name="DateMO" positionX="-38" positionY="-778" width="128" height="58"/>
-        <element name="DateNoTz" positionX="-137" positionY="-558" width="128" height="43"/>
-        <element name="DateTz" positionX="-38" positionY="-504" width="128" height="43"/>
-        <element name="Notification" positionX="-765" positionY="-126" width="128" height="73"/>
-        <element name="NotificationSettings" positionX="-767" positionY="-247" width="128" height="73"/>
-        <element name="Reminder" positionX="-594" positionY="-666" width="128" height="73"/>
-        <element name="TimeStamp" positionX="-47" positionY="-259" width="128" height="88"/>
-        <element name="Attachment" positionX="-540" positionY="-214" width="128" height="118"/>
-        <element name="Source" positionX="-389" positionY="-207" width="128" height="73"/>
+        <element name="DateMO" positionX="-54" positionY="-639" width="128" height="58"/>
+        <element name="DateNoTz" positionX="-137" positionY="-558" width="128" height="45"/>
+        <element name="DateTz" positionX="-38" positionY="-504" width="128" height="45"/>
+        <element name="Event" positionX="-272" positionY="-861" width="128" height="643"/>
         <element name="EventReminders" positionX="-621" positionY="-342" width="128" height="73"/>
         <element name="Gadget" positionX="-416" positionY="-883" width="128" height="163"/>
-        <element name="Properties" positionX="-200" positionY="-225" width="128" height="73"/>
+        <element name="Notification" positionX="-729" positionY="-118" width="128" height="73"/>
+        <element name="NotificationSettings" positionX="-767" positionY="-247" width="128" height="73"/>
+        <element name="Properties" positionX="-200" positionY="-235" width="128" height="73"/>
+        <element name="Reminder" positionX="-594" positionY="-666" width="128" height="73"/>
+        <element name="Source" positionX="-389" positionY="-252" width="128" height="73"/>
+        <element name="TimeStamp" positionX="-47" positionY="-259" width="128" height="103"/>
         <element name="User" positionX="-576" positionY="-873" width="128" height="193"/>
-        <element name="Event" positionX="-272" positionY="-861" width="128" height="598"/>
+        <element name="Day" positionX="-74" positionY="-882" width="128" height="73"/>
     </elements>
 </model>

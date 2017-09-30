@@ -96,7 +96,7 @@ class CoreDataProxy<ResultType: NSFetchRequestResult>: NSObject, UITableViewDele
         let fetchedResultsController = NSFetchedResultsController(
             fetchRequest: request,
             managedObjectContext: CoreData.context,
-            sectionNameKeyPath: nil,
+            sectionNameKeyPath: config.mode == .withTableView ? #keyPath(Event.dayString) : nil,
             cacheName: nil
         )
         fetchedResultsController.delegate = self
@@ -120,6 +120,10 @@ class CoreDataProxy<ResultType: NSFetchRequestResult>: NSObject, UITableViewDele
         }
         let sectionInfo = sections[section]
         return sectionInfo.numberOfObjects
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return fetchedResultsController?.sections?[section].name
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -156,7 +160,7 @@ class CoreDataProxy<ResultType: NSFetchRequestResult>: NSObject, UITableViewDele
             case .move:
                 break
             case .update:
-                tableView?.reloadSections(IndexSet(integer: sectionIndex), with: .fade)
+                break//tableView?.reloadSections(IndexSet(integer: sectionIndex), with: .fade)
             }
         }
     }

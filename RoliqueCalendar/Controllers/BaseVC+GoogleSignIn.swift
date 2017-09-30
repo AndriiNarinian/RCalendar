@@ -16,7 +16,7 @@ protocol GIDSignInProxy {
 
 class GIDSignInProxyObject: NSObject, GIDSignInProxy, GIDSignInDelegate, GIDSignInUIDelegate {
     var observeTokenCompletion: ((String) -> Void)?
-    var viewController: VC?
+    weak var viewController: VC?
     func configure(with viewController: VC?) {
         self.viewController = viewController
     }

@@ -21,16 +21,20 @@ class CoreData: NSObject {
     static var context: NSManagedObjectContext {
         return container.viewContext
     }
+    
+    static var backContext: NSManagedObjectContext {
+        return controller.backgroundContext
+    }
 }
 
 class Dealer<R: NSFetchRequestResult> {
-    static func updateWith(array: [[String: Any]], shouldClearAllBeforeInsert: Bool = false, insertion: ([String: Any]) -> R) {
+    static func updateWith(array: [Insertion], shouldClearAllBeforeInsert: Bool = false, insertion: (Insertion) -> R) {
         if shouldClearAllBeforeInsert { clearAllObjects() }
-        array.forEach { dict in
+        array.forEach { ins in
             if !shouldClearAllBeforeInsert {
-                clearIfNeeded(with: "id", value: dict["id"] as? String)
+                clearIfNeeded(with: "id", value: ins.dictValue["id"] as? String)
             }
-            _ = insertion(dict)
+            _ = insertion(ins)
         }
         CoreData.context.shouldDeleteInaccessibleFaults = true
         CoreData.controller.saveContext()
@@ -71,13 +75,21 @@ class Dealer<R: NSFetchRequestResult> {
         }
     }
     
+    static func fetch(with key: String, value: String?) -> R? {
+        guard let value = value else { return nil }
+        let fetchRequest = NSFetchRequest<R>(entityName: String(describing: R.self))
+        fetchRequest.predicate = NSPredicate(format: "\(key) == %@", value)
+        do {
+            return try CoreData.context.fetch(fetchRequest).first
+        } catch { print(error); return nil }
+    }
+    
     static func exististsObject(with key: String, value: String?) -> Bool {
         guard let value = value else { return false }
         let fetchRequest = NSFetchRequest<R>(entityName: String(describing: R.self))
         fetchRequest.predicate = NSPredicate(format: "\(key) == %@", value)
         do {
             let count = try CoreData.context.count(for: fetchRequest)
-            print("fetch \(String(describing: R.self)) for key: \(key), value: \(value) found \(count) items")
             return count > 0
         } catch { print(error); return false }
     }
@@ -94,6 +106,17 @@ class DataController: NSObject {
     }
 
     // MARK: - Core Data stack
+    fileprivate var _backgroundContext: NSManagedObjectContext?
+    var backgroundContext: NSManagedObjectContext {
+        if let backgroundContext = self._backgroundContext {
+            return backgroundContext
+        } else {
+            let new = self.persistentContainer.newBackgroundContext()
+            new.parent = CoreData.context
+            self._backgroundContext = new
+            return _backgroundContext!
+        }
+    }
     
     lazy var persistentContainer: NSPersistentContainer = {
         /*
@@ -137,10 +160,24 @@ class DataController: NSObject {
             }
         }
     }
+    
+    func saveBackgroundContext () {
+        let context = backgroundContext
+        if context.hasChanges {
+            do {
+                try context.save()
+            } catch {
+                // Replace this implementation with code to handle the error appropriately.
+                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                let nserror = error as NSError
+                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+            }
+        }
+    }
 }
 
 enum InsertionType {
-    case dict, string
+    case dict, string, day
 }
 
 protocol Insertion {
@@ -150,6 +187,8 @@ protocol Insertion {
     var dictValue: [String: Any] { get }
     var string: String? { get }
     var stringValue: String { get }
+    var day: (NSDate, NSMutableOrderedSet)? { get }
+    var dayValue: (NSDate, NSMutableOrderedSet) { get }
 }
 
 extension Insertion {
@@ -164,6 +203,12 @@ extension Insertion {
     }
     var stringValue: String {
         return container as? String ?? ""
+    }
+    var day: (NSDate, NSMutableOrderedSet)? {
+        return container as? (NSDate, NSMutableOrderedSet)
+    }
+    var dayValue: (NSDate, NSMutableOrderedSet) {
+        return container as? (NSDate, NSMutableOrderedSet) ?? (NSDate(), NSMutableOrderedSet())
     }
 }
 
@@ -182,6 +227,15 @@ struct StringInsertion: Insertion {
     init(_ string: String) {
         self.container = string
         self.type = .string
+    }
+}
+
+struct DayInsertion: Insertion {
+    var type: InsertionType
+    var container: Any
+    init(_ day: (NSDate, NSMutableOrderedSet)) {
+        self.container = day
+        self.type = .day
     }
 }
 

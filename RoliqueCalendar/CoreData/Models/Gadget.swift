@@ -8,12 +8,19 @@
 
 import Foundation
 
-extension EventReminders {
-    @discardableResult static func insert(from dict: [String: Any]) -> EventReminders {
-        let reminders = EventReminders(context: CoreData.context)
-        reminders.useDefault = dict["type"].boolValue
-        reminders.overrides = dict["overrides"].maybeInsertDictArray { Reminder.insert(from: $0.dictValue) }
+extension Gadget {
+    @discardableResult static func insert(from dict: [String: Any]) -> Gadget {
+        let gadget = Gadget(context: CoreData.context)
+        gadget.type = dict["type"].string
+        gadget.title = dict["title"].string
+        gadget.link = dict["link"].string
+        gadget.iconLink = dict["iconLink"].string
+        gadget.width = dict["width"].int64Value
+        gadget.height = dict["height"].int64Value
+        gadget.display = dict["display"].string
         
-        return reminders
+        gadget.preferences = NSMutableDictionary(dictionary: dict["preferences"] as! [String: String])
+        
+        return gadget
     }
 }

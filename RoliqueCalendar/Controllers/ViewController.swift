@@ -20,19 +20,16 @@ class ViewController: VC, GoogleAPICompatible {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tableView.rowHeight = 80
+        //tableView.rowHeight = 80
+        //tableview.registerCells...
         
         gIDSignInProxy.configure(with: self)
+        let calendarProxyConfig = ProxyConfigWithDelegate(delegate: self, sortDescriptors: [(#keyPath(Calendar.summary), true)])
         
-        let calendarProxyConfig = ProxyConfigWithDelegate(delegate: self, sortDescriptors: [("summary", true)])
-        
-        let eventProxyConfig = ProxyConfigWithTableView(tableView: tableView, sortDescriptors: [("summary", true)]) { (object, indexPath) -> UITableViewCell in
+        let eventProxyConfig = ProxyConfigWithTableView(tableView: tableView, sortDescriptors: [(#keyPath(Event.dayString), false)]) { [unowned self] (object, indexPath) -> UITableViewCell in
             if let event = object as? Event {
-                let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "cell")
-                cell.textLabel?.text = event.summary
-                cell.detailTextLabel?.text = event.createdAt?.shortString
-//                cell.contentView.backgroundColor = UIColor(hexString: calendar.backgroundColor.stringValue)
-//                cell.textLabel?.textColor = UIColor(hexString: calendar.foregroundColor.stringValue)
+                let cell = self.tableView.dequeueReusableCell(withIdentifier: "EventCell") as! EventCell
+                cell.update(with: event)
                 return cell
             }
             return UITableViewCell()
@@ -41,12 +38,33 @@ class ViewController: VC, GoogleAPICompatible {
         calendarProxy.configure(config: calendarProxyConfig)
         eventProxy.configure(config: eventProxyConfig)
         
-        CalendarList.get(for: self)
-        //Calendar.all(for: self)
+        CalendarList.fetch(for: self)
     }
 
 }
 
+class EventCell: UITableViewCell {
+    @IBOutlet weak var label1: UILabel!
+    @IBOutlet weak var label2: UILabel!
+    @IBOutlet weak var label3: UILabel!
+    @IBOutlet weak var label4: UILabel!
+    @IBOutlet weak var label5: UILabel!
+    @IBOutlet weak var label6: UILabel!
+    
+    func update(with event: Event) {
+        label1.text = event.summary
+        label2.text = Formatters.dateAndTime.string(from: (event.start?.dateToUse ?? NSDate()) as Date)
+        label3.text = Formatters.dateAndTime.string(from: (event.end?.dateToUse ?? NSDate()) as Date)
+        label4.text = event.organizer?.displayName
+        label5.text = "attendees: \(event.attendees?.count ?? 0)"
+        label6.text = (event.reminders?.overrides?.array as? [Reminder])?.map { "\($0.method.stringValue) in \($0.minutes) minutes" }.reduce(with: ", ")
+        if let calendar = event.calendar {
+            contentView.backgroundColor = UIColor(hexString: calendar.backgroundColor.stringValue)
+        }
+    }
+}
+
+// MARK: Calendar Proxy
 extension ViewController: CoreDataProxyDelegate {
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         
