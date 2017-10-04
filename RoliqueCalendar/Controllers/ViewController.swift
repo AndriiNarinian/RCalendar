@@ -9,9 +9,6 @@
 import UIKit
 import CoreData
 
-//let backThread = DispatchQueue(label: "io.rolique.roliqueCalendar.eventsGueue", qos: .userInitiated, attributes: .concurrent)
-//let serialQueue = DispatchQueue(label: "io.rolique.calendar.events.serial.queue")
-
 class ViewController: VC, GoogleAPICompatible {
 
     var gIDSignInProxy = GIDSignInProxyObject()
@@ -39,6 +36,10 @@ class ViewController: VC, GoogleAPICompatible {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
+        
+    }
+    
+    fileprivate func scrollToToday() {
         let sectionInfo = eventProxy.fetchedResultsController?.sections?.filter { $0.name == Formatters.gcFormatDate.string(from: Date()) }.first
         guard let object = sectionInfo?.objects?.first as? Event, let indexPath = eventProxy.fetchedResultsController?.indexPath(forObject: object) else { return }
         tableView.scrollToRow(at: indexPath, at: .middle, animated: true)
@@ -52,6 +53,7 @@ class EventCell: UITableViewCell {
     @IBOutlet weak var label4: UILabel!
     @IBOutlet weak var label5: UILabel!
     @IBOutlet weak var label6: UILabel!
+    @IBOutlet weak var backView: UIView!
     
     func update(with event: Event) {
         label1.text = event.summary
@@ -61,9 +63,10 @@ class EventCell: UITableViewCell {
         label5.text = "attendees: \(event.attendees?.count ?? 0)"
         label6.text = (event.reminders?.overrides?.array as? [Reminder])?.map { "\($0.method.stringValue) in \($0.minutes) minutes" }.reduce(with: ", ")
         if let calendar = event.calendar {
-            contentView.backgroundColor = UIColor(hexString: calendar.backgroundColor.stringValue)
+            backView.backgroundColor = UIColor(hexString: calendar.backgroundColor.stringValue)
         } else {
-            contentView.backgroundColor = .darkGray
+            backView.backgroundColor = .darkGray
         }
+        backView.layer.cornerRadius = 2.0
     }
 }

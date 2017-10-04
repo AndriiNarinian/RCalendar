@@ -131,8 +131,19 @@ class CoreDataProxy<ResultType: NSFetchRequestResult>: NSObject, UITableViewDele
         return sectionInfo.numberOfObjects
     }
     
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return fetchedResultsController?.sections?[section].name
+//    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//        return fetchedResultsController?.sections?[section].name
+//    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 50
+    }
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let header = EventSectionHeaderView(frame: .zero)
+        guard let date = Formatters.gcFormatDate.date(from: fetchedResultsController?.sections?[section].name ?? "") else { return nil }
+        header.dayNumber.text = Formatters.dayNumber.string(from: date)
+        header.dayName.text = Formatters.dayNameShort.string(from: date)
+        return header
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -187,7 +198,6 @@ class CoreDataProxy<ResultType: NSFetchRequestResult>: NSObject, UITableViewDele
     }
     
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-        return
         guard let config = config else { return }
         DispatchQueue.main.async {
             switch config.mode {
