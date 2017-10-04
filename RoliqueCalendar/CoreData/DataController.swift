@@ -120,6 +120,15 @@ class Dealer<R: NSFetchRequestResult> {
         } catch { print(error); return nil }
     }
     
+    static func fetch(with predicate: NSPredicate) -> R? {
+        let fetchRequest = NSFetchRequest<R>(entityName: String(describing: R.self))
+        fetchRequest.predicate = predicate
+        do {
+            let object = try CoreData.backContext.fetch(fetchRequest).first
+            return object
+        } catch { print(error); return nil }
+    }
+    
     static func exististsObject(with key: String, value: String?) -> Bool {
         guard let value = value else { return false }
         let fetchRequest = NSFetchRequest<R>(entityName: String(describing: R.self))

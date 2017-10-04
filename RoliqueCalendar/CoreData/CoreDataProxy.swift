@@ -105,7 +105,7 @@ class CoreDataProxy<ResultType: NSFetchRequestResult>: NSObject, UITableViewDele
         let fetchedResultsController = NSFetchedResultsController(
             fetchRequest: request,
             managedObjectContext: CoreData.mainContext,
-            sectionNameKeyPath: config.mode == .withTableView ? #keyPath(Event.dayString) : nil,
+            sectionNameKeyPath: nil,//config.mode == .withTableView ? #keyPath(Event.dayString) : nil,
             cacheName: nil
         )
         fetchedResultsController.delegate = self
@@ -135,16 +135,26 @@ class CoreDataProxy<ResultType: NSFetchRequestResult>: NSObject, UITableViewDele
 //        return fetchedResultsController?.sections?[section].name
 //    }
     
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 50
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        guard let indexPaths = tableView?.indexPathsForVisibleRows else { return }
+        indexPaths.forEach {
+            guard let cell = tableView?.cellForRow(at: $0) as? DayTableViewCell, let rect = tableView?.rectForRow(at: $0) else { return }
+            let converted = tableView?.convert(rect, to: tableView?.superview)
+            let rec = CGRect(x: converted?.origin.x ?? 0, y: (converted?.origin.y ?? 0) - 20, width: converted?.width ?? 0, height: converted?.height ?? 0)
+            cell.parentTableViewDidScroll(rec)
+        }
     }
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let header = EventSectionHeaderView(frame: .zero)
-        guard let date = Formatters.gcFormatDate.date(from: fetchedResultsController?.sections?[section].name ?? "") else { return nil }
-        header.dayNumber.text = Formatters.dayNumber.string(from: date)
-        header.dayName.text = Formatters.dayNameShort.string(from: date)
-        return header
-    }
+    
+//    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+//        return 50
+//    }
+//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+//        let header = EventSectionHeaderView(frame: .zero)
+//        guard let date = Formatters.gcFormatDate.date(from: fetchedResultsController?.sections?[section].name ?? "") else { return nil }
+//        header.dayNumber.text = Formatters.dayNumber.string(from: date)
+//        header.dayName.text = Formatters.dayNameShort.string(from: date)
+//        return header
+//    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let object = fetchedResultsController?.object(at: indexPath)

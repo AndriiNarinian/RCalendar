@@ -17,4 +17,11 @@ extension Day {
         
         return day
     }
+    
+    @discardableResult static func create(with date: NSDate) -> Day {
+        let day = Day(context: CoreData.backContext)
+        day.date = date
+        
+        return day
+    }
 }

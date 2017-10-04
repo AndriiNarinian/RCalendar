@@ -12,19 +12,24 @@ import CoreData
 class ViewController: VC, GoogleAPICompatible {
 
     var gIDSignInProxy = GIDSignInProxyObject()
-    var eventProxy = CoreDataProxy<Event>()
+    var eventProxy = CoreDataProxy<Day>()
     
     @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 100
+        
+        tableView.register(UINib(nibName: "DayTableViewCell", bundle: nil), forCellReuseIdentifier: "DayTableViewCell")
+        
         gIDSignInProxy.configure(with: self)
 
-        let eventProxyConfig = ProxyConfigWithTableView(tableView: tableView, sortDescriptors: [(#keyPath(Event.dayString), false)], updateMode: .tableViewReload) { [unowned self] (object, indexPath) -> UITableViewCell in
-            if let event = object as? Event {
-                let cell = self.tableView.dequeueReusableCell(withIdentifier: "EventCell") as! EventCell
-                cell.update(with: event)
+        let eventProxyConfig = ProxyConfigWithTableView(tableView: tableView, sortDescriptors: [(#keyPath(Day.date), false)], updateMode: .tableViewReload) { [unowned self] (object, indexPath) -> UITableViewCell in
+            if let day = object as? Day {
+                let cell = self.tableView.dequeueReusableCell(withIdentifier: "DayTableViewCell") as! DayTableViewCell
+                cell.update(with: day)
                 return cell
             }
             return UITableViewCell()
@@ -41,7 +46,7 @@ class ViewController: VC, GoogleAPICompatible {
     
     fileprivate func scrollToToday() {
         let sectionInfo = eventProxy.fetchedResultsController?.sections?.filter { $0.name == Formatters.gcFormatDate.string(from: Date()) }.first
-        guard let object = sectionInfo?.objects?.first as? Event, let indexPath = eventProxy.fetchedResultsController?.indexPath(forObject: object) else { return }
+        guard let object = sectionInfo?.objects?.first as? Day, let indexPath = eventProxy.fetchedResultsController?.indexPath(forObject: object) else { return }
         tableView.scrollToRow(at: indexPath, at: .middle, animated: true)
     }
 }

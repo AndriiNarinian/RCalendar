@@ -63,6 +63,13 @@ extension Event {
         event.attachments = dict["attachments"].maybeInsertDictArray { Attachment.insert(from: $0.dictValue) }
         event.calendar = Dealer<Calendar>.fetch(with: "id", value: dict["calendarId"].string)
         event.dayString = Formatters.gcFormatDate.string(from: (event.start?.dateToUse ?? NSDate()) as Date)
+        let date = event.start?.dateToUse ?? NSDate()
+        if let day = Dealer<Day>.fetch(with: NSPredicate(format: "date == %@", date)) {
+            event.day = day
+        } else {
+            let day = Day.create(with: date)
+            event.day = day
+        }
         return event
     }
 }
