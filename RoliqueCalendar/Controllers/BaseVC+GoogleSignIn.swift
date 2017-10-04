@@ -41,7 +41,9 @@ extension GoogleAPICompatible where Self: UIViewController {
     
     func observeToken(completion: @escaping (String) -> Void) {
         gIDSignInProxy.observeTokenCompletion = completion
-        APIHelper.signIn()
+//        DispatchQueue.main.async {
+            APIHelper.signIn()
+//        }
     }
 }
 
@@ -72,10 +74,14 @@ extension GIDSignInProxyObject {
 // MARK: GIDSignInUIDelegate
 extension GIDSignInProxyObject {
     func sign(_ signIn: GIDSignIn!, present viewController: UIViewController!) {
-        self.viewController?.present(viewController, animated: true, completion: nil)
+        DispatchQueue.main.async {
+            self.viewController?.present(viewController, animated: true, completion: nil)
+        }
     }
     
     func sign(_ signIn: GIDSignIn!, dismiss viewController: UIViewController!) {
-        viewController.dismiss(animated: true, completion: nil)
+        DispatchQueue.main.async {
+            viewController.dismiss(animated: true, completion: nil)
+        }
     }
 }

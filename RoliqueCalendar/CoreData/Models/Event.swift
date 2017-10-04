@@ -9,7 +9,7 @@
 import Foundation
 
 extension Event {
-    static func all(calendarId: String, for vc: GoogleAPICompatible) {
+    static func all(calendarId: String, for vc: GoogleAPICompatible, completion: @escaping () -> Void) {
         APIHelper.getEventList(with: calendarId, for: vc) { dict in
             guard let dicts = dict["items"] as? [[String: Any]] else { return }
             let dictsWithCalendar = dicts.map { dict -> [String: Any] in
@@ -17,32 +17,13 @@ extension Event {
                 newDict["calendarId"] = calendarId
                 return newDict
             }
-            Dealer<Event>.updateWith(array: dictsWithCalendar.map { DictInsertion($0) }, insertion: insert(from:))
-//            Dealer<Day>.updateWith(array: makeDays(with: dictsWithCalendar.map { DictInsertion($0) }), insertion: Day.insert(from:))
+            Dealer<Event>.updateWith(array: dictsWithCalendar.map { DictInsertion($0) }, insertion: insert(from:), completion: completion)
         }
-    }
-    
-    static func makeDays(with events: [Insertion]) -> Insertion {
-        let allDates = events.map { insertion -> Date in
-            let start = insertion.dictValue["start"].jsonValue
-            let startDate = Formatters.gcFormatDate.date(from: start["date"].stringValue)
-            let startDateTime = Formatters.gcFormatTz.date(from: start["dateTime"].stringValue)
-            return startDateTime ?? startDate ?? Date()
-        }
-        let calendar = Foundation.Calendar.current
-        
-//        let year = calendar.component(.year, from: date)
-//        let month = calendar.component(.month, from: date)
-//        let day = calendar.component(.day, from: date)
-//        
-//        Dealer<Event>.fetch(with: <#T##String#>, value: <#T##String?#>)
-        return DayInsertion((NSDate(), NSMutableOrderedSet()))
-//
     }
     
     @discardableResult static func insert(from insertion: Insertion) -> Event {
         let dict = insertion.dictValue
-        let event = Event(context: CoreData.context)
+        let event = Event(context: CoreData.backContext)
         event.kind = dict["kind"] as? String
         event.etag = dict["etag"].string
         event.id = dict["id"].string
@@ -77,7 +58,7 @@ extension Event {
         event.guestsCanSeeOtherGuests = dict["guestsCanSeeOtherGuests"].boolValue
         event.privateCopy = dict["privateCopy"].boolValue
         event.locked = dict["locked"].boolValue
-        event.reminders = dict["reminders"].maybeInsertDictObject { EventReminders.insert(from: $0.dictValue) }
+        event.reminders = dict["reminders"].maybeInsertDictObject { EventReminders.insertBack(from: $0.dictValue) }
         event.source = dict["source"].maybeInsertDictObject { Source.insert(from: $0.dictValue) }
         event.attachments = dict["attachments"].maybeInsertDictArray { Attachment.insert(from: $0.dictValue) }
         event.calendar = Dealer<Calendar>.fetch(with: "id", value: dict["calendarId"].string)

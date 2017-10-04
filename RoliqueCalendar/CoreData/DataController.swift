@@ -18,26 +18,62 @@ class CoreData: NSObject {
         return controller.persistentContainer
     }
     
-    static var context: NSManagedObjectContext {
-        return container.viewContext
+    static var mainContext: NSManagedObjectContext {
+        return controller.mainContext
     }
     
     static var backContext: NSManagedObjectContext {
         return controller.backgroundContext
     }
+    
+    static var masterContext: NSManagedObjectContext {
+        return controller.masterContext
+    }
 }
 
 class Dealer<R: NSFetchRequestResult> {
-    static func updateWith(array: [Insertion], shouldClearAllBeforeInsert: Bool = false, insertion: (Insertion) -> R) {
-        if shouldClearAllBeforeInsert { clearAllObjects() }
-        array.forEach { ins in
-            if !shouldClearAllBeforeInsert {
-                clearIfNeeded(with: "id", value: ins.dictValue["id"] as? String)
+    static func updateWith(array: [Insertion], shouldClearAllBeforeInsert: Bool = false, isMainConext: Bool = false, insertion: @escaping (Insertion) -> R, completion: @escaping () -> Void) {
+        CoreData.backContext.perform {
+            if shouldClearAllBeforeInsert { clearAllObjects() }
+            array.forEach { ins in
+                if !shouldClearAllBeforeInsert {
+                    self.clearIfNeeded(with: "id", value: ins.dictValue["id"] as? String)
+                }
+                _ = insertion(ins)
             }
-            _ = insertion(ins)
+            completion()
+            saveBackgroundContext()
         }
-        CoreData.context.shouldDeleteInaccessibleFaults = true
-        CoreData.controller.saveContext()
+    }
+    
+    static func saveBackgroundContext() {
+        do {
+            try CoreData.backContext.save()
+            saveMainContext()
+        } catch {
+            print(error)
+        }
+    }
+    
+    static func saveMainContext() {
+        CoreData.mainContext.performAndWait {
+            do {
+                try CoreData.mainContext.save()
+                saveMasterContext()
+            } catch {
+                print(error)
+            }
+        }
+    }
+    
+    static func saveMasterContext() {
+        CoreData.masterContext.perform {
+            do {
+                try CoreData.masterContext.save()
+            } catch {
+                print(error)
+            }
+        }
     }
     
     static func clearIfNeeded(with key: String, value: String?) {
@@ -51,19 +87,18 @@ class Dealer<R: NSFetchRequestResult> {
     }
     
     static func clearAllObjects() {
-        let context = CoreData.context
+        let context = CoreData.backContext
         let fetchRequest = NSFetchRequest<R>(entityName: String(describing: R.self))
         do {
             let objects = try context.fetch(fetchRequest) as? [NSManagedObject]
             _ = objects.map { $0.map { context.delete($0) } }
-            CoreData.controller.saveContext()
         } catch let error {
             print("ERROR DELETING : \(error)")
         }
     }
     
     static func clearObject(with key: String, value: String?) {
-        let context = CoreData.context
+        let context = CoreData.backContext
         guard let value = value else { return }
         let fetchRequest = NSFetchRequest<R>(entityName: String(describing: R.self))
         fetchRequest.predicate = NSPredicate(format: "\(key) == %@", value)
@@ -80,7 +115,8 @@ class Dealer<R: NSFetchRequestResult> {
         let fetchRequest = NSFetchRequest<R>(entityName: String(describing: R.self))
         fetchRequest.predicate = NSPredicate(format: "\(key) == %@", value)
         do {
-            return try CoreData.context.fetch(fetchRequest).first
+            let object = try CoreData.backContext.fetch(fetchRequest).first
+            return object
         } catch { print(error); return nil }
     }
     
@@ -89,7 +125,7 @@ class Dealer<R: NSFetchRequestResult> {
         let fetchRequest = NSFetchRequest<R>(entityName: String(describing: R.self))
         fetchRequest.predicate = NSPredicate(format: "\(key) == %@", value)
         do {
-            let count = try CoreData.context.count(for: fetchRequest)
+            let count = try CoreData.backContext.count(for: fetchRequest)
             return count > 0
         } catch { print(error); return false }
     }
@@ -104,17 +140,41 @@ class DataController: NSObject {
             print(url.path)
         }
     }
-
+    
     // MARK: - Core Data stack
     fileprivate var _backgroundContext: NSManagedObjectContext?
     var backgroundContext: NSManagedObjectContext {
         if let backgroundContext = self._backgroundContext {
             return backgroundContext
         } else {
-            let new = self.persistentContainer.newBackgroundContext()
-            new.parent = CoreData.context
+            let new = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+            new.parent = CoreData.mainContext
             self._backgroundContext = new
             return _backgroundContext!
+        }
+    }
+    
+    fileprivate var _mainContext: NSManagedObjectContext?
+    var mainContext: NSManagedObjectContext {
+        if let mainContext = self._mainContext {
+            return mainContext
+        } else {
+            let new = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+            new.parent = CoreData.masterContext
+            self._mainContext = new
+            return _mainContext!
+        }
+    }
+    
+    fileprivate var _masterContext: NSManagedObjectContext?
+    var masterContext: NSManagedObjectContext {
+        if let masterContext = self._masterContext {
+            return masterContext
+        } else {
+            let new = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+            new.persistentStoreCoordinator = persistentContainer.persistentStoreCoordinator
+            self._masterContext = new
+            return _masterContext!
         }
     }
     

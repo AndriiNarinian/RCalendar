@@ -12,13 +12,13 @@ import CoreData
 extension Calendar {
     static func all(for vc: GoogleAPICompatible) {
         APIHelper.getExtendedCalendars(owner: vc) { dicts in
-            Dealer<Calendar>.updateWith(array: dicts.map { DictInsertion($0) }, insertion: insert(from:))
+                Dealer<Calendar>.updateWith(array: dicts.map { DictInsertion($0) }, isMainConext: true, insertion: insert(from:)){}
         }
     }
     
     @discardableResult static func insert(from insertion: Insertion) -> Calendar {
         let dict = insertion.dictValue
-        let calendar = Calendar(context: CoreData.context)
+        let calendar = Calendar(context: CoreData.backContext)
         calendar.kind = dict["kind"] as? String
         calendar.etag = dict["etag"].string
         calendar.id = dict["id"].string

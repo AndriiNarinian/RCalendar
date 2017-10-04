@@ -14,7 +14,7 @@ typealias APICompletionArray = ([[String: Any]]) -> Void
 
 // MARK: Configuration
 extension APIHelper {
-    static let isDebug = true
+    static let isDebug = false
     static func configureGoogleAPI() {
         GIDSignIn.sharedInstance().scopes = [
             "https://www.googleapis.com/auth/calendar",
@@ -78,20 +78,21 @@ class APIHelper {
 // MARK: Private
 fileprivate extension APIHelper {
     static let kClientID = "343892928011-4ibhevkj1jabjk527b4rhnve41995e1p.apps.googleusercontent.com"
-    
     static func requestFromGoogleAPI(owner: GoogleAPICompatible, router: Router, completion: @escaping (Data?, URLResponse?, Error?) -> Void) {
         getAccessToken(owner: owner) { token in
             let headers = [
                 "authorization": "Bearer \(token)"
             ]
             
+            let url = router.urlString
+            
             if isDebug {
                 print(">>>>>>>>>>")
-                print("\nAPIHelper request with url:\n[\(router.urlString)]\n")
+                print("\nAPIHelper request with url:\n[\(url)]\n")
                 print("<<<<<<<<<<")
             }
             
-            let request = NSMutableURLRequest(url: NSURL(string: router.urlString)! as URL,
+            let request = NSMutableURLRequest(url: NSURL(string: url)! as URL,
                                               cachePolicy: .useProtocolCachePolicy,
                                               timeoutInterval: 10.0)
             request.httpMethod = router.method.rawValue
@@ -123,19 +124,19 @@ fileprivate extension APIHelper {
                 handleErrorString(error.localizedDescription, with: owner)
             } else if let data = data {
                 if let serialized = try? JSONSerialization.jsonObject(with: data) as? [String: Any] {
-                    if let json = serialized?["items"] as? [[String: Any]] {
-                        DispatchQueue.main.async {
-                            let string = json.map { GModel(dict: $0)?.dictDescription ?? "" }.reduce(with: ",\n\n")
-                            if isDebug {
-                                print(">>>>>>>>>>")
-                                print("\nAPIHelper received objects:\n[\(string)]\n")
-                                print("<<<<<<<<<<")
-                            }
-                            completion(json)
-                        }
-                    } else if let errorDict = serialized?["error"] as? [String: Any] {
+                    if let errorDict = serialized?["error"] as? [String: Any] {
                         guard let errorModel = GErrorModel(dict: errorDict) else { return }
                         handleErrorString(errorModel.dictNoNilDescription, with: owner)
+                    } else if let json = serialized?["items"] as? [[String: Any]] {
+                        let string = json.map { GModel(dict: $0)?.dictDescription ?? "" }.reduce(with: ",\n\n")
+                        if isDebug {
+                            print(">>>>>>>>>>")
+                            print("\nAPIHelper received objects:\n[\(string)]\n")
+                            print("<<<<<<<<<<")
+                        }
+                        DispatchQueue.main.async {
+                            completion(json)
+                        }
                     }
                 }
             } else {
@@ -150,18 +151,18 @@ fileprivate extension APIHelper {
                 handleErrorString(error.localizedDescription, with: owner)
             } else if let data = data {
                 if let serialized = try? JSONSerialization.jsonObject(with: data) as? [String: Any] {
-                    if let json = serialized {
-                        DispatchQueue.main.async {
-                            if isDebug {
-                                print(">>>>>>>>>>")
-                                print("\nAPIHelper received object:\n\(GModel(dict: json)?.dictDescription ?? "")\n")
-                                print("<<<<<<<<<<")
-                            }
-                            completion(json)
-                        }
-                    } else if let errorDict = serialized?["error"] as? [String: Any] {
+                    if let errorDict = serialized?["error"] as? [String: Any] {
                         guard let errorModel = GErrorModel(dict: errorDict) else { return }
                         handleErrorString(errorModel.dictNoNilDescription, with: owner)
+                    } else if let json = serialized {
+                        if isDebug {
+                            print(">>>>>>>>>>")
+                            print("\nAPIHelper received object:\n\(GModel(dict: json)?.dictDescription ?? "")\n")
+                            print("<<<<<<<<<<")
+                        }
+                        DispatchQueue.main.async {
+                            completion(json)
+                        }
                     }
                 }
             } else {
@@ -176,6 +177,8 @@ fileprivate extension APIHelper {
             print("\nAPIHelper got an errror:\n\(errStr)\n")
             print("<<<<<<<<<<")
         }
-        owner.displayError(errStr)
+        DispatchQueue.main.async {
+            owner.displayError(errStr)
+        }
     }
 }

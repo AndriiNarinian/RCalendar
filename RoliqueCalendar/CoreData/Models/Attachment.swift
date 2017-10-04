@@ -10,7 +10,7 @@ import Foundation
 
 extension Attachment {
     @discardableResult static func insert(from dict: [String: Any]) -> Attachment {
-        let attachment = Attachment(context: CoreData.context)
+        let attachment = Attachment(context: CoreData.backContext)
         attachment.fileId = dict["fileUrl"].string
         attachment.title = dict["title"].string
         attachment.mimeType = dict["mimeType"].string

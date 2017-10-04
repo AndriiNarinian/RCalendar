@@ -10,7 +10,14 @@ import Foundation
 
 extension Notification {
     @discardableResult static func insert(from dict: [String: Any]) -> Notification {
-        let notification = Notification(context: CoreData.context)
+        let notification = Notification(context: CoreData.backContext)
+        notification.type = dict["type"].string
+        notification.method = dict["method"].string
+        return notification
+    }
+    
+    @discardableResult static func insertBack(from dict: [String: Any]) -> Notification {
+        let notification = Notification(context: CoreData.backContext)
         notification.type = dict["type"].string
         notification.method = dict["method"].string
         return notification

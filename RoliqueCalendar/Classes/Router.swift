@@ -24,10 +24,10 @@ enum Router {
     var endPoint: String {
         switch self {
         case .getExtendedCalendarList: return "users/me/calendarList"
-        case .getExtendedCalendar(let id): return "users/me/calendarList/\(id)"
-        case .getCalendar(let id): return "calendars/\(id)"
-        case .getEventList(let calendarId): return "calendars/\(calendarId)/events"
-        case .getEvent(let calendarId, let eventId): return "calendars/\(calendarId)/events/\(eventId)"
+        case .getExtendedCalendar(let id): return "users/me/calendarList/\(id.encoded)"
+        case .getCalendar(let id): return "calendars/\(id.encoded)"
+        case .getEventList(let calendarId): return "calendars/\(calendarId.encoded)/events"
+        case .getEvent(let calendarId, let eventId): return "calendars/\(calendarId.encoded)/events/\(eventId.encoded)"
         }
     }
     
@@ -45,4 +45,10 @@ enum Router {
         }
     }
  
+}
+
+fileprivate extension String {
+    var encoded: String {
+        return self.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
+    }
 }

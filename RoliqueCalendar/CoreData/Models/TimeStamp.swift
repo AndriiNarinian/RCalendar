@@ -10,7 +10,7 @@ import Foundation
 
 extension TimeStamp {
     @discardableResult static func insert(from dict: [String: Any]) -> TimeStamp {
-        let timeStamp = TimeStamp(context: CoreData.context)
+        let timeStamp = TimeStamp(context: CoreData.backContext)
         timeStamp.date = Formatters.gcFormatDate.date(from: dict["date"].stringValue) as NSDate?
         timeStamp.dateTime = Formatters.gcFormatTz.date(from: dict["dateTime"].stringValue) as NSDate?
         timeStamp.timeZone = dict["timeZone"].maybeInsertStringObject { DateTz.insert(from: $0.stringValue) }

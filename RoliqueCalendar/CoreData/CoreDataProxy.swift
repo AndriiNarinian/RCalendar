@@ -25,25 +25,34 @@ protocol ProxyConfig {
     var tableView: UITableView? { get }
     var tableViewCellConfigurationHandler: TableViewCellConfigurationHandler? { get }
     var delegate: CoreDataProxyDelegate? { get }
+    var updateMode: ProxyConfigWithTableViewTableViewUpdateMode { get }
 }
 
 extension ProxyConfig {
     var tableView: UITableView? { return nil }
     var tableViewCellConfigurationHandler: TableViewCellConfigurationHandler? { return nil }
     var delegate: CoreDataProxyDelegate? { return nil }
+    var updateMode: ProxyConfigWithTableViewTableViewUpdateMode { return .rowInsertion }
 }
+
+enum ProxyConfigWithTableViewTableViewUpdateMode { case rowInsertion, tableViewReload }
 
 struct ProxyConfigWithTableView: ProxyConfig {
     var mode: ProxyConfigMode
     var sortDescriptors: [SortDescriptor]
     var tableViewCellConfigurationHandler: TableViewCellConfigurationHandler?
     var tableView: UITableView?
+    var updateMode: ProxyConfigWithTableViewTableViewUpdateMode = .rowInsertion
     
-    init (tableView: UITableView, sortDescriptors: [SortDescriptor], tableViewCellConfigurationHandler: TableViewCellConfigurationHandler?) {
+    init (tableView: UITableView,
+          sortDescriptors: [SortDescriptor],
+          updateMode: ProxyConfigWithTableViewTableViewUpdateMode = .rowInsertion,
+          tableViewCellConfigurationHandler: TableViewCellConfigurationHandler?) {
         self.tableView = tableView
         self.sortDescriptors = sortDescriptors
         self.tableViewCellConfigurationHandler = tableViewCellConfigurationHandler
         self.mode = .withTableView
+        self.updateMode = updateMode
     }
 }
 
@@ -95,7 +104,7 @@ class CoreDataProxy<ResultType: NSFetchRequestResult>: NSObject, UITableViewDele
         request.sortDescriptors = config.sortDescriptors.map { NSSortDescriptor(key: $0.0, ascending: $0.1) }
         let fetchedResultsController = NSFetchedResultsController(
             fetchRequest: request,
-            managedObjectContext: CoreData.context,
+            managedObjectContext: CoreData.mainContext,
             sectionNameKeyPath: config.mode == .withTableView ? #keyPath(Event.dayString) : nil,
             cacheName: nil
         )
@@ -141,53 +150,80 @@ class CoreDataProxy<ResultType: NSFetchRequestResult>: NSObject, UITableViewDele
     
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         guard let config = config else { return }
-        switch config.mode {
-        case .withDelegate: config.delegate?.controllerWillChangeContent(controller)
-        case .withTableView: tableView?.beginUpdates()
+        DispatchQueue.main.async {
+            switch config.mode {
+            case .withDelegate: config.delegate?.controllerWillChangeContent(controller)
+            case .withTableView:
+                switch config.updateMode {
+                case .rowInsertion: self.tableView?.beginUpdates()
+                default: break
+                }
+            }
         }
     }
     
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
         guard let config = config else { return }
-        switch config.mode {
-        case .withDelegate: config.delegate?.controller(controller, didChange: sectionInfo, atSectionIndex: sectionIndex, for: type)
-        case .withTableView:
-            switch type {
-            case .insert:
-                tableView?.insertSections(IndexSet(integer: sectionIndex), with: .fade)
-            case .delete:
-                tableView?.deleteSections(IndexSet(integer: sectionIndex), with: .fade)
-            case .move:
-                break
-            case .update:
-                break//tableView?.reloadSections(IndexSet(integer: sectionIndex), with: .fade)
+        DispatchQueue.main.async {
+            switch config.mode {
+            case .withDelegate: config.delegate?.controller(controller, didChange: sectionInfo, atSectionIndex: sectionIndex, for: type)
+            case .withTableView:
+                switch config.updateMode {
+                case .rowInsertion:
+                    switch type {
+                    case .insert:
+                        self.tableView?.insertSections(IndexSet(integer: sectionIndex), with: .fade)
+                    case .delete:
+                        self.tableView?.deleteSections(IndexSet(integer: sectionIndex), with: .fade)
+                    case .move:
+                        break
+                    case .update:
+                        break
+                    }
+                default: break
+                }
             }
         }
     }
     
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        return
         guard let config = config else { return }
-        switch config.mode {
-        case .withDelegate: config.delegate?.controller(controller, didChange: anObject, at: indexPath, for: type, newIndexPath: newIndexPath)
-        case .withTableView:
-            switch type {
-            case .insert:
-                tableView?.insertRows(at: [newIndexPath!], with: .fade)
-            case .delete:
-                tableView?.deleteRows(at: [indexPath!], with: .fade)
-            case .move:
-                tableView?.moveRow(at: indexPath!, to: newIndexPath!)
-            case .update:
-                tableView?.reloadRows(at: [indexPath!], with: .fade)
+        DispatchQueue.main.async {
+            switch config.mode {
+            case .withDelegate: config.delegate?.controller(controller, didChange: anObject, at: indexPath, for: type, newIndexPath: newIndexPath)
+            case .withTableView:
+                switch config.updateMode {
+                case .rowInsertion:
+                    switch type {
+                    case .insert:
+                        self.tableView?.insertRows(at: [newIndexPath!], with: .fade)
+                    case .delete:
+                        self.tableView?.deleteRows(at: [indexPath!], with: .fade)
+                    case .move:
+                        self.tableView?.moveRow(at: indexPath!, to: newIndexPath!)
+                    case .update:
+                        self.tableView?.reloadRows(at: [indexPath!], with: .fade)
+                    }
+                default: break
+                }
             }
         }
     }
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         guard let config = config else { return }
-        switch config.mode {
-        case .withDelegate: config.delegate?.controllerDidChangeContent(controller)
-        case .withTableView: tableView?.endUpdates()
+        DispatchQueue.main.async {
+            switch config.mode {
+            case .withDelegate: config.delegate?.controllerDidChangeContent(controller)
+            case .withTableView:
+                switch config.updateMode {
+                case .rowInsertion:
+                    self.tableView?.endUpdates()
+                case .tableViewReload:
+                    config.tableView?.reloadData()
+                }
+            }
         }
     }
 }

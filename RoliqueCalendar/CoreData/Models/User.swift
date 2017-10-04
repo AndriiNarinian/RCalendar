@@ -10,7 +10,7 @@ import Foundation
 
 extension User {
     @discardableResult static func insert(from dict: [String: Any]) -> User {
-        let user = User(context: CoreData.context)
+        let user = User(context: CoreData.backContext)
         user.id = dict["id"].string
         user.email = dict["email"].string
         user.displayName = dict["displayName"].string

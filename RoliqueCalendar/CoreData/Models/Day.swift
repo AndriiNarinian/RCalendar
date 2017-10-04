@@ -11,7 +11,7 @@ import Foundation
 extension Day {
     @discardableResult static func insert(from insertion: Insertion) -> Day {
         let dayValue = insertion.dayValue
-        let day = Day(context: CoreData.context)
+        let day = Day(context: CoreData.backContext)
         day.date = dayValue.0
         day.events = dayValue.1
         

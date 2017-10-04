@@ -10,7 +10,15 @@ import Foundation
 
 extension NotificationSettings {
     @discardableResult static func insert(from dict: [String: Any]) -> NotificationSettings {
-        let notificationSettings = NotificationSettings(context: CoreData.context)
+        let notificationSettings = NotificationSettings(context: CoreData.backContext)
+        
+        notificationSettings.notifications = dict["notifications"].maybeInsertDictArray { Notification.insert(from: $0.dictValue) }
+        
+        return notificationSettings
+    }
+    
+    @discardableResult static func insertBack(from dict: [String: Any]) -> NotificationSettings {
+        let notificationSettings = NotificationSettings(context: CoreData.backContext)
         
         notificationSettings.notifications = dict["notifications"].maybeInsertDictArray { Notification.insert(from: $0.dictValue) }
         

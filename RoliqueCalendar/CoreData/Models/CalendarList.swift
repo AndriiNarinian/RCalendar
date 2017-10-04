@@ -8,16 +8,27 @@
 
 import Foundation
 
+typealias CalendarListCalendarIdsCompletion = ([String]) -> Void
+
 extension CalendarList {
-    static func fetch(for vc: GoogleAPICompatible) {
+    static func fetch(for vc: GoogleAPICompatible, completion: @escaping CalendarListCalendarIdsCompletion) {
         APIHelper.getExtendedCalendarList(owner: vc) { dict in
-            Dealer<CalendarList>.updateWith(array: [DictInsertion(dict)], shouldClearAllBeforeInsert: true, insertion: insert(from:))
+            Dealer<CalendarList>.updateWith(array: [DictInsertion(dict)], shouldClearAllBeforeInsert: true, insertion: insert(from:)) {
+                let calendars = dict["items"] as? [[String: Any]] ?? [[String: Any]]()
+                completion(calendars.map { $0["id"].stringValue })
+            }
+        }
+    }
+    
+    static func getAllCalendarsForCurrentUser(for owner: GoogleAPICompatible, completion: RCalendarCalendarsCompletion) {
+        APIHelper.getExtendedCalendarList(owner: owner) { dict in
+            
         }
     }
     
     @discardableResult static func insert(from insertion: Insertion) -> CalendarList {
         let dict = insertion.dictValue
-        let calendarList = CalendarList(context: CoreData.context)
+        let calendarList = CalendarList(context: CoreData.backContext)
         calendarList.kind = dict["kind"].string
         calendarList.etag = dict["etag"].string
         calendarList.nextPageToken = dict["nextPageToken"].string

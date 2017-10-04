@@ -9,24 +9,22 @@
 import UIKit
 import CoreData
 
+//let backThread = DispatchQueue(label: "io.rolique.roliqueCalendar.eventsGueue", qos: .userInitiated, attributes: .concurrent)
+//let serialQueue = DispatchQueue(label: "io.rolique.calendar.events.serial.queue")
+
 class ViewController: VC, GoogleAPICompatible {
-    
+
     var gIDSignInProxy = GIDSignInProxyObject()
-    var calendarProxy = CoreDataProxy<Calendar>()
     var eventProxy = CoreDataProxy<Event>()
     
     @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        //tableView.rowHeight = 80
-        //tableview.registerCells...
-        
+
         gIDSignInProxy.configure(with: self)
-        let calendarProxyConfig = ProxyConfigWithDelegate(delegate: self, sortDescriptors: [(#keyPath(Calendar.summary), true)])
-        
-        let eventProxyConfig = ProxyConfigWithTableView(tableView: tableView, sortDescriptors: [(#keyPath(Event.dayString), false)]) { [unowned self] (object, indexPath) -> UITableViewCell in
+
+        let eventProxyConfig = ProxyConfigWithTableView(tableView: tableView, sortDescriptors: [(#keyPath(Event.dayString), false)], updateMode: .tableViewReload) { [unowned self] (object, indexPath) -> UITableViewCell in
             if let event = object as? Event {
                 let cell = self.tableView.dequeueReusableCell(withIdentifier: "EventCell") as! EventCell
                 cell.update(with: event)
@@ -34,13 +32,17 @@ class ViewController: VC, GoogleAPICompatible {
             }
             return UITableViewCell()
         }
-        
-        calendarProxy.configure(config: calendarProxyConfig)
         eventProxy.configure(config: eventProxyConfig)
-        
-        CalendarList.fetch(for: self)
+        RCalendar.main.startForCurrentUser(withOwner: self) {}
     }
-
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        let sectionInfo = eventProxy.fetchedResultsController?.sections?.filter { $0.name == Formatters.gcFormatDate.string(from: Date()) }.first
+        guard let object = sectionInfo?.objects?.first as? Event, let indexPath = eventProxy.fetchedResultsController?.indexPath(forObject: object) else { return }
+        tableView.scrollToRow(at: indexPath, at: .middle, animated: true)
+    }
 }
 
 class EventCell: UITableViewCell {
@@ -60,30 +62,8 @@ class EventCell: UITableViewCell {
         label6.text = (event.reminders?.overrides?.array as? [Reminder])?.map { "\($0.method.stringValue) in \($0.minutes) minutes" }.reduce(with: ", ")
         if let calendar = event.calendar {
             contentView.backgroundColor = UIColor(hexString: calendar.backgroundColor.stringValue)
+        } else {
+            contentView.backgroundColor = .darkGray
         }
-    }
-}
-
-// MARK: Calendar Proxy
-extension ViewController: CoreDataProxyDelegate {
-    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        
-    }
-    
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
-        
-    }
-    
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-        switch type {
-        case.insert:
-            guard let calendar = anObject as? Calendar else { return }
-            Event.all(calendarId: calendar.id!, for: self)
-        default: break
-        }
-    }
-    
-    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        
     }
 }
