@@ -145,6 +145,12 @@ class CoreDataProxy<ResultType: NSFetchRequestResult>: NSObject, UITableViewDele
         }
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let day = fetchedResultsController?.object(at: indexPath) as? Day
+        let tableviewHeight = CGFloat(day?.events?.count ?? 0) * 70
+        return tableviewHeight > 0 ? tableviewHeight + 16 : 0
+    }
+    
 //    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
 //        return 50
 //    }
