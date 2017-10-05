@@ -78,7 +78,9 @@ extension DayTableViewCell: UITableViewDataSource {
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "cell")
         let event = (day?.events?.array as? [Event])?.first
         cell.textLabel?.text = event?.summary
+        cell.textLabel?.textColor = .white
         cell.detailTextLabel?.text = Formatters.dateAndTime.string(from: (event?.start?.dateToUse ?? NSDate()) as Date)
+        cell.detailTextLabel?.textColor = .white
         if let calendar = event?.calendar {
             cell.contentView.backgroundColor = UIColor(hexString: calendar.backgroundColor.stringValue)
         } else {
