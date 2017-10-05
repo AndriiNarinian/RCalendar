@@ -21,7 +21,8 @@ extension Day {
     @discardableResult static func create(with date: NSDate) -> Day {
         let day = Day(context: CoreData.backContext)
         day.date = date
-        
+        day.monthString = Formatters.monthAndYear.string(from: date as Date)
+        day.timeStamp = Formatters.gcFormatDate.string(from: date as Date)
         return day
     }
 }

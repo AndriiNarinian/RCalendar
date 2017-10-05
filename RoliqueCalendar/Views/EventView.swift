@@ -25,8 +25,8 @@ class EventView: NibLoadingView {
 //        label4.text = event.organizer?.displayName
 //        label5.text = "attendees: \(event.attendees?.count ?? 0)"
 //        label6.text = (event.reminders?.overrides?.array as? [Reminder])?.map { "\($0.method.stringValue) in \($0.minutes) minutes" }.reduce(with: ", ")
-        if let calendar = event.calendar {
-            backView.backgroundColor = UIColor(hexString: calendar.backgroundColor.stringValue)
+        if let colorHex = event.calendarColor {
+            backView.backgroundColor = UIColor(hexString: colorHex)
         } else {
             backView.backgroundColor = .darkGray
         }

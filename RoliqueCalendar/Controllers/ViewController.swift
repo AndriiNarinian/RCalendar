@@ -41,37 +41,14 @@ class ViewController: VC, GoogleAPICompatible {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        
+        scrollToToday()
     }
     
     fileprivate func scrollToToday() {
-        let sectionInfo = eventProxy.fetchedResultsController?.sections?.filter { $0.name == Formatters.gcFormatDate.string(from: Date()) }.first
-        guard let object = sectionInfo?.objects?.first as? Day, let indexPath = eventProxy.fetchedResultsController?.indexPath(forObject: object) else { return }
+        let sectionInfo = eventProxy.fetchedResultsController?.sections?.filter { $0.name == Formatters.monthAndYear.string(from: Date()) }.first
+        guard let object = sectionInfo?.objects?.filter({ object -> Bool in
+            return Formatters.dayNumber.string(from: (object as! Day).date as! Date) == Formatters.dayNumber.string(from: Date())
+        }).first as? Day, let indexPath = eventProxy.fetchedResultsController?.indexPath(forObject: object) else { return }
         tableView.scrollToRow(at: indexPath, at: .middle, animated: true)
-    }
-}
-
-class EventCell: UITableViewCell {
-    @IBOutlet weak var label1: UILabel!
-    @IBOutlet weak var label2: UILabel!
-    @IBOutlet weak var label3: UILabel!
-    @IBOutlet weak var label4: UILabel!
-    @IBOutlet weak var label5: UILabel!
-    @IBOutlet weak var label6: UILabel!
-    @IBOutlet weak var backView: UIView!
-    
-    func update(with event: Event) {
-        label1.text = event.summary
-        label2.text = Formatters.dateAndTime.string(from: (event.start?.dateToUse ?? NSDate()) as Date)
-        label3.text = Formatters.dateAndTime.string(from: (event.end?.dateToUse ?? NSDate()) as Date)
-        label4.text = event.organizer?.displayName
-        label5.text = "attendees: \(event.attendees?.count ?? 0)"
-        label6.text = (event.reminders?.overrides?.array as? [Reminder])?.map { "\($0.method.stringValue) in \($0.minutes) minutes" }.reduce(with: ", ")
-        if let calendar = event.calendar {
-            backView.backgroundColor = UIColor(hexString: calendar.backgroundColor.stringValue)
-        } else {
-            backView.backgroundColor = .darkGray
-        }
-        backView.layer.cornerRadius = 2.0
     }
 }

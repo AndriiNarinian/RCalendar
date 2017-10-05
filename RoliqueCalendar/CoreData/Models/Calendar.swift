@@ -28,6 +28,13 @@ extension Calendar {
         calendar.timeZone = dict["timeZone"].string
         calendar.colorId = dict["colorId"].string
         calendar.backgroundColor = dict["backgroundColor"].string
+        if let calendarColor = Dealer<CalendarColor>.fetch(with: "calendarId", value: calendar.id) {
+            calendarColor.colorString = calendar.backgroundColor
+        } else {
+            let calendarColor = CalendarColor(context: CoreData.backContext)
+            calendarColor.calendarId = calendar.id
+            calendarColor.colorString = calendar.backgroundColor
+        }
         calendar.foregroundColor = dict["foregroundColor"].string
         calendar.isSelected = dict["selected"].boolValue
         calendar.accessRole = dict["accessRole"].string

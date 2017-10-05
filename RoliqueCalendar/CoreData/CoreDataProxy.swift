@@ -95,7 +95,6 @@ class CoreDataProxy<ResultType: NSFetchRequestResult>: NSObject, UITableViewDele
             self.delegate = config.delegate
             self.fetchedResultsController = initializeFetchedResultsController()
         }
-        
     }
     
     fileprivate func initializeFetchedResultsController() -> NSFetchedResultsController<ResultType>? {
@@ -105,7 +104,7 @@ class CoreDataProxy<ResultType: NSFetchRequestResult>: NSObject, UITableViewDele
         let fetchedResultsController = NSFetchedResultsController(
             fetchRequest: request,
             managedObjectContext: CoreData.mainContext,
-            sectionNameKeyPath: nil,//config.mode == .withTableView ? #keyPath(Event.dayString) : nil,
+            sectionNameKeyPath: config.mode == .withTableView ? #keyPath(Event.monthString) : nil,
             cacheName: nil
         )
         fetchedResultsController.delegate = self
@@ -131,16 +130,16 @@ class CoreDataProxy<ResultType: NSFetchRequestResult>: NSObject, UITableViewDele
         return sectionInfo.numberOfObjects
     }
     
-//    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-//        return fetchedResultsController?.sections?[section].name
-//    }
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return fetchedResultsController?.sections?[section].name
+    }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         guard let indexPaths = tableView?.indexPathsForVisibleRows else { return }
         indexPaths.forEach {
             guard let cell = tableView?.cellForRow(at: $0) as? DayTableViewCell, let rect = tableView?.rectForRow(at: $0) else { return }
             let converted = tableView?.convert(rect, to: tableView?.superview)
-            let rec = CGRect(x: converted?.origin.x ?? 0, y: (converted?.origin.y ?? 0) - 20, width: converted?.width ?? 0, height: converted?.height ?? 0)
+            let rec = CGRect(x: converted?.origin.x ?? 0, y: (converted?.origin.y ?? 0) - 20 - 28, width: converted?.width ?? 0, height: converted?.height ?? 0)
             cell.parentTableViewDidScroll(rec)
         }
     }

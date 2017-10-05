@@ -22,15 +22,19 @@ class DayTableViewCell: UITableViewCell {
         tableView.rowHeight = 70
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.separatorStyle = UITableViewCellSeparatorStyle.none
+        tableView.register(UINib(nibName: "EventCell", bundle: nil), forCellReuseIdentifier: "EventCell")
     }
     
     func update(with day: Day) {
         self.day = day
+        tableView.reloadData()
+        movingView.layer.frame.origin.y = 0
+        
         guard let date = day.date as Date? else { return }
         dayNumber.text = Formatters.dayNumber.string(from: date)
         dayName.text = Formatters.dayNameShort.string(from: date)
         
-        tableView.reloadData()
         
         
 //        guard let events = (day.events?.array as? [Event]) else { return }
@@ -47,14 +51,7 @@ class DayTableViewCell: UITableViewCell {
 //            stackView.addArrangedSubview(eventView)
 //        }
     }
-    
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        
-        movingView.layer.frame.origin.y = 0
-        
-    }
-    
+
     func parentTableViewDidScroll(_ rect: CGRect) {
         guard rect.origin.y < 0 else {
             movingView.layer.frame.origin.y = 0
@@ -62,9 +59,7 @@ class DayTableViewCell: UITableViewCell {
             return }
         var newY = -rect.origin.y
         if newY > (tableView.frame.height - movingView.frame.height) { newY = (tableView.frame.height - movingView.frame.height) }
-        UIView.animate(withDuration: 0) { 
-            
-        }
+
         movingView.layer.frame.origin.y = newY
     }
 }
@@ -75,18 +70,17 @@ extension DayTableViewCell: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "cell")
-        let event = (day?.events?.array as? [Event])?.first
-        cell.textLabel?.text = event?.summary
-        cell.textLabel?.textColor = .white
-        cell.detailTextLabel?.text = Formatters.dateAndTime.string(from: (event?.start?.dateToUse ?? NSDate()) as Date)
-        cell.detailTextLabel?.textColor = .white
-        if let calendar = event?.calendar {
-            cell.contentView.backgroundColor = UIColor(hexString: calendar.backgroundColor.stringValue)
-        } else {
-            cell.contentView.backgroundColor = .darkGray
-        }
-        cell.contentView.layer.cornerRadius = 2.0
+        let cell = tableView.dequeueReusableCell(withIdentifier: "EventCell") as! EventCell
+        let event = (day?.events?.array as? [Event])?[indexPath.row]
+        cell.update(with: event)
+//        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "cell")
+//        let event = (day?.events?.array as? [Event])?[indexPath.row]
+//        cell.textLabel?.text = event?.summary
+//        cell.textLabel?.textColor = .white
+//        cell.detailTextLabel?.text = Formatters.dateAndTime.string(from: (event?.start?.dateToUse ?? NSDate()) as Date)
+//        cell.detailTextLabel?.textColor = .white
+//        cell.contentView.backgroundColor = UIColor(hexString: event?.calendarColor ?? "")
+//        cell.contentView.layer.cornerRadius = 4.0
         
         return cell
     }

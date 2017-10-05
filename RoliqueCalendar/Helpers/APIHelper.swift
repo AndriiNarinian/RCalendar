@@ -12,9 +12,11 @@ import GoogleSignIn
 typealias APICompletion = ([String: Any]) -> Void
 typealias APICompletionArray = ([[String: Any]]) -> Void
 
+enum DebugMode { case none, short, full }
+
 // MARK: Configuration
 extension APIHelper {
-    static let isDebug = false
+    static let debugMode: DebugMode = .short
     static func configureGoogleAPI() {
         GIDSignIn.sharedInstance().scopes = [
             "https://www.googleapis.com/auth/calendar",
@@ -66,7 +68,32 @@ class APIHelper {
     
     static func getEventList(with calendarId: String?, for owner: GoogleAPICompatible, completion: @escaping APICompletion) {
         guard let calendarId = calendarId else { owner.displayError("calendar id is missing"); return }
-        requestFromGoogleAPI(owner: owner, router: .getEventList(calendarId: calendarId), completion: handleResponce(forObject: owner, completion: completion))
+        getAllPages(with: calendarId, for: owner, router: .getEventList(calendarId: calendarId, parameters: [:]), completion: completion)
+    }
+    
+    static func getAllPages(with calendarId: String?, for owner: GoogleAPICompatible, router: Router, transferDict: [String: Any]? = nil, completion: @escaping APICompletion) {
+        guard let calendarId = calendarId else { owner.displayError("calendar id is missing"); return }
+        requestFromGoogleAPI(owner: owner, router: router, completion: handleResponce(forObject: owner, completion: { dict in
+            
+            var transferDct = transferDict
+            var existingItems = transferDct?["items"] as? [[String: Any]] ?? [[String: Any]]()
+            let newItems = dict["items"] as? [[String: Any]] ?? [[String: Any]]()
+            existingItems.append(contentsOf: newItems)
+            transferDct?["items"] = existingItems
+            let trnsfrDict = transferDct ?? dict
+//            
+//            print("transferDict: \((transferDict?["items"] as? [Any])?.count)")
+//            print("dict: \((dict["items"] as? [Any])?.count)")
+//            print("transferDct: \((transferDct?["items"] as? [Any])?.count)")
+//            
+            if let nextPageToken = dict["nextPageToken"] as? String {
+                
+                
+                getAllPages(with: calendarId, for: owner, router: .getEventList(calendarId: calendarId, parameters: ["pageToken": nextPageToken]), transferDict: trnsfrDict, completion: completion)
+            } else {
+                completion(trnsfrDict)
+            }
+        }))
     }
     
     static func getEvent(with calendarId: String?, eventId: String?, for owner: GoogleAPICompatible, completion: @escaping APICompletion) {
@@ -84,15 +111,15 @@ fileprivate extension APIHelper {
                 "authorization": "Bearer \(token)"
             ]
             
-            let url = router.urlString
+            let url = router.urlEncodedWithParameters!
             
-            if isDebug {
+            if (debugMode == .short) || (debugMode == .full) {
                 print(">>>>>>>>>>")
                 print("\nAPIHelper request with url:\n[\(url)]\n")
                 print("<<<<<<<<<<")
             }
             
-            let request = NSMutableURLRequest(url: NSURL(string: url)! as URL,
+            let request = NSMutableURLRequest(url: url,
                                               cachePolicy: .useProtocolCachePolicy,
                                               timeoutInterval: 10.0)
             request.httpMethod = router.method.rawValue
@@ -129,7 +156,7 @@ fileprivate extension APIHelper {
                         handleErrorString(errorModel.dictNoNilDescription, with: owner)
                     } else if let json = serialized?["items"] as? [[String: Any]] {
                         let string = json.map { GModel(dict: $0)?.dictDescription ?? "" }.reduce(with: ",\n\n")
-                        if isDebug {
+                        if debugMode == .full {
                             print(">>>>>>>>>>")
                             print("\nAPIHelper received objects:\n[\(string)]\n")
                             print("<<<<<<<<<<")
@@ -155,7 +182,7 @@ fileprivate extension APIHelper {
                         guard let errorModel = GErrorModel(dict: errorDict) else { return }
                         handleErrorString(errorModel.dictNoNilDescription, with: owner)
                     } else if let json = serialized {
-                        if isDebug {
+                        if debugMode == .full {
                             print(">>>>>>>>>>")
                             print("\nAPIHelper received object:\n\(GModel(dict: json)?.dictDescription ?? "")\n")
                             print("<<<<<<<<<<")
@@ -172,7 +199,7 @@ fileprivate extension APIHelper {
     }
     
     static func handleErrorString(_ errStr: String, with owner: GoogleAPICompatible) {
-        if isDebug {
+        if (debugMode == .short) || (debugMode == .full) {
             print(">>>>>>>>>>")
             print("\nAPIHelper got an errror:\n\(errStr)\n")
             print("<<<<<<<<<<")

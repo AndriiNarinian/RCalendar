@@ -26,6 +26,10 @@
         <relationship name="list" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CalendarList" inverseName="items" inverseEntity="CalendarList" syncable="YES"/>
         <relationship name="notificationSettings" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="NotificationSettings" inverseName="calendar" inverseEntity="NotificationSettings" syncable="YES"/>
     </entity>
+    <entity name="CalendarColor" representedClassName="CalendarColor" syncable="YES" codeGenerationType="class">
+        <attribute name="calendarId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="colorString" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
     <entity name="CalendarList" representedClassName="CalendarList" syncable="YES" codeGenerationType="class">
         <attribute name="etag" attributeType="String" syncable="YES"/>
         <attribute name="kind" attributeType="String" syncable="YES"/>
@@ -40,11 +44,14 @@
     <entity name="DateTz" representedClassName="DateTz" parentEntity="DateMO" syncable="YES" codeGenerationType="class"/>
     <entity name="Day" representedClassName="Day" syncable="YES" codeGenerationType="class">
         <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="monthString" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="timeStamp" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="events" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Event" inverseName="day" inverseEntity="Event" syncable="YES"/>
     </entity>
     <entity name="Event" representedClassName="Event" syncable="YES" codeGenerationType="class">
         <attribute name="anyoneCanAddSelf" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="attendeesOmitted" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="calendarColor" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="colorId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="dayString" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="descr" optional="YES" attributeType="String" syncable="YES"/>
@@ -60,6 +67,7 @@
         <attribute name="kind" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="location" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="locked" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="monthString" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="privateCopy" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="recurrence" optional="YES" attributeType="Transformable" customClassName="NSMutableOrderedSet" syncable="YES"/>
         <attribute name="recurringEventId" optional="YES" attributeType="String" syncable="YES"/>
@@ -143,7 +151,8 @@
         <element name="DateMO" positionX="-54" positionY="-639" width="128" height="58"/>
         <element name="DateNoTz" positionX="-137" positionY="-558" width="128" height="45"/>
         <element name="DateTz" positionX="-38" positionY="-504" width="128" height="45"/>
-        <element name="Event" positionX="-272" positionY="-861" width="128" height="643"/>
+        <element name="Day" positionX="-74" positionY="-882" width="128" height="105"/>
+        <element name="Event" positionX="-272" positionY="-861" width="128" height="28"/>
         <element name="EventReminders" positionX="-621" positionY="-342" width="128" height="73"/>
         <element name="Gadget" positionX="-416" positionY="-883" width="128" height="163"/>
         <element name="Notification" positionX="-729" positionY="-118" width="128" height="73"/>
@@ -153,6 +162,6 @@
         <element name="Source" positionX="-389" positionY="-252" width="128" height="73"/>
         <element name="TimeStamp" positionX="-47" positionY="-259" width="128" height="103"/>
         <element name="User" positionX="-576" positionY="-873" width="128" height="193"/>
-        <element name="Day" positionX="-74" positionY="-882" width="128" height="73"/>
+        <element name="CalendarColor" positionX="-567" positionY="-729" width="128" height="75"/>
     </elements>
 </model>

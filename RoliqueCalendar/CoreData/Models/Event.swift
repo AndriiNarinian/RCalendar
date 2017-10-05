@@ -62,13 +62,22 @@ extension Event {
         event.source = dict["source"].maybeInsertDictObject { Source.insert(from: $0.dictValue) }
         event.attachments = dict["attachments"].maybeInsertDictArray { Attachment.insert(from: $0.dictValue) }
         event.calendar = Dealer<Calendar>.fetch(with: "id", value: dict["calendarId"].string)
+        if let colorHex = Dealer<CalendarColor>.fetch(with: "calendarId", value: event.calendar?.id)?.colorString {
+            event.calendarColor = colorHex
+        }
         event.dayString = Formatters.gcFormatDate.string(from: (event.start?.dateToUse ?? NSDate()) as Date)
-        let date = event.start?.dateToUse ?? NSDate()
-        if let day = Dealer<Day>.fetch(with: NSPredicate(format: "date == %@", date)) {
-            event.day = day
-        } else {
-            let day = Day.create(with: date)
-            event.day = day
+        event.monthString = Formatters.monthAndYear.string(from: (event.start?.dateToUse ?? NSDate()) as Date)
+        if let timeStamp = event.dayString, let date = event.start?.dateToUse {
+            if let day = Dealer<Day>.fetch(with: NSPredicate(format: "timeStamp == %@", timeStamp)) {
+                if let events = (day.events?.array as? [Event]) {
+                    if !events.contains(event) {
+                        event.day = day
+                    }
+                }
+            } else {
+                let day = Day.create(with: date)
+                event.day = day
+            }
         }
         return event
     }

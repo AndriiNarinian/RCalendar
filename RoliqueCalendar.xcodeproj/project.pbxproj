@@ -45,6 +45,8 @@
 		B59BAD921F7AA3EC00A65AD1 /* GError.swift in Sources */ = {isa = PBXBuildFile; fileRef = B59BAD911F7AA3EC00A65AD1 /* GError.swift */; };
 		B5C4F5D71F7B976500C1FF23 /* RCDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B5C4F5D51F7B976500C1FF23 /* RCDataModel.xcdatamodeld */; };
 		B5C4F5D91F7BA2D300C1FF23 /* GCalendarExtendedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C4F5D81F7BA2D300C1FF23 /* GCalendarExtendedList.swift */; };
+		B5C6ACBB1F8693DA001FA175 /* EventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C6ACB91F8693DA001FA175 /* EventCell.swift */; };
+		B5C6ACBC1F8693DA001FA175 /* EventCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B5C6ACBA1F8693DA001FA175 /* EventCell.xib */; };
 		B5D83BC31F7ADA9E004C7A12 /* Formatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D83BC21F7ADA9E004C7A12 /* Formatters.swift */; };
 		B5F638931F78F5BC00E80DEC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F638921F78F5BC00E80DEC /* AppDelegate.swift */; };
 		B5F638981F78F5BC00E80DEC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B5F638961F78F5BC00E80DEC /* Main.storyboard */; };
@@ -111,6 +113,8 @@
 		B59BAD911F7AA3EC00A65AD1 /* GError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GError.swift; sourceTree = "<group>"; };
 		B5C4F5D61F7B976500C1FF23 /* RCDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = RCDataModel.xcdatamodel; sourceTree = "<group>"; };
 		B5C4F5D81F7BA2D300C1FF23 /* GCalendarExtendedList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GCalendarExtendedList.swift; sourceTree = "<group>"; };
+		B5C6ACB91F8693DA001FA175 /* EventCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventCell.swift; sourceTree = "<group>"; };
+		B5C6ACBA1F8693DA001FA175 /* EventCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EventCell.xib; sourceTree = "<group>"; };
 		B5D83BC21F7ADA9E004C7A12 /* Formatters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Formatters.swift; sourceTree = "<group>"; };
 		B5F6388F1F78F5BC00E80DEC /* RoliqueCalendar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RoliqueCalendar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5F638921F78F5BC00E80DEC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -254,6 +258,8 @@
 				B51099921F850D0200A416BE /* EventSectionHeaderView.xib */,
 				B51099981F851A0F00A416BE /* DayTableViewCell.swift */,
 				B51099991F851A0F00A416BE /* DayTableViewCell.xib */,
+				B5C6ACB91F8693DA001FA175 /* EventCell.swift */,
+				B5C6ACBA1F8693DA001FA175 /* EventCell.xib */,
 				B510999C1F851B9000A416BE /* EventView.swift */,
 				B51099A01F851C5D00A416BE /* EventView.xib */,
 			);
@@ -362,6 +368,7 @@
 				B5F638981F78F5BC00E80DEC /* Main.storyboard in Resources */,
 				B51099931F850D0200A416BE /* EventSectionHeaderView.xib in Resources */,
 				B510999B1F851A0F00A416BE /* DayTableViewCell.xib in Resources */,
+				B5C6ACBC1F8693DA001FA175 /* EventCell.xib in Resources */,
 				B5F638B01F79062100E80DEC /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -376,6 +383,7 @@
 				B51C548D1F7BA6FA00A7D2CF /* GEventList.swift in Sources */,
 				B51C54931F7BC5D100A7D2CF /* GDate.swift in Sources */,
 				B59BAD921F7AA3EC00A65AD1 /* GError.swift in Sources */,
+				B5C6ACBB1F8693DA001FA175 /* EventCell.swift in Sources */,
 				B5D83BC31F7ADA9E004C7A12 /* Formatters.swift in Sources */,
 				B510999E1F851B9000A416BE /* EventView.swift in Sources */,
 				B59BAD8B1F7A9B8E00A65AD1 /* GAttachment.swift in Sources */,
