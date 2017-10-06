@@ -28,7 +28,7 @@ extension CalendarList {
     
     @discardableResult static func insert(from insertion: Insertion) -> CalendarList {
         let dict = insertion.dictValue
-        let calendarList = CalendarList(context: CoreData.backContext)
+        let calendarList = Dealer<CalendarList>.inserted
         calendarList.kind = dict["kind"].string
         calendarList.etag = dict["etag"].string
         calendarList.nextPageToken = dict["nextPageToken"].string

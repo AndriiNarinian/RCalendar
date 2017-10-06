@@ -24,6 +24,7 @@ protocol ProxyConfig {
     var sortDescriptors: [SortDescriptor] { get set }
     var tableView: UITableView? { get }
     var tableViewCellConfigurationHandler: TableViewCellConfigurationHandler? { get }
+    var proxyConfigTableViewDelegate: ProxyConfigWithTableViewDelegate? { get }
     var delegate: CoreDataProxyDelegate? { get }
     var updateMode: ProxyConfigWithTableViewTableViewUpdateMode { get }
 }
@@ -31,11 +32,17 @@ protocol ProxyConfig {
 extension ProxyConfig {
     var tableView: UITableView? { return nil }
     var tableViewCellConfigurationHandler: TableViewCellConfigurationHandler? { return nil }
+    var proxyConfigTableViewDelegate: ProxyConfigWithTableViewDelegate? { return nil }
     var delegate: CoreDataProxyDelegate? { return nil }
     var updateMode: ProxyConfigWithTableViewTableViewUpdateMode { return .rowInsertion }
 }
 
 enum ProxyConfigWithTableViewTableViewUpdateMode { case rowInsertion, tableViewReload }
+
+protocol ProxyConfigWithTableViewDelegate: class {
+    func willDisplayLastRow()
+    func willDisplayFirstRow()
+}
 
 struct ProxyConfigWithTableView: ProxyConfig {
     var mode: ProxyConfigMode
@@ -43,16 +50,19 @@ struct ProxyConfigWithTableView: ProxyConfig {
     var tableViewCellConfigurationHandler: TableViewCellConfigurationHandler?
     var tableView: UITableView?
     var updateMode: ProxyConfigWithTableViewTableViewUpdateMode = .rowInsertion
+    weak var proxyConfigTableViewDelegate: ProxyConfigWithTableViewDelegate?
     
     init (tableView: UITableView,
           sortDescriptors: [SortDescriptor],
           updateMode: ProxyConfigWithTableViewTableViewUpdateMode = .rowInsertion,
+          proxyConfigTableViewDelegate: ProxyConfigWithTableViewDelegate? = nil,
           tableViewCellConfigurationHandler: TableViewCellConfigurationHandler?) {
         self.tableView = tableView
         self.sortDescriptors = sortDescriptors
         self.tableViewCellConfigurationHandler = tableViewCellConfigurationHandler
         self.mode = .withTableView
         self.updateMode = updateMode
+        self.proxyConfigTableViewDelegate = proxyConfigTableViewDelegate
     }
 }
 
@@ -140,7 +150,11 @@ class CoreDataProxy<ResultType: NSFetchRequestResult>: NSObject, UITableViewDele
             guard let cell = tableView?.cellForRow(at: $0) as? DayTableViewCell, let rect = tableView?.rectForRow(at: $0) else { return }
             let converted = tableView?.convert(rect, to: tableView?.superview)
             let rec = CGRect(x: converted?.origin.x ?? 0, y: (converted?.origin.y ?? 0) - 20 - 28, width: converted?.width ?? 0, height: converted?.height ?? 0)
-            cell.parentTableViewDidScroll(rec)
+            if let day = fetchedResultsController?.object(at: $0) as? Day {
+                if day.timeStamp == cell.day?.timeStamp {
+                    cell.parentTableViewDidScroll(rec, with: day)
+                }
+            }
         }
     }
     
@@ -148,6 +162,20 @@ class CoreDataProxy<ResultType: NSFetchRequestResult>: NSObject, UITableViewDele
         let day = fetchedResultsController?.object(at: indexPath) as? Day
         let tableviewHeight = CGFloat(day?.events?.count ?? 0) * 70
         return tableviewHeight > 0 ? tableviewHeight + 16 : 0
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.section == 0 {
+            if indexPath.row == 0 {
+                config?.proxyConfigTableViewDelegate?.willDisplayFirstRow()
+            }
+        }
+        if indexPath.section == (fetchedResultsController?.sections?.count ?? 1) - 1 {
+            let sectionInfo = fetchedResultsController?.sections?[indexPath.section]
+            if indexPath.row == (sectionInfo?.numberOfObjects ?? 1) - 1 {
+                config?.proxyConfigTableViewDelegate?.willDisplayLastRow()
+            }
+        }
     }
     
 //    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {

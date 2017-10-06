@@ -10,7 +10,7 @@ import Foundation
 
 extension Source {
     @discardableResult static func insert(from dict: [String: Any]) -> Source {
-        let source = Source(context: CoreData.backContext)
+        let source = Dealer<Source>.inserted
         source.url = dict["url"].string
         source.title = dict["title"].string
         return source

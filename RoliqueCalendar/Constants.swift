@@ -9,3 +9,6 @@
 import UIKit
 
 typealias VC = UIViewController
+
+let kEventFetchTimeInterval: TimeInterval = 3600 * 24 * 30
+var bounds = [String: (max: Date, min: Date)]()

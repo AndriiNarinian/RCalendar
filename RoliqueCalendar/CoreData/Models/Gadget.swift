@@ -10,7 +10,7 @@ import Foundation
 
 extension Gadget {
     @discardableResult static func insert(from dict: [String: Any]) -> Gadget {
-        let gadget = Gadget(context: CoreData.backContext)
+        let gadget = Dealer<Gadget>.inserted
         gadget.type = dict["type"].string
         gadget.title = dict["title"].string
         gadget.link = dict["link"].string

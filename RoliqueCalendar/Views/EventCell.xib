@@ -28,7 +28,13 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="9rS-xZ-tjG">
-                                <rect key="frame" x="8" y="33" width="296" height="19.5"/>
+                                <rect key="frame" x="8" y="33" width="249" height="19.5"/>
+                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="16"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="3bR-nJ-eWg">
+                                <rect key="frame" x="265" y="33" width="39" height="19.5"/>
                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="16"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
@@ -37,9 +43,11 @@
                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="EFG-RL-CM6" firstAttribute="centerY" secondItem="gUD-DU-eHr" secondAttribute="centerY" constant="-12" id="4Do-kh-94o"/>
+                            <constraint firstAttribute="trailing" secondItem="3bR-nJ-eWg" secondAttribute="trailing" constant="8" id="9h8-7E-ANJ"/>
                             <constraint firstItem="9rS-xZ-tjG" firstAttribute="centerY" secondItem="gUD-DU-eHr" secondAttribute="centerY" constant="10" id="WjE-0O-9Ha"/>
+                            <constraint firstItem="3bR-nJ-eWg" firstAttribute="centerY" secondItem="9rS-xZ-tjG" secondAttribute="centerY" id="YIG-nP-TPe"/>
                             <constraint firstItem="EFG-RL-CM6" firstAttribute="leading" secondItem="gUD-DU-eHr" secondAttribute="leading" constant="8" id="cEZ-95-6ar"/>
-                            <constraint firstAttribute="trailing" secondItem="9rS-xZ-tjG" secondAttribute="trailing" constant="8" id="tAv-hR-NqG"/>
+                            <constraint firstItem="3bR-nJ-eWg" firstAttribute="leading" secondItem="9rS-xZ-tjG" secondAttribute="trailing" constant="8" id="o77-Iq-gzy"/>
                             <constraint firstAttribute="trailing" secondItem="EFG-RL-CM6" secondAttribute="trailing" constant="8" id="tod-ce-IeY"/>
                             <constraint firstItem="9rS-xZ-tjG" firstAttribute="leading" secondItem="gUD-DU-eHr" secondAttribute="leading" constant="8" id="wgv-ve-SO2"/>
                         </constraints>
@@ -55,6 +63,7 @@
             </tableViewCellContentView>
             <connections>
                 <outlet property="backView" destination="gUD-DU-eHr" id="CyT-l8-zta"/>
+                <outlet property="calendarsLabel" destination="3bR-nJ-eWg" id="GI4-p1-zGY"/>
                 <outlet property="timeLabel" destination="9rS-xZ-tjG" id="YRE-ry-MFq"/>
                 <outlet property="titleLabel" destination="EFG-RL-CM6" id="pLu-sB-qB3"/>
             </connections>

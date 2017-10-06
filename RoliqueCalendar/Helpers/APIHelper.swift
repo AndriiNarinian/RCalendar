@@ -38,6 +38,8 @@ extension APIHelper {
     }
 }
 
+enum PaginationBound { case max, min }
+
 // MARK: Public
 class APIHelper {
     static func signIn() {
@@ -66,9 +68,25 @@ class APIHelper {
         requestFromGoogleAPI(owner: owner, router: .getCalendar(id: id), completion: handleResponce(forObject: owner, completion: completion))
     }
     
-    static func getEventList(with calendarId: String?, for owner: GoogleAPICompatible, completion: @escaping APICompletion) {
+    static func getEventList(with calendarId: String?, for owner: GoogleAPICompatible, bound: PaginationBound? = nil, completion: @escaping APICompletion) {
         guard let calendarId = calendarId else { owner.displayError("calendar id is missing"); return }
-        getAllPages(with: calendarId, for: owner, router: .getEventList(calendarId: calendarId, parameters: [:]), completion: completion)
+        let centerDate = bounds[calendarId] == nil ? Date().withoutTime : (bound == .max ? bounds[calendarId]?.max : bounds[calendarId]?.min) ?? Date().withoutTime
+        let maxDate = (bound == .min ? bounds[calendarId]?.min : centerDate.addingTimeInterval(kEventFetchTimeInterval).withoutTime) ?? Date().withoutTime
+        let minDate = (bound == .max ? bounds[calendarId]?.max : centerDate.addingTimeInterval(-kEventFetchTimeInterval).withoutTime) ?? Date().withoutTime
+        if let bound = bound {
+            switch bound {
+            case .max: bounds[calendarId] = (maxDate, bounds[calendarId]?.min ?? minDate)
+            case .min: bounds[calendarId] = (bounds[calendarId]?.max ?? maxDate, minDate)
+            }
+        } else {
+            bounds[calendarId] = (maxDate, minDate)
+        }
+        
+        getAllPages(with: calendarId, for: owner, router: .getEventList(calendarId: calendarId, parameters: [
+            "singleEvents": "true",
+            "timeMax": Formatters.gcFormat.string(from: maxDate),
+            "timeMin": Formatters.gcFormat.string(from: minDate)
+            ]), completion: completion)
     }
     
     static func getAllPages(with calendarId: String?, for owner: GoogleAPICompatible, router: Router, transferDict: [String: Any]? = nil, completion: @escaping APICompletion) {

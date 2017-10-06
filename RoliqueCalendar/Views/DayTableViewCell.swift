@@ -35,24 +35,13 @@ class DayTableViewCell: UITableViewCell {
         dayNumber.text = Formatters.dayNumber.string(from: date)
         dayName.text = Formatters.dayNameShort.string(from: date)
         
-        
-        
-//        guard let events = (day.events?.array as? [Event]) else { return }
-//        let views = events.map { event -> EventView in
-//            let view = EventView(frame: .zero)
-//            view.update(with: event)
-//            return view
-//        }
-//        views.forEach { eventView in
-//            guard stackView.arrangedSubviews.filter({ arrangedView in
-//                return (arrangedView as? EventView) == eventView
-//            }).count == 0 else { return }
-//            
-//            stackView.addArrangedSubview(eventView)
-//        }
+
     }
 
-    func parentTableViewDidScroll(_ rect: CGRect) {
+    func parentTableViewDidScroll(_ rect: CGRect, with day: Day?) {
+//        guard let date = day?.date as Date? else { return }
+//        print("\(Formatters.dayNumber.string(from: date)) - \(Formatters.dayNameShort.string(from: date))")
+//        print("self.day?.date: \(self.day?.timeStamp)")
         guard rect.origin.y < 0 else {
             movingView.layer.frame.origin.y = 0
             
@@ -71,7 +60,7 @@ extension DayTableViewCell: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "EventCell") as! EventCell
-        let event = (day?.events?.array as? [Event])?[indexPath.row]
+        let event = (day?.events?.array as? [Event])?[safe: indexPath.row]
         cell.update(with: event)
 //        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "cell")
 //        let event = (day?.events?.array as? [Event])?[indexPath.row]

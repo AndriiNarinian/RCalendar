@@ -11,7 +11,7 @@ import Foundation
 extension Day {
     @discardableResult static func insert(from insertion: Insertion) -> Day {
         let dayValue = insertion.dayValue
-        let day = Day(context: CoreData.backContext)
+        let day = Dealer<Day>.inserted
         day.date = dayValue.0
         day.events = dayValue.1
         
@@ -19,7 +19,7 @@ extension Day {
     }
     
     @discardableResult static func create(with date: NSDate) -> Day {
-        let day = Day(context: CoreData.backContext)
+        let day = Dealer<Day>.inserted
         day.date = date
         day.monthString = Formatters.monthAndYear.string(from: date as Date)
         day.timeStamp = Formatters.gcFormatDate.string(from: date as Date)

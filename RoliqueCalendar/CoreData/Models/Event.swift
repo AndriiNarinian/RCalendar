@@ -9,21 +9,34 @@
 import Foundation
 
 extension Event {
-    static func all(calendarId: String, for vc: GoogleAPICompatible, completion: @escaping () -> Void) {
-        APIHelper.getEventList(with: calendarId, for: vc) { dict in
+    static func all(calendarId: String, for vc: GoogleAPICompatible, bound: PaginationBound? = nil, completion: @escaping () -> Void) {
+        APIHelper.getEventList(with: calendarId, for: vc, bound: bound) { dict in
             guard let dicts = dict["items"] as? [[String: Any]] else { return }
             let dictsWithCalendar = dicts.map { dict -> [String: Any] in
                 var newDict = dict
                 newDict["calendarId"] = calendarId
                 return newDict
             }
-            Dealer<Event>.updateWith(array: dictsWithCalendar.map { DictInsertion($0) }, insertion: insert(from:), completion: completion)
+            Dealer<Event>.updateWith(array: dictsWithCalendar.map { DictInsertion($0) }, shouldClearObject: { event -> [String: Any]? in
+                guard let event = event else { return nil }
+                let calendarIds = event.calendars.map { $0.id }
+                return ["calendarIds": calendarIds]
+            }, insertion: insert(from:), completion: completion)
         }
     }
     
     @discardableResult static func insert(from insertion: Insertion) -> Event {
-        let dict = insertion.dictValue
-        let event = Event(context: CoreData.backContext)
+        var dict = insertion.dictValue
+        if let originalCalendarId = dict["calendarId"] as? String {
+            var calendarIds = [originalCalendarId]
+            let calendarIdsToAdd = insertion.dictToSave?["calendarIds"] as? [String]
+            if calendarIdsToAdd?.count ?? 0 > 0 {
+                calendarIds.append(contentsOf: calendarIdsToAdd!)
+            }
+            dict["calendarIds"] = calendarIds
+        }
+
+        let event = Dealer<Event>.inserted
         event.kind = dict["kind"] as? String
         event.etag = dict["etag"].string
         event.id = dict["id"].string
@@ -61,24 +74,36 @@ extension Event {
         event.reminders = dict["reminders"].maybeInsertDictObject { EventReminders.insertBack(from: $0.dictValue) }
         event.source = dict["source"].maybeInsertDictObject { Source.insert(from: $0.dictValue) }
         event.attachments = dict["attachments"].maybeInsertDictArray { Attachment.insert(from: $0.dictValue) }
-        event.calendar = Dealer<Calendar>.fetch(with: "id", value: dict["calendarId"].string)
-        if let colorHex = Dealer<CalendarColor>.fetch(with: "calendarId", value: event.calendar?.id)?.colorString {
-            event.calendarColor = colorHex
-        }
+
+        let calendarData: NSMutableDictionary = [:]
+        Unwrap<Calendar>.arrayValueFromSet(dict["calendarIds"].maybeInsertStringArray { Calendar.fetch(from: $0) }).forEach { calendarData[$0.id.stringValue] = $0.dataDict }
+        event.calendarData = calendarData
+        
         event.dayString = Formatters.gcFormatDate.string(from: (event.start?.dateToUse ?? NSDate()) as Date)
         event.monthString = Formatters.monthAndYear.string(from: (event.start?.dateToUse ?? NSDate()) as Date)
         if let timeStamp = event.dayString, let date = event.start?.dateToUse {
-            if let day = Dealer<Day>.fetch(with: NSPredicate(format: "timeStamp == %@", timeStamp)) {
-                if let events = (day.events?.array as? [Event]) {
-                    if !events.contains(event) {
-                        event.day = day
-                    }
-                }
+            if let day = Dealer<Day>.fetch(with: NSPredicate(format: "timeStamp == %@", timeStamp)), let events = Unwrap<Event>.arrayFromSet(day.events), !events.contains(event) {
+                event.day = day
             } else {
                 let day = Day.create(with: date)
                 event.day = day
             }
         }
         return event
+    }
+    
+    var calendars: [(id: String, name: String, colorHex: String)] {
+        var retVal = [(id: String, name: String, colorHex: String)]()
+        
+        if let calendarData = calendarData {
+            for (_, value) in calendarData {
+                if let dict = value as? [AnyHashable: Any] {
+                    retVal.append((id: dict["id"].stringValue, name: dict["name"].stringValue, colorHex: dict["colorHex"].stringValue))
+                }
+            }
+        }
+        
+        
+        return retVal
     }
 }

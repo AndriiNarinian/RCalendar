@@ -12,13 +12,19 @@ import CoreData
 extension Calendar {
     static func all(for vc: GoogleAPICompatible) {
         APIHelper.getExtendedCalendars(owner: vc) { dicts in
-                Dealer<Calendar>.updateWith(array: dicts.map { DictInsertion($0) }, isMainConext: true, insertion: insert(from:)){}
+                Dealer<Calendar>.updateWith(array: dicts.map { DictInsertion($0) }, insertion: insert(from:)){}
         }
+    }
+    
+    @discardableResult static func fetch(from insertion: Insertion) -> Calendar? {
+        let id = insertion.stringValue
+        let calendar = Dealer<Calendar>.fetch(with: "id", value: id)
+        return calendar
     }
     
     @discardableResult static func insert(from insertion: Insertion) -> Calendar {
         let dict = insertion.dictValue
-        let calendar = Calendar(context: CoreData.backContext)
+        let calendar = Dealer<Calendar>.inserted
         calendar.kind = dict["kind"] as? String
         calendar.etag = dict["etag"].string
         calendar.id = dict["id"].string
@@ -28,13 +34,6 @@ extension Calendar {
         calendar.timeZone = dict["timeZone"].string
         calendar.colorId = dict["colorId"].string
         calendar.backgroundColor = dict["backgroundColor"].string
-        if let calendarColor = Dealer<CalendarColor>.fetch(with: "calendarId", value: calendar.id) {
-            calendarColor.colorString = calendar.backgroundColor
-        } else {
-            let calendarColor = CalendarColor(context: CoreData.backContext)
-            calendarColor.calendarId = calendar.id
-            calendarColor.colorString = calendar.backgroundColor
-        }
         calendar.foregroundColor = dict["foregroundColor"].string
         calendar.isSelected = dict["selected"].boolValue
         calendar.accessRole = dict["accessRole"].string
@@ -44,5 +43,13 @@ extension Calendar {
         calendar.wasDeleted = dict["deleted"].boolValue
         
         return calendar
+    }
+    
+    var dataDict: [AnyHashable: Any] {
+        return [
+            "id": id.stringValue,
+            "colorHex": backgroundColor.stringValue,
+            "name": summary.stringValue
+        ]
     }
 }

@@ -90,6 +90,20 @@ extension GradientView {
     }
 }
 
+extension Date {
+    var withoutTime: Date {
+        let formatter = Formatters.gcFormatDate
+        return formatter.date(from: formatter.string(from: self))!
+    }
+}
+
+extension Collection where Indices.Iterator.Element == Index {
+    /// Returns the element at the specified index if it is within bounds, otherwise nil.
+    subscript (safe index: Index) -> Generator.Element? {
+        return indices.contains(index) ? self[index] : nil
+    }
+}
+
 extension UIImageView {
     func loadImageUsingCacheWithURLString(_ URLString: String, placeHolder: UIImage?) {
         self.image = nil
@@ -333,6 +347,7 @@ extension Optional {
         }
         return nil
     }
+    
 }
 
 extension Optional {

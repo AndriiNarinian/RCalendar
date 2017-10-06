@@ -15,8 +15,6 @@
 		B51099971F850D4D00A416BE /* NibLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51099961F850D4D00A416BE /* NibLoadingView.swift */; };
 		B510999A1F851A0F00A416BE /* DayTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51099981F851A0F00A416BE /* DayTableViewCell.swift */; };
 		B510999B1F851A0F00A416BE /* DayTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B51099991F851A0F00A416BE /* DayTableViewCell.xib */; };
-		B510999E1F851B9000A416BE /* EventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B510999C1F851B9000A416BE /* EventView.swift */; };
-		B51099A11F851C5D00A416BE /* EventView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B51099A01F851C5D00A416BE /* EventView.xib */; };
 		B51C548D1F7BA6FA00A7D2CF /* GEventList.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51C548C1F7BA6FA00A7D2CF /* GEventList.swift */; };
 		B51C54931F7BC5D100A7D2CF /* GDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51C54921F7BC5D100A7D2CF /* GDate.swift */; };
 		B51C54971F7BC71F00A7D2CF /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51C54961F7BC71F00A7D2CF /* DataController.swift */; };
@@ -83,8 +81,6 @@
 		B51099961F850D4D00A416BE /* NibLoadingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NibLoadingView.swift; sourceTree = "<group>"; };
 		B51099981F851A0F00A416BE /* DayTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DayTableViewCell.swift; sourceTree = "<group>"; };
 		B51099991F851A0F00A416BE /* DayTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DayTableViewCell.xib; sourceTree = "<group>"; };
-		B510999C1F851B9000A416BE /* EventView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventView.swift; sourceTree = "<group>"; };
-		B51099A01F851C5D00A416BE /* EventView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EventView.xib; sourceTree = "<group>"; };
 		B51C548C1F7BA6FA00A7D2CF /* GEventList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GEventList.swift; sourceTree = "<group>"; };
 		B51C54921F7BC5D100A7D2CF /* GDate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GDate.swift; sourceTree = "<group>"; };
 		B51C54961F7BC71F00A7D2CF /* DataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
@@ -260,8 +256,6 @@
 				B51099991F851A0F00A416BE /* DayTableViewCell.xib */,
 				B5C6ACB91F8693DA001FA175 /* EventCell.swift */,
 				B5C6ACBA1F8693DA001FA175 /* EventCell.xib */,
-				B510999C1F851B9000A416BE /* EventView.swift */,
-				B51099A01F851C5D00A416BE /* EventView.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -364,7 +358,6 @@
 				B5F638A71F7902F100E80DEC /* GoogleSignIn.bundle in Resources */,
 				B5F6389D1F78F5BC00E80DEC /* LaunchScreen.storyboard in Resources */,
 				B5F6389A1F78F5BC00E80DEC /* Assets.xcassets in Resources */,
-				B51099A11F851C5D00A416BE /* EventView.xib in Resources */,
 				B5F638981F78F5BC00E80DEC /* Main.storyboard in Resources */,
 				B51099931F850D0200A416BE /* EventSectionHeaderView.xib in Resources */,
 				B510999B1F851A0F00A416BE /* DayTableViewCell.xib in Resources */,
@@ -385,7 +378,6 @@
 				B59BAD921F7AA3EC00A65AD1 /* GError.swift in Sources */,
 				B5C6ACBB1F8693DA001FA175 /* EventCell.swift in Sources */,
 				B5D83BC31F7ADA9E004C7A12 /* Formatters.swift in Sources */,
-				B510999E1F851B9000A416BE /* EventView.swift in Sources */,
 				B59BAD8B1F7A9B8E00A65AD1 /* GAttachment.swift in Sources */,
 				B52C4ED91F7EA8CA000CECC3 /* Properties.swift in Sources */,
 				B5F638C21F7A493F00E80DEC /* Extensions.swift in Sources */,
@@ -563,6 +555,7 @@
 					"$(PROJECT_DIR)/RoliqueCalendar",
 				);
 				INFOPLIST_FILE = RoliqueCalendar/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = io.rolique.RoliqueCalendar;
@@ -581,6 +574,7 @@
 					"$(PROJECT_DIR)/RoliqueCalendar",
 				);
 				INFOPLIST_FILE = RoliqueCalendar/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = io.rolique.RoliqueCalendar;
