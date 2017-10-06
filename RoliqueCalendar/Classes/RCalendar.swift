@@ -17,6 +17,9 @@ class RCalendar {
     fileprivate init() {}
     
     var calendarIds = [String]()
+    var bounds: (max: Date, min: Date)?
+    var minDate = defaultMinDate
+    var maxDate = defaultMaxDate
     
     func startForCurrentUser(withOwner owner: GoogleAPICompatible, completion: @escaping RCalendarCompletion) {
         let dispatchGroup = DispatchGroup()
@@ -33,6 +36,21 @@ class RCalendar {
     }
     
     func loadEventsForCurrentCalendars(withOwner owner: GoogleAPICompatible, bound: PaginationBound? = nil, completion: @escaping RCalendarCompletion) {
+        if let bound = bound {
+            switch bound {
+            case .min:
+                //top
+                if let preMin = RCalendar.main.bounds?.min {
+                    minDate = preMin.addingTimeInterval(-kEventFetchTimeInterval).withoutTime
+                    maxDate = preMin
+                }
+            case .max:
+                if let preMax = bounds?.max {
+                    minDate = preMax
+                    maxDate = preMax.addingTimeInterval(kEventFetchTimeInterval).withoutTime
+                }
+            }
+        }
         getEventsForCalendarsRecurcively(withOwner: owner, for: calendarIds, bound: bound, completion: completion)
     }
     

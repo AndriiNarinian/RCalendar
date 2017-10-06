@@ -42,6 +42,7 @@ enum ProxyConfigWithTableViewTableViewUpdateMode { case rowInsertion, tableViewR
 protocol ProxyConfigWithTableViewDelegate: class {
     func willDisplayLastRow()
     func willDisplayFirstRow()
+    func didUpdate()
 }
 
 struct ProxyConfigWithTableView: ProxyConfig {
@@ -91,6 +92,7 @@ class CoreDataProxy<ResultType: NSFetchRequestResult>: NSObject, UITableViewDele
     var delegate: CoreDataProxyDelegate?
     var config: ProxyConfig?
     var fetchedResultsController: NSFetchedResultsController<ResultType>?
+    var lastIndexPath: IndexPath?
     
     func configure(config: ProxyConfig) {
         switch config.mode {
@@ -165,6 +167,27 @@ class CoreDataProxy<ResultType: NSFetchRequestResult>: NSObject, UITableViewDele
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if let lastIndexPath = lastIndexPath {
+            let day = (fetchedResultsController?.object(at: indexPath) as? Day)
+            let currentDate = day?.date as Date?
+            if lastIndexPath < indexPath {
+                // going down
+                if let current = currentDate, let max = RCalendar.main.bounds?.max {
+                    if current > max {
+                        config?.proxyConfigTableViewDelegate?.willDisplayLastRow()
+                    }
+                }
+            } else {
+                // going up
+                if let current = currentDate, let min = RCalendar.main.bounds?.min {
+                    if current < min {
+                        config?.proxyConfigTableViewDelegate?.willDisplayLastRow()
+                    }
+                }
+            }
+        }
+        lastIndexPath = indexPath
+        
         if indexPath.section == 0 {
             if indexPath.row == 0 {
                 config?.proxyConfigTableViewDelegate?.willDisplayFirstRow()
@@ -275,6 +298,7 @@ class CoreDataProxy<ResultType: NSFetchRequestResult>: NSObject, UITableViewDele
                     self.tableView?.endUpdates()
                 case .tableViewReload:
                     config.tableView?.reloadData()
+                    config.proxyConfigTableViewDelegate?.didUpdate()
                 }
             }
         }

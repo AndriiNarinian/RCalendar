@@ -45,6 +45,7 @@
 		B5C4F5D91F7BA2D300C1FF23 /* GCalendarExtendedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C4F5D81F7BA2D300C1FF23 /* GCalendarExtendedList.swift */; };
 		B5C6ACBB1F8693DA001FA175 /* EventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C6ACB91F8693DA001FA175 /* EventCell.swift */; };
 		B5C6ACBC1F8693DA001FA175 /* EventCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B5C6ACBA1F8693DA001FA175 /* EventCell.xib */; };
+		B5D5384E1F87FE3800928E64 /* Spinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D5384D1F87FE3800928E64 /* Spinner.swift */; };
 		B5D83BC31F7ADA9E004C7A12 /* Formatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D83BC21F7ADA9E004C7A12 /* Formatters.swift */; };
 		B5F638931F78F5BC00E80DEC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F638921F78F5BC00E80DEC /* AppDelegate.swift */; };
 		B5F638981F78F5BC00E80DEC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B5F638961F78F5BC00E80DEC /* Main.storyboard */; };
@@ -111,6 +112,7 @@
 		B5C4F5D81F7BA2D300C1FF23 /* GCalendarExtendedList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GCalendarExtendedList.swift; sourceTree = "<group>"; };
 		B5C6ACB91F8693DA001FA175 /* EventCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventCell.swift; sourceTree = "<group>"; };
 		B5C6ACBA1F8693DA001FA175 /* EventCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EventCell.xib; sourceTree = "<group>"; };
+		B5D5384D1F87FE3800928E64 /* Spinner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Spinner.swift; sourceTree = "<group>"; };
 		B5D83BC21F7ADA9E004C7A12 /* Formatters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Formatters.swift; sourceTree = "<group>"; };
 		B5F6388F1F78F5BC00E80DEC /* RoliqueCalendar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RoliqueCalendar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5F638921F78F5BC00E80DEC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -242,6 +244,7 @@
 			isa = PBXGroup;
 			children = (
 				B5F638C31F7A62E100E80DEC /* APIHelper.swift */,
+				B5D5384D1F87FE3800928E64 /* Spinner.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -384,6 +387,7 @@
 				B52C4EE11F7EACD2000CECC3 /* Event.swift in Sources */,
 				B5FFD1FE1F7E51000034CAB8 /* CalendarList.swift in Sources */,
 				B5C4F5D91F7BA2D300C1FF23 /* GCalendarExtendedList.swift in Sources */,
+				B5D5384E1F87FE3800928E64 /* Spinner.swift in Sources */,
 				B52C4ED51F7E9D5E000CECC3 /* DateNoTz.swift in Sources */,
 				B5F638CE1F7A668000E80DEC /* GReminder.swift in Sources */,
 				B58EECEE1F7A99170076EFDD /* GEventReminders.swift in Sources */,

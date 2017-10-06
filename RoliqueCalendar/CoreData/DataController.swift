@@ -46,27 +46,30 @@ class Dealer<R: NSManagedObject> {
                 }
                 _ = insertion(insert)
             }
-            completion()
-            saveBackgroundContext()
+            
+            saveBackgroundContext(completion: completion)
         }
     }
     
-    static func saveBackgroundContext() {
+    static func saveBackgroundContext(completion: @escaping () -> Void) {
         do {
             try CoreData.backContext.save()
-            saveMainContext()
+            saveMainContext(completion: completion)
         } catch {
             print(error)
         }
     }
     
-    static func saveMainContext() {
+    static func saveMainContext(completion: @escaping () -> Void) {
         CoreData.mainContext.performAndWait {
             do {
                 try CoreData.mainContext.save()
                 saveMasterContext()
             } catch {
                 print(error)
+            }
+            DispatchQueue.main.async {
+                completion()
             }
         }
     }

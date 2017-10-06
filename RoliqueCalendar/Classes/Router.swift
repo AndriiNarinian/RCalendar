@@ -12,7 +12,7 @@ enum APIMethod: String {
     case get = "GET"
 }
 
-typealias Parameters = [String: String]
+typealias Parameters = [String: Any]
 
 enum Router {
     fileprivate static let kBaseGoogleAPIString = "https://www.googleapis.com/calendar/v3/"
@@ -59,7 +59,7 @@ enum Router {
             return URL(string: urlString)
         }
         let urlComponents = NSURLComponents(string: urlString)
-        urlComponents?.queryItems = parameters.map { URLQueryItem(name: $0.key, value: $0.value.encoded) }
+        urlComponents?.queryItems = parameters.map { URLQueryItem(name: $0.key, value: ($0.value as? String).stringValue.encoded) }
         return urlComponents?.url
     }
 }

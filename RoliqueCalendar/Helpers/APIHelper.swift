@@ -70,27 +70,35 @@ class APIHelper {
     
     static func getEventList(with calendarId: String?, for owner: GoogleAPICompatible, bound: PaginationBound? = nil, completion: @escaping APICompletion) {
         guard let calendarId = calendarId else { owner.displayError("calendar id is missing"); return }
-        let centerDate = bounds[calendarId] == nil ? Date().withoutTime : (bound == .max ? bounds[calendarId]?.max : bounds[calendarId]?.min) ?? Date().withoutTime
-        let maxDate = (bound == .min ? bounds[calendarId]?.min : centerDate.addingTimeInterval(kEventFetchTimeInterval).withoutTime) ?? Date().withoutTime
-        let minDate = (bound == .max ? bounds[calendarId]?.max : centerDate.addingTimeInterval(-kEventFetchTimeInterval).withoutTime) ?? Date().withoutTime
-        if let bound = bound {
-            switch bound {
-            case .max: bounds[calendarId] = (maxDate, bounds[calendarId]?.min ?? minDate)
-            case .min: bounds[calendarId] = (bounds[calendarId]?.max ?? maxDate, minDate)
-            }
-        } else {
-            bounds[calendarId] = (maxDate, minDate)
-        }
-        
-        getAllPages(with: calendarId, for: owner, router: .getEventList(calendarId: calendarId, parameters: [
+
+        let params: Parameters = [
             "singleEvents": "true",
-            "timeMax": Formatters.gcFormat.string(from: maxDate),
-            "timeMin": Formatters.gcFormat.string(from: minDate)
-            ]), completion: completion)
+            "timeMax": Formatters.gcFormat.string(from: RCalendar.main.maxDate),
+            "timeMin": Formatters.gcFormat.string(from: RCalendar.main.minDate)
+        ]
+        getAllPages(with: calendarId, for: owner, parameters: params, completion: { dict in
+            
+                if let bound = bound {
+                    switch bound {
+                    case .max: RCalendar.main.bounds = (RCalendar.main.maxDate, RCalendar.main.bounds?.min ?? defaultMinDate)
+                    case .min: RCalendar.main.bounds = (RCalendar.main.bounds?.max ?? defaultMaxDate, RCalendar.main.minDate)
+                    }
+                } else {
+                    RCalendar.main.bounds = (RCalendar.main.maxDate, RCalendar.main.minDate)
+                }
+            
+                completion(dict)
+        })
     }
     
-    static func getAllPages(with calendarId: String?, for owner: GoogleAPICompatible, router: Router, transferDict: [String: Any]? = nil, completion: @escaping APICompletion) {
+    static func getAllPages(with calendarId: String?, for owner: GoogleAPICompatible, parameters: Parameters, transferDict: [String: Any]? = nil, nextPageToken: String? = nil, completion: @escaping APICompletion) {
         guard let calendarId = calendarId else { owner.displayError("calendar id is missing"); return }
+        var parameters = parameters
+        if let nextPageToken = nextPageToken {
+            parameters["pageToken"] = nextPageToken
+        }
+        let router: Router = .getEventList(calendarId: calendarId, parameters: parameters)
+        
         requestFromGoogleAPI(owner: owner, router: router, completion: handleResponce(forObject: owner, completion: { dict in
             
             var transferDct = transferDict
@@ -99,15 +107,9 @@ class APIHelper {
             existingItems.append(contentsOf: newItems)
             transferDct?["items"] = existingItems
             let trnsfrDict = transferDct ?? dict
-//            
-//            print("transferDict: \((transferDict?["items"] as? [Any])?.count)")
-//            print("dict: \((dict["items"] as? [Any])?.count)")
-//            print("transferDct: \((transferDct?["items"] as? [Any])?.count)")
-//            
+
             if let nextPageToken = dict["nextPageToken"] as? String {
-                
-                
-                getAllPages(with: calendarId, for: owner, router: .getEventList(calendarId: calendarId, parameters: ["pageToken": nextPageToken]), transferDict: trnsfrDict, completion: completion)
+                getAllPages(with: calendarId, for: owner, parameters: parameters, transferDict: trnsfrDict, nextPageToken: nextPageToken, completion: completion)
             } else {
                 completion(trnsfrDict)
             }
