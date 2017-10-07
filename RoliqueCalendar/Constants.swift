@@ -10,7 +10,7 @@ import UIKit
 
 typealias VC = UIViewController
 
-let kEventFetchTimeInterval: TimeInterval = 3600 * 24 * 30 * 3
+let kEventFetchTimeInterval: TimeInterval = 3600 * 24 * 365 / 4
 
 let defaultMinDate = Date().addingTimeInterval(-kEventFetchTimeInterval).withoutTime
 let defaultMaxDate = Date().addingTimeInterval(kEventFetchTimeInterval).withoutTime

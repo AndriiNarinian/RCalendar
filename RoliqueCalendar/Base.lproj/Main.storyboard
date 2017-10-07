@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -120,16 +121,46 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fff-Pp-nYG" customClass="OverlayButton" customModule="RoliqueCalendar" customModuleProvider="target">
+                                <rect key="frame" x="291" y="557" width="64" height="64"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="64" id="2q4-Y2-zWa"/>
+                                    <constraint firstAttribute="width" constant="64" id="Pp3-YU-aOc"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YLN-ow-JJV">
+                                <rect key="frame" x="329" y="30" width="30" height="30"/>
+                                <subviews>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Prc-ca-5JC">
+                                        <rect key="frame" x="5" y="5" width="20" height="20"/>
+                                        <color key="color" red="0.28627450980000002" green="0.52549019610000003" blue="0.90588235289999997" alpha="1" colorSpace="calibratedRGB"/>
+                                    </activityIndicatorView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="30" id="5Q1-yx-9uM"/>
+                                    <constraint firstAttribute="height" constant="30" id="FxE-dD-IPe"/>
+                                    <constraint firstItem="Prc-ca-5JC" firstAttribute="centerX" secondItem="YLN-ow-JJV" secondAttribute="centerX" id="goF-g7-i1O"/>
+                                    <constraint firstItem="Prc-ca-5JC" firstAttribute="centerY" secondItem="YLN-ow-JJV" secondAttribute="centerY" id="kfN-VO-adJ"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="4Cb-b5-iiU" secondAttribute="bottom" id="27V-Up-Wdn"/>
                             <constraint firstItem="4Cb-b5-iiU" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="dO0-14-ZvR"/>
                             <constraint firstAttribute="trailing" secondItem="4Cb-b5-iiU" secondAttribute="trailing" id="dVh-Ir-Xkc"/>
+                            <constraint firstItem="YLN-ow-JJV" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="10" id="eTt-2P-dxM"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="fff-Pp-nYG" secondAttribute="bottom" constant="46" id="mdp-vY-NZN"/>
                             <constraint firstItem="4Cb-b5-iiU" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="ubO-8s-pZ3"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="YLN-ow-JJV" secondAttribute="trailing" id="yHp-zD-R1V"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="fff-Pp-nYG" secondAttribute="trailing" constant="4" id="yhn-eD-g4A"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="activityIndicator" destination="Prc-ca-5JC" id="yQj-8e-xvN"/>
+                        <outlet property="overlayButton" destination="fff-Pp-nYG" id="u0o-sx-KEr"/>
                         <outlet property="tableView" destination="4Cb-b5-iiU" id="IXP-Cv-4nk"/>
                     </connections>
                 </viewController>

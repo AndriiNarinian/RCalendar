@@ -77,17 +77,32 @@ class APIHelper {
             "timeMin": Formatters.gcFormat.string(from: RCalendar.main.minDate)
         ]
         getAllPages(with: calendarId, for: owner, parameters: params, completion: { dict in
-            
-                if let bound = bound {
-                    switch bound {
-                    case .max: RCalendar.main.bounds = (RCalendar.main.maxDate, RCalendar.main.bounds?.min ?? defaultMinDate)
-                    case .min: RCalendar.main.bounds = (RCalendar.main.bounds?.max ?? defaultMaxDate, RCalendar.main.minDate)
-                    }
-                } else {
-                    RCalendar.main.bounds = (RCalendar.main.maxDate, RCalendar.main.minDate)
+            let sortedAllDays = dict["items"].jsonArrayValue.map { dict -> Date? in
+                let date = Formatters.gcFormatDate.date(from: (dict["start"].jsonValue["date"] as? String).stringValue)
+                let dateTime = Formatters.gcFormatTz.date(from: (dict["start"].jsonValue["dateTime"] as? String).stringValue)
+                
+                return dateTime ?? date
+                }.flatMap { $0 }.sorted(by: { $0 > $1 })
+
+            if let bound = bound, let loadedMaxDate = sortedAllDays.first?.withoutTime, let loadedMinDate = sortedAllDays.last?.withoutTime {
+                switch bound {
+                case .max:
+                    let maxBound = RCalendar.main.maxDate// <= loadedMaxDate ? RCalendar.main.maxDate : loadedMaxDate
+                    let minBound = RCalendar.main.bounds?.min ?? defaultMinDate
+                    let bounds = (maxBound, minBound)
+                    RCalendar.main.bounds = bounds
+                case .min:
+                    let maxBound = RCalendar.main.bounds?.max ?? defaultMaxDate
+                    let minBound = RCalendar.main.minDate// >= loadedMinDate ? RCalendar.main.minDate : loadedMinDate
+                    let bounds = (maxBound, minBound)
+                    RCalendar.main.bounds = bounds
                 }
+            } else {
+                RCalendar.main.bounds = (RCalendar.main.bounds?.max ?? defaultMaxDate, RCalendar.main.bounds?.min ?? defaultMinDate)
+                
+            }
             
-                completion(dict)
+            completion(dict)
         })
     }
     

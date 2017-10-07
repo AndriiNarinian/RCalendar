@@ -9,19 +9,50 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="EventSectionHeaderView" customModule="RoliqueCalendar" customModuleProvider="target"/>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="EventSectionHeaderView" customModule="RoliqueCalendar" customModuleProvider="target">
+            <connections>
+                <outlet property="monthLabel" destination="T0b-Bu-cJO" id="Aqa-ch-VQC"/>
+                <outlet property="shadowView" destination="YVk-53-Uai" id="07I-Lo-cgc"/>
+            </connections>
+        </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB">
-            <rect key="frame" x="0.0" y="0.0" width="375" height="63"/>
+            <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ulM-77-Vcm">
-                    <rect key="frame" x="43" y="-8" width="240" height="128"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ulM-77-Vcm">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YVk-53-Uai">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </view>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T0b-Bu-cJO">
+                            <rect key="frame" x="70" y="13" width="205" height="24"/>
+                            <fontDescription key="fontDescription" type="system" weight="light" pointSize="20"/>
+                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstItem="T0b-Bu-cJO" firstAttribute="leading" secondItem="ulM-77-Vcm" secondAttribute="leading" constant="70" id="NiN-57-tvj"/>
+                        <constraint firstAttribute="trailing" secondItem="YVk-53-Uai" secondAttribute="trailing" id="QV4-9O-Hbe"/>
+                        <constraint firstItem="YVk-53-Uai" firstAttribute="leading" secondItem="ulM-77-Vcm" secondAttribute="leading" id="n90-ig-7Jp"/>
+                        <constraint firstAttribute="trailing" secondItem="T0b-Bu-cJO" secondAttribute="trailing" constant="100" id="ocU-T6-8Pe"/>
+                        <constraint firstItem="YVk-53-Uai" firstAttribute="top" secondItem="ulM-77-Vcm" secondAttribute="top" id="tck-j0-gRL"/>
+                        <constraint firstAttribute="bottom" secondItem="YVk-53-Uai" secondAttribute="bottom" id="urn-c9-i8e"/>
+                        <constraint firstItem="T0b-Bu-cJO" firstAttribute="centerY" secondItem="ulM-77-Vcm" secondAttribute="centerY" id="zBu-D7-Otn"/>
+                    </constraints>
                 </view>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="ulM-77-Vcm" secondAttribute="trailing" id="CTg-ir-9GA"/>
+                <constraint firstAttribute="bottom" secondItem="ulM-77-Vcm" secondAttribute="bottom" id="MgY-GG-zvJ"/>
+                <constraint firstItem="ulM-77-Vcm" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="c4W-l8-cEO"/>
+                <constraint firstItem="ulM-77-Vcm" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="tr9-gN-uAh"/>
+            </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="34.5" y="-208.5"/>
         </view>

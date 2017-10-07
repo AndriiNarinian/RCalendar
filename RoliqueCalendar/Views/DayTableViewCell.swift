@@ -16,6 +16,12 @@ class DayTableViewCell: UITableViewCell {
     
     var day: Day?
     
+    var events: [Event] { return Unwrap<Event>.arrayValueFromSet(day?.events).sorted(by: { (event1, event2) -> Bool in
+        guard let date1 = event1.start?.dateToUse, let date2 = event2.start?.dateToUse else { return false }
+        return (date1 as Date) < (date2 as Date)
+    })
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -39,9 +45,6 @@ class DayTableViewCell: UITableViewCell {
     }
 
     func parentTableViewDidScroll(_ rect: CGRect, with day: Day?) {
-//        guard let date = day?.date as Date? else { return }
-//        print("\(Formatters.dayNumber.string(from: date)) - \(Formatters.dayNameShort.string(from: date))")
-//        print("self.day?.date: \(self.day?.timeStamp)")
         guard rect.origin.y < 0 else {
             movingView.layer.frame.origin.y = 0
             
@@ -55,21 +58,13 @@ class DayTableViewCell: UITableViewCell {
 
 extension DayTableViewCell: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return day?.events?.count ?? 0
+        return events.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "EventCell") as! EventCell
-        let event = (day?.events?.array as? [Event])?[safe: indexPath.row]
+        let event = events[safe: indexPath.row]
         cell.update(with: event)
-//        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "cell")
-//        let event = (day?.events?.array as? [Event])?[indexPath.row]
-//        cell.textLabel?.text = event?.summary
-//        cell.textLabel?.textColor = .white
-//        cell.detailTextLabel?.text = Formatters.dateAndTime.string(from: (event?.start?.dateToUse ?? NSDate()) as Date)
-//        cell.detailTextLabel?.textColor = .white
-//        cell.contentView.backgroundColor = UIColor(hexString: event?.calendarColor ?? "")
-//        cell.contentView.layer.cornerRadius = 4.0
         
         return cell
     }

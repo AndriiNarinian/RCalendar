@@ -46,6 +46,9 @@
 		B5C6ACBB1F8693DA001FA175 /* EventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C6ACB91F8693DA001FA175 /* EventCell.swift */; };
 		B5C6ACBC1F8693DA001FA175 /* EventCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B5C6ACBA1F8693DA001FA175 /* EventCell.xib */; };
 		B5D5384E1F87FE3800928E64 /* Spinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D5384D1F87FE3800928E64 /* Spinner.swift */; };
+		B5D538501F88739100928E64 /* OverlayButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = B5D5384F1F88739100928E64 /* OverlayButton.xib */; };
+		B5D538521F8874D200928E64 /* OverlayButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D538511F8874D200928E64 /* OverlayButton.swift */; };
+		B5D538541F88882B00928E64 /* SideShadowLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D538531F88882B00928E64 /* SideShadowLayer.swift */; };
 		B5D83BC31F7ADA9E004C7A12 /* Formatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D83BC21F7ADA9E004C7A12 /* Formatters.swift */; };
 		B5F638931F78F5BC00E80DEC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F638921F78F5BC00E80DEC /* AppDelegate.swift */; };
 		B5F638981F78F5BC00E80DEC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B5F638961F78F5BC00E80DEC /* Main.storyboard */; };
@@ -113,6 +116,9 @@
 		B5C6ACB91F8693DA001FA175 /* EventCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventCell.swift; sourceTree = "<group>"; };
 		B5C6ACBA1F8693DA001FA175 /* EventCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EventCell.xib; sourceTree = "<group>"; };
 		B5D5384D1F87FE3800928E64 /* Spinner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Spinner.swift; sourceTree = "<group>"; };
+		B5D5384F1F88739100928E64 /* OverlayButton.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OverlayButton.xib; sourceTree = "<group>"; };
+		B5D538511F8874D200928E64 /* OverlayButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OverlayButton.swift; sourceTree = "<group>"; };
+		B5D538531F88882B00928E64 /* SideShadowLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SideShadowLayer.swift; sourceTree = "<group>"; };
 		B5D83BC21F7ADA9E004C7A12 /* Formatters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Formatters.swift; sourceTree = "<group>"; };
 		B5F6388F1F78F5BC00E80DEC /* RoliqueCalendar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RoliqueCalendar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5F638921F78F5BC00E80DEC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -195,6 +201,7 @@
 				B510998D1F84EB9D00A416BE /* Router.swift */,
 				B510998E1F84EB9D00A416BE /* MultiActionAlert.swift */,
 				B5D83BC21F7ADA9E004C7A12 /* Formatters.swift */,
+				B5D538531F88882B00928E64 /* SideShadowLayer.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -259,6 +266,8 @@
 				B51099991F851A0F00A416BE /* DayTableViewCell.xib */,
 				B5C6ACB91F8693DA001FA175 /* EventCell.swift */,
 				B5C6ACBA1F8693DA001FA175 /* EventCell.xib */,
+				B5D5384F1F88739100928E64 /* OverlayButton.xib */,
+				B5D538511F8874D200928E64 /* OverlayButton.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -360,6 +369,7 @@
 			files = (
 				B5F638A71F7902F100E80DEC /* GoogleSignIn.bundle in Resources */,
 				B5F6389D1F78F5BC00E80DEC /* LaunchScreen.storyboard in Resources */,
+				B5D538501F88739100928E64 /* OverlayButton.xib in Resources */,
 				B5F6389A1F78F5BC00E80DEC /* Assets.xcassets in Resources */,
 				B5F638981F78F5BC00E80DEC /* Main.storyboard in Resources */,
 				B51099931F850D0200A416BE /* EventSectionHeaderView.xib in Resources */,
@@ -391,9 +401,11 @@
 				B52C4ED51F7E9D5E000CECC3 /* DateNoTz.swift in Sources */,
 				B5F638CE1F7A668000E80DEC /* GReminder.swift in Sources */,
 				B58EECEE1F7A99170076EFDD /* GEventReminders.swift in Sources */,
+				B5D538541F88882B00928E64 /* SideShadowLayer.swift in Sources */,
 				B52C4EDD1F7EABFE000CECC3 /* EventReminders.swift in Sources */,
 				B5F638C81F7A64C500E80DEC /* ViewController.swift in Sources */,
 				B59BAD901F7AA3D400A65AD1 /* GErrorModel.swift in Sources */,
+				B5D538521F8874D200928E64 /* OverlayButton.swift in Sources */,
 				B52C4ED71F7EA128000CECC3 /* TimeStamp.swift in Sources */,
 				B5F638931F78F5BC00E80DEC /* AppDelegate.swift in Sources */,
 				B51099911F84EB9D00A416BE /* MultiActionAlert.swift in Sources */,

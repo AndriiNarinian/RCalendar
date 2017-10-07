@@ -23,6 +23,7 @@ class EventCell: UITableViewCell {
         backView.backgroundColor = calendarColorHex != nil ? UIColor(hexString: calendarColorHex!) : .darkGray
         backView.layer.cornerRadius = 4.0
         calendarsLabel.text = String(describing: event?.calendars.map { $0.name } ?? [""] )
+        
         //[RRULE:FREQ=YEARLY]
         //[RRULE:FREQ=WEEKLY;BYDAY=TH]
         //[EXDATE;TZID=Europe/Kiev:20170801T103000,20170808T103000,20170810T103000,20170815T103000, RRULE:FREQ=WEEKLY;UNTIL=20170821T205959Z;BYDAY=TU,TH]

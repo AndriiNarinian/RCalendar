@@ -43,6 +43,7 @@ protocol ProxyConfigWithTableViewDelegate: class {
     func willDisplayLastRow()
     func willDisplayFirstRow()
     func didUpdate()
+    func willUpdate()
 }
 
 struct ProxyConfigWithTableView: ProxyConfig {
@@ -87,6 +88,8 @@ protocol CoreDataProxyDelegate: class {
 }
 
 class CoreDataProxy<ResultType: NSFetchRequestResult>: NSObject, UITableViewDelegate, UITableViewDataSource, NSFetchedResultsControllerDelegate {
+    
+    let kHeaderHeight: CGFloat = 50
     
     var tableView: UITableView?
     var delegate: CoreDataProxyDelegate?
@@ -141,17 +144,17 @@ class CoreDataProxy<ResultType: NSFetchRequestResult>: NSObject, UITableViewDele
         let sectionInfo = sections[section]
         return sectionInfo.numberOfObjects
     }
-    
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return fetchedResultsController?.sections?[section].name
-    }
-    
+//    
+//    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//        return fetchedResultsController?.sections?[section].name
+//    }
+//    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         guard let indexPaths = tableView?.indexPathsForVisibleRows else { return }
         indexPaths.forEach {
             guard let cell = tableView?.cellForRow(at: $0) as? DayTableViewCell, let rect = tableView?.rectForRow(at: $0) else { return }
             let converted = tableView?.convert(rect, to: tableView?.superview)
-            let rec = CGRect(x: converted?.origin.x ?? 0, y: (converted?.origin.y ?? 0) - 20 - 28, width: converted?.width ?? 0, height: converted?.height ?? 0)
+            let rec = CGRect(x: converted?.origin.x ?? 0, y: (converted?.origin.y ?? 0) - 20 - kHeaderHeight, width: converted?.width ?? 0, height: converted?.height ?? 0)
             if let day = fetchedResultsController?.object(at: $0) as? Day {
                 if day.timeStamp == cell.day?.timeStamp {
                     cell.parentTableViewDidScroll(rec, with: day)
@@ -167,9 +170,10 @@ class CoreDataProxy<ResultType: NSFetchRequestResult>: NSObject, UITableViewDele
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        let day = (fetchedResultsController?.object(at: indexPath) as? Day)
         if let lastIndexPath = lastIndexPath {
-            let day = (fetchedResultsController?.object(at: indexPath) as? Day)
             let currentDate = day?.date as Date?
+            
             if lastIndexPath < indexPath {
                 // going down
                 if let current = currentDate, let max = RCalendar.main.bounds?.max {
@@ -181,7 +185,7 @@ class CoreDataProxy<ResultType: NSFetchRequestResult>: NSObject, UITableViewDele
                 // going up
                 if let current = currentDate, let min = RCalendar.main.bounds?.min {
                     if current < min {
-                        config?.proxyConfigTableViewDelegate?.willDisplayLastRow()
+                        config?.proxyConfigTableViewDelegate?.willDisplayFirstRow()
                     }
                 }
             }
@@ -201,16 +205,17 @@ class CoreDataProxy<ResultType: NSFetchRequestResult>: NSObject, UITableViewDele
         }
     }
     
-//    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-//        return 50
-//    }
-//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//        let header = EventSectionHeaderView(frame: .zero)
-//        guard let date = Formatters.gcFormatDate.date(from: fetchedResultsController?.sections?[section].name ?? "") else { return nil }
-//        header.dayNumber.text = Formatters.dayNumber.string(from: date)
-//        header.dayName.text = Formatters.dayNameShort.string(from: date)
-//        return header
-//    }
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return kHeaderHeight
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let header = EventSectionHeaderView(frame: .zero)
+        guard let date = Formatters.monthAndYear.date(from: fetchedResultsController?.sections?[section].name ?? "") else { return nil }
+        header.monthLabel.text = Formatters.monthAndYear.string(from: date)
+
+        return header
+    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let object = fetchedResultsController?.object(at: indexPath)
@@ -297,6 +302,7 @@ class CoreDataProxy<ResultType: NSFetchRequestResult>: NSObject, UITableViewDele
                 case .rowInsertion:
                     self.tableView?.endUpdates()
                 case .tableViewReload:
+                    config.proxyConfigTableViewDelegate?.willUpdate()
                     config.tableView?.reloadData()
                     config.proxyConfigTableViewDelegate?.didUpdate()
                 }

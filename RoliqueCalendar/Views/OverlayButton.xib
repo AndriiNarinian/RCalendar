@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="OverlayButton" customModule="RoliqueCalendar" customModuleProvider="target">
+            <connections>
+                <outlet property="backView" destination="qUW-Uh-qEl" id="4wA-aT-48s"/>
+                <outlet property="button" destination="LoI-Gy-eA4" id="4Rm-7H-Pg4"/>
+                <outlet property="imageView" destination="d7Z-02-tNO" id="3wm-xG-XUx"/>
+                <outlet property="textLabel" destination="zWO-AW-Ka1" id="irf-3x-0hK"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qUW-Uh-qEl">
+                    <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="d7Z-02-tNO">
+                            <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zWO-AW-Ka1">
+                            <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
+                            <color key="textColor" red="0.28627450980000002" green="0.52549019610000003" blue="0.90588235289999997" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LoI-Gy-eA4">
+                            <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstItem="zWO-AW-Ka1" firstAttribute="leading" secondItem="qUW-Uh-qEl" secondAttribute="leading" id="0Mb-Gu-lBT"/>
+                        <constraint firstAttribute="trailing" secondItem="d7Z-02-tNO" secondAttribute="trailing" id="4qK-VF-btz"/>
+                        <constraint firstAttribute="bottom" secondItem="LoI-Gy-eA4" secondAttribute="bottom" id="8uX-UJ-f4f"/>
+                        <constraint firstAttribute="trailing" secondItem="zWO-AW-Ka1" secondAttribute="trailing" id="EB7-vn-s6I"/>
+                        <constraint firstAttribute="trailing" secondItem="LoI-Gy-eA4" secondAttribute="trailing" id="Qi8-0y-Hcn"/>
+                        <constraint firstItem="d7Z-02-tNO" firstAttribute="leading" secondItem="qUW-Uh-qEl" secondAttribute="leading" id="R0b-BS-0Mk"/>
+                        <constraint firstItem="LoI-Gy-eA4" firstAttribute="leading" secondItem="qUW-Uh-qEl" secondAttribute="leading" id="ReY-wf-RcW"/>
+                        <constraint firstAttribute="bottom" secondItem="zWO-AW-Ka1" secondAttribute="bottom" id="Yu7-R6-a27"/>
+                        <constraint firstItem="d7Z-02-tNO" firstAttribute="top" secondItem="qUW-Uh-qEl" secondAttribute="top" id="g9L-QJ-Tnk"/>
+                        <constraint firstAttribute="bottom" secondItem="d7Z-02-tNO" secondAttribute="bottom" id="r5s-Ye-ClP"/>
+                        <constraint firstItem="LoI-Gy-eA4" firstAttribute="top" secondItem="qUW-Uh-qEl" secondAttribute="top" id="s6E-Aw-rFB"/>
+                        <constraint firstItem="zWO-AW-Ka1" firstAttribute="top" secondItem="qUW-Uh-qEl" secondAttribute="top" id="xbn-6A-Xn8"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="qUW-Uh-qEl" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="GSy-6K-tCj"/>
+                <constraint firstItem="qUW-Uh-qEl" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="X8z-4I-1dl"/>
+                <constraint firstAttribute="trailing" secondItem="qUW-Uh-qEl" secondAttribute="trailing" id="cKf-kq-9q8"/>
+                <constraint firstAttribute="bottom" secondItem="qUW-Uh-qEl" secondAttribute="bottom" id="mdi-aT-6vE"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="-103" y="-206"/>
+        </view>
+    </objects>
+</document>

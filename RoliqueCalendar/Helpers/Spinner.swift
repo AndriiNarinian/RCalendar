@@ -13,10 +13,11 @@ class Spinner {
     private init () {}
     
     lazy var activityView: UIActivityIndicatorView = {
-        return UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
+        return UIActivityIndicatorView(activityIndicatorStyle: .gray)
     }()
     
     static func show(on view: UIView) {
+        shared.activityView.isHidden = false
         shared.activityView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         shared.activityView.center = view.center
         view.addSubview(shared.activityView)
