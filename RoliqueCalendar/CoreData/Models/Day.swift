@@ -25,4 +25,10 @@ extension Day {
         day.timeStamp = Formatters.gcFormatDate.string(from: date as Date)
         return day
     }
+    
+    var sortedEvents: [Event] { return Unwrap<Event>.arrayValueFromSet(events).sorted(by: { (event1, event2) -> Bool in
+        guard let date1 = event1.start?.dateToUse, let date2 = event2.start?.dateToUse else { return false }
+        return (date1 as Date) < (date2 as Date)
+    })
+    }
 }

@@ -15,8 +15,14 @@ class ViewController: VC, GoogleAPICompatible {
     fileprivate var isLoading = false
     fileprivate var topDay: Day?
     
+    fileprivate var eventToOpen: (event: Event, rect: CGRect)?
+    
+    let transition = PopAnimator()
+    let interactor = Interactor()
+    
     var lastMinOffset: CGFloat?
     var lastBound: PaginationBound?
+    var selectedEventCell: EventCell?
     
     @IBOutlet weak var overlayButton: OverlayButton!
     @IBOutlet weak var tableView: UITableView!
@@ -25,8 +31,9 @@ class ViewController: VC, GoogleAPICompatible {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        tableView.rowHeight = UITableViewAutomaticDimension
-//        tableView.estimatedRowHeight = 100
+        transition.dismissCompletion = { [unowned self] in
+            self.selectedEventCell?.backView.isHidden = false
+        }
         
         tableView.register(UINib(nibName: "DayTableViewCell", bundle: nil), forCellReuseIdentifier: "DayTableViewCell")
         
@@ -40,7 +47,7 @@ class ViewController: VC, GoogleAPICompatible {
         ) { [unowned self] (object, indexPath) -> UITableViewCell in
             if let day = object as? Day {
                 let cell = self.tableView.dequeueReusableCell(withIdentifier: "DayTableViewCell") as! DayTableViewCell
-                cell.update(with: day)
+                cell.update(with: day, delegate: self)
                 return cell
             }
             return UITableViewCell()
@@ -74,17 +81,23 @@ class ViewController: VC, GoogleAPICompatible {
     
     fileprivate func findDay(with date: Date) -> Day? {
         let sectionInfo = eventProxy.fetchedResultsController?.sections?.filter { $0.name == Formatters.monthAndYear.string(from: date) }.first
-        let day = sectionInfo?.objects?.filter({ object -> Bool in
+        let days = sectionInfo?.objects?.filter({ object -> Bool in
             guard let date: Date = (object as? Day)?.date as Date? else { return false }
             let upperBound = date.addingTimeInterval(3600 * 24 * 3).withoutTime
             let lowerBound = date.addingTimeInterval(-3600 * 24 * 3).withoutTime
             let isValidInBoinds = (Date().withoutTime < upperBound) && (Date().withoutTime > lowerBound )
             return (date.withoutTime == Date().withoutTime) || isValidInBoinds
         }).sorted(by: { (day1, day2) -> Bool in
-            guard let date1 = ((day1 as? Day)?.date) as Date?, let date2 = ((day2 as? Day)?.date) as Date? else { return false }
-            return (date1.timeIntervalSince(Date())) > (date2.timeIntervalSince(Date()))
-        }).first as? Day
-        return day
+            guard let date1 = ((day1 as? Day)?.date) as Date?, let date2 = ((day2 as? Day)?.date) as Date? else {
+                
+                return false }
+            let interval1 = date1.timeIntervalSince(Date())
+            let interval2 = date2.timeIntervalSince(Date())
+            let result = abs(interval1) < abs(interval2)
+
+            return result })
+        
+        return days?.first as? Day
     }
 }
 
@@ -102,7 +115,27 @@ fileprivate extension ViewController {
     }
 }
 
+extension ViewController: DayTableViewCellDelegate {
+    func dayTableViewCelldidSelectEvent(cell: DayTableViewCell, on day: Day?, at indexPath: IndexPath) {
+        guard let day = day, let event = day.sortedEvents[safe: indexPath.row] else { return }
+        self.selectedEventCell = cell.tableView.cellForRow(at: indexPath) as? EventCell
+        let backView = (cell.tableView.cellForRow(at: indexPath) as! EventCell).backView!
+        let localRect = cell.tableView.convert(backView.frame, from: backView)
+        let rect = cell.tableView.convert(localRect, to: view)
+        eventToOpen = (event, rect)
+        let vc = EventDetailVC.deploy(with: event)
+        vc.transitioningDelegate = self
+        vc.interactor = interactor
+        vc.modalPresentationStyle = .overFullScreen
+        present(vc, animated: true) {}
+    }
+}
+
 extension ViewController: ProxyConfigWithTableViewDelegate {
+    func didSelectRow(at indexPath: IndexPath) {
+        
+    }
+
 
     func willUpdate() {
         if lastBound == .min {
@@ -124,5 +157,25 @@ extension ViewController: ProxyConfigWithTableViewDelegate {
     func willDisplayLastRow() {
         loadEvents(bound: .max)
         lastBound = .max
+    }
+}
+
+extension ViewController: UIViewControllerTransitioningDelegate {
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        guard let eventToOpen = eventToOpen else { return nil }
+
+        transition.originFrame = eventToOpen.rect
+        transition.presenting = true
+        selectedEventCell?.backView.isHidden = true
+        return transition
+    }
+    
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        transition.presenting = false
+        return transition
+    }
+    
+    func interactionControllerForDismissal(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+        return interactor.hasStarted ? interactor : nil
     }
 }

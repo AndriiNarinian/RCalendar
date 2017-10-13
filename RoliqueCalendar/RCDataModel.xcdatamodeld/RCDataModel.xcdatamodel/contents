@@ -133,6 +133,7 @@
         <attribute name="displayName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="imageUrl" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="isOptional" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="isOrganizer" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="isResource" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
@@ -156,6 +157,6 @@
         <element name="Reminder" positionX="-594" positionY="-666" width="128" height="73"/>
         <element name="Source" positionX="-389" positionY="-252" width="128" height="73"/>
         <element name="TimeStamp" positionX="-47" positionY="-259" width="128" height="103"/>
-        <element name="User" positionX="-576" positionY="-873" width="128" height="193"/>
+        <element name="User" positionX="-576" positionY="-873" width="128" height="210"/>
     </elements>
 </model>

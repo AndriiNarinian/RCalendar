@@ -56,4 +56,10 @@ struct Formatters {
         formatter.dateFormat = "MMMM yyyy"
         return formatter
     }
+    
+    static var dayAndMonthAndYear: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "EEEE, MMM d, yyyy"
+        return formatter
+    }
 }

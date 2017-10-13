@@ -168,5 +168,183 @@
             </objects>
             <point key="canvasLocation" x="140" y="108.39580209895054"/>
         </scene>
+        <!--Event DetailVC-->
+        <scene sceneID="wK1-ZX-FhD">
+            <objects>
+                <viewController storyboardIdentifier="EventDetailVC" id="MdJ-9Z-zCn" customClass="EventDetailVC" customModule="RoliqueCalendar" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="xBf-sD-FvD"/>
+                        <viewControllerLayoutGuide type="bottom" id="jWD-rt-byp"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Wti-gC-apI">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="umG-Pg-0g6">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="94"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1vE-nD-EBL">
+                                        <rect key="frame" x="8" y="24" width="46" height="30"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="26"/>
+                                        <state key="normal" title="✕">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vUB-TK-Dpt">
+                                        <rect key="frame" x="321" y="24" width="46" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="30" id="FBv-jo-Mll"/>
+                                            <constraint firstAttribute="width" constant="46" id="ICc-Kf-fgC"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <state key="normal" title="•••">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SCp-3S-V0R">
+                                        <rect key="frame" x="8" y="62" width="359" height="24"/>
+                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstItem="1vE-nD-EBL" firstAttribute="height" secondItem="vUB-TK-Dpt" secondAttribute="height" id="2eK-Pa-phB"/>
+                                    <constraint firstItem="1vE-nD-EBL" firstAttribute="leading" secondItem="umG-Pg-0g6" secondAttribute="leading" constant="8" id="KgW-Zw-4JT"/>
+                                    <constraint firstItem="1vE-nD-EBL" firstAttribute="centerY" secondItem="vUB-TK-Dpt" secondAttribute="centerY" id="NVh-Af-nuD"/>
+                                    <constraint firstAttribute="bottom" secondItem="SCp-3S-V0R" secondAttribute="bottom" constant="8" id="OFC-sx-VpI"/>
+                                    <constraint firstAttribute="trailing" secondItem="SCp-3S-V0R" secondAttribute="trailing" constant="8" id="SS6-eP-hXn"/>
+                                    <constraint firstItem="1vE-nD-EBL" firstAttribute="width" secondItem="vUB-TK-Dpt" secondAttribute="width" id="WhL-Wr-5Ff"/>
+                                    <constraint firstItem="SCp-3S-V0R" firstAttribute="top" secondItem="vUB-TK-Dpt" secondAttribute="bottom" constant="8" id="ZiW-P6-fx5"/>
+                                    <constraint firstItem="SCp-3S-V0R" firstAttribute="leading" secondItem="umG-Pg-0g6" secondAttribute="leading" constant="8" id="b0Y-wa-nDj"/>
+                                    <constraint firstAttribute="trailing" secondItem="vUB-TK-Dpt" secondAttribute="trailing" constant="8" id="c8N-Om-B6Q"/>
+                                    <constraint firstItem="vUB-TK-Dpt" firstAttribute="top" secondItem="umG-Pg-0g6" secondAttribute="top" constant="24" id="iXu-gr-PSo"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zH9-AU-DXk">
+                                <rect key="frame" x="0.0" y="94" width="375" height="573"/>
+                                <subviews>
+                                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ahD-1T-eHW">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="573"/>
+                                        <subviews>
+                                            <stackView opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="110" placeholderIntrinsicHeight="200" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="64x-J2-q6j">
+                                                <rect key="frame" x="0.0" y="0.0" width="375" height="1376"/>
+                                                <subviews>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wxt-u5-wi1" customClass="BasicEventAttributeView" customModule="RoliqueCalendar" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="0.0" width="375" height="200"/>
+                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="typeId">
+                                                                <integer key="value" value="0"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
+                                                    </view>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lOD-b7-M6B" customClass="BasicEventAttributeView" customModule="RoliqueCalendar" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="208" width="375" height="200"/>
+                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="typeId">
+                                                                <integer key="value" value="1"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
+                                                    </view>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5Ch-cu-LC6" customClass="BasicEventAttributeView" customModule="RoliqueCalendar" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="416" width="375" height="200"/>
+                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="typeId">
+                                                                <integer key="value" value="2"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
+                                                    </view>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NhW-x0-Jes" customClass="BasicEventAttributeView" customModule="RoliqueCalendar" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="624" width="375" height="200"/>
+                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="typeId">
+                                                                <integer key="value" value="3"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
+                                                    </view>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QtN-C5-tbD" customClass="BasicEventAttributeView" customModule="RoliqueCalendar" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="832" width="375" height="200"/>
+                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="typeId">
+                                                                <integer key="value" value="4"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
+                                                    </view>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kOl-Og-m0l" customClass="TableEventAttributeView" customModule="RoliqueCalendar" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="1040" width="375" height="200"/>
+                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="200" id="sYG-AG-IAG"/>
+                                                        </constraints>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="typeId">
+                                                                <integer key="value" value="5"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
+                                                    </view>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gKT-w9-iKy" customClass="BasicEventAttributeView" customModule="RoliqueCalendar" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="1248" width="375" height="128"/>
+                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="typeId">
+                                                                <integer key="value" value="6"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
+                                                    </view>
+                                                </subviews>
+                                            </stackView>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstItem="64x-J2-q6j" firstAttribute="top" secondItem="ahD-1T-eHW" secondAttribute="top" id="1fn-Bw-P26"/>
+                                            <constraint firstItem="64x-J2-q6j" firstAttribute="leading" secondItem="ahD-1T-eHW" secondAttribute="leading" id="MDv-nS-wb7"/>
+                                            <constraint firstAttribute="trailing" secondItem="64x-J2-q6j" secondAttribute="trailing" id="NRc-5d-2JC"/>
+                                            <constraint firstAttribute="bottom" secondItem="64x-J2-q6j" secondAttribute="bottom" id="Yoc-BD-jxD"/>
+                                        </constraints>
+                                        <connections>
+                                            <outlet property="delegate" destination="MdJ-9Z-zCn" id="Ufd-jT-XZv"/>
+                                        </connections>
+                                    </scrollView>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="ahD-1T-eHW" firstAttribute="top" secondItem="zH9-AU-DXk" secondAttribute="top" id="HSA-sE-fko"/>
+                                    <constraint firstItem="64x-J2-q6j" firstAttribute="width" secondItem="zH9-AU-DXk" secondAttribute="width" id="MNW-B8-1JQ"/>
+                                    <constraint firstItem="ahD-1T-eHW" firstAttribute="leading" secondItem="zH9-AU-DXk" secondAttribute="leading" id="SAi-sY-Mpm"/>
+                                    <constraint firstAttribute="bottom" secondItem="ahD-1T-eHW" secondAttribute="bottom" id="h0z-hp-qHt"/>
+                                    <constraint firstAttribute="trailing" secondItem="ahD-1T-eHW" secondAttribute="trailing" id="n6c-LF-tJu"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="zH9-AU-DXk" secondAttribute="trailing" id="0jf-m2-EPg"/>
+                            <constraint firstItem="zH9-AU-DXk" firstAttribute="top" secondItem="umG-Pg-0g6" secondAttribute="bottom" id="Bgq-20-l1q"/>
+                            <constraint firstItem="zH9-AU-DXk" firstAttribute="leading" secondItem="Wti-gC-apI" secondAttribute="leading" id="FIa-aD-j5c"/>
+                            <constraint firstItem="jWD-rt-byp" firstAttribute="top" secondItem="zH9-AU-DXk" secondAttribute="bottom" id="Hfn-tT-A9f"/>
+                            <constraint firstAttribute="trailing" secondItem="umG-Pg-0g6" secondAttribute="trailing" id="Py8-LK-yqC"/>
+                            <constraint firstItem="umG-Pg-0g6" firstAttribute="top" secondItem="Wti-gC-apI" secondAttribute="top" id="eRJ-e3-EbO"/>
+                            <constraint firstItem="umG-Pg-0g6" firstAttribute="leading" secondItem="Wti-gC-apI" secondAttribute="leading" id="f9z-vG-4Zs"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="closeButton" destination="1vE-nD-EBL" id="08R-aw-yG1"/>
+                        <outlet property="editButton" destination="vUB-TK-Dpt" id="ghu-0O-bmb"/>
+                        <outlet property="headerBackView" destination="umG-Pg-0g6" id="Dhc-Yw-6Si"/>
+                        <outlet property="scrollView" destination="ahD-1T-eHW" id="1oM-Yy-r0D"/>
+                        <outlet property="stackView" destination="64x-J2-q6j" id="Mli-LA-bca"/>
+                        <outlet property="tableviewHeightConstraint" destination="sYG-AG-IAG" id="Vuv-Av-NjY"/>
+                        <outlet property="titleLabel" destination="SCp-3S-V0R" id="wKE-aP-QhO"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="JTS-Uj-IQM" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="992.79999999999995" y="91.304347826086968"/>
+        </scene>
     </scenes>
 </document>

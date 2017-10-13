@@ -92,6 +92,11 @@ extension Event {
         return event
     }
     
+    var sortedGuests: [User] { return Unwrap<User>.arrayValueFromSet(attendees).sorted(by: { (user1, user2) -> Bool in
+        guard let status1 = user1.responseStatus, let status2 = user2.responseStatus else { return false }
+        return status1 < status2
+    })}
+    
     var calendars: [(id: String, name: String, colorHex: String)] {
         var retVal = [(id: String, name: String, colorHex: String)]()
         

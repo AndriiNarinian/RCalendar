@@ -44,6 +44,7 @@ protocol ProxyConfigWithTableViewDelegate: class {
     func willDisplayFirstRow()
     func didUpdate()
     func willUpdate()
+    func didSelectRow(at indexPath: IndexPath)
 }
 
 struct ProxyConfigWithTableView: ProxyConfig {
@@ -227,7 +228,7 @@ class CoreDataProxy<ResultType: NSFetchRequestResult>: NSObject, UITableViewDele
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        // let extendedCalendar = fetchedResultsController?.object(at: indexPath)
+        config?.proxyConfigTableViewDelegate?.didSelectRow(at: indexPath)
     }
     
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
