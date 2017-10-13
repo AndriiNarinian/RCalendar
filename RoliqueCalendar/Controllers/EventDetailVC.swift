@@ -19,6 +19,7 @@ class EventDetailVC: UIViewController {
     @IBOutlet weak var stackView: UIStackView!
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var closeButton: UIButton!
+    @IBOutlet weak var blackCloseButtonView: UIView!
     @IBOutlet weak var editButton: UIButton!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var tableviewHeightConstraint: NSLayoutConstraint!
@@ -53,10 +54,17 @@ class EventDetailVC: UIViewController {
 
 extension EventDetailVC: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        guard scrollView.contentOffset.y <= 0 else { return }
-        interactor?.handleTranslation(scrollView.contentOffset)
-        //scrollView.contentOffset.y = 0
+        interactor?.handleTranslation(scrollView)
     }
+    
+    func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
+        interactor?.checkIfNeedToDismiss(scrollView)
+    }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        interactor?.finalizeTranslation(scrollView)
+    }
+    
 }
 
 fileprivate extension EventDetailVC {

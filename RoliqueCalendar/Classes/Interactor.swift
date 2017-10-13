@@ -15,15 +15,24 @@ class Interactor: UIPercentDrivenInteractiveTransition {
     fileprivate weak var viewController: UIViewController?
     fileprivate var previousTranslation: CGPoint?
     fileprivate let percentThreshold: CGFloat = 0.5
-    fileprivate let verticalMovementLimit: CGFloat = 70
+    let verticalMovementLimit: CGFloat = 70
     
     var hasStarted = false
+    var shouldDismissOnScrollViewStop = false
+    
+    var blackButton: UIButton!
     
     func configure(for vc: UIViewController) {
         viewController = vc
         previousTranslation = nil
         panner.addTarget(self, action: #selector(handlePan(sender:)))
         vc.view.addGestureRecognizer(panner)
+        
+//        blackButton = UIButton(frame: .zero)
+//        blackButton.setTitle("✕", for: .normal)
+//        blackButton.setTitleColor(.black, for: .normal)
+//        //viewController?.view.superview?.insertSubview(blackButton, belowSubview: viewController?.view ?? UIView())
+//        viewController?.presentingViewController?.view.addSubview(blackButton)
     }
     
     func handlePan(sender: UIPanGestureRecognizer) {
@@ -37,8 +46,28 @@ class Interactor: UIPercentDrivenInteractiveTransition {
         previousTranslation = translation
     }
     
-    func handleTranslation(_ translation: CGPoint) {
-        print(translation)
+    func handleTranslation(_ scrollView: UIScrollView) {
+        if scrollView.contentOffset.y <= 0 {
+            viewController?.view.layer.frame.origin.y = -(scrollView.contentOffset.y)
+            if viewController?.view.layer.frame.origin.y ?? 0 > verticalMovementLimit {
+                viewController?.view.layer.frame.origin.y = verticalMovementLimit
+            }
+        } else {
+            viewController?.view.layer.frame.origin.y = 0
+        }
+    }
+    
+    func checkIfNeedToDismiss(_ scrollView: UIScrollView) {
+        if viewController?.view.layer.frame.origin.y == verticalMovementLimit && scrollView.contentOffset.y < -verticalMovementLimit {
+            shouldDismissOnScrollViewStop = true
+        }
+    }
+    
+    func finalizeTranslation(_ scrollView: UIScrollView) {
+        if shouldDismissOnScrollViewStop {
+            shouldDismissOnScrollViewStop = false
+            viewController?.dismiss(animated: true, completion: nil)
+        }
     }
     
     func resetView() {
@@ -76,9 +105,20 @@ class Interactor: UIPercentDrivenInteractiveTransition {
                 guard let previousTranslation = previousTranslation else { return }
                 let diff = movement.y - previousTranslation.y
                 
-                viewController.view.frame.origin.y += diff
+                viewController.view.layer.frame.origin.y += diff
+//                if let eventDetailVC = viewController as? EventDetailVC {
+//                    let percentage = movement.y / verticalMovementLimit
+//                    eventDetailVC.closeButton.frame.origin.y -= diff
+////
+////                    eventDetailVC.blackCloseButtonView.frame.origin.y -= diff
+////
+//                    blackButton.frame = eventDetailVC.closeButton.frame
+//                    blackButton.titleLabel?.font = eventDetailVC.closeButton.titleLabel?.font
+//                    
+//                    
+//                }
             } else {
-                viewController.view.frame.origin.y = verticalMovementLimit
+                viewController.view.layer.frame.origin.y = verticalMovementLimit
 //                if !hasStarted {
 //                    hasStarted = true
 //                    viewController.dismiss(animated: true, completion: nil)
