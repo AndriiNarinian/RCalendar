@@ -28,4 +28,9 @@ class EventCell: UITableViewCell {
         calendarsLabel.text = String(describing: event?.calendars.map { $0.name } ?? [""] )
         
     }
+
+//    func parentTableViewDidScroll(_ tableView: UITableView, offset: CGFloat, with velocity: CGFloat) {
+//        
+//        layer.frame.origin.y = velocity * offset
+//    }
 }

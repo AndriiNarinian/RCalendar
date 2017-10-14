@@ -158,7 +158,7 @@ class CoreDataProxy<ResultType: NSFetchRequestResult>: NSObject, UITableViewDele
             let rec = CGRect(x: converted?.origin.x ?? 0, y: (converted?.origin.y ?? 0) - 20 - kHeaderHeight, width: converted?.width ?? 0, height: converted?.height ?? 0)
             if let day = fetchedResultsController?.object(at: $0) as? Day {
                 if day.timeStamp == cell.day?.timeStamp {
-                    cell.parentTableViewDidScroll(rec, with: day)
+                    cell.parentTableViewDidScroll(tableView!, rect: rec, with: day)
                 }
             }
         }

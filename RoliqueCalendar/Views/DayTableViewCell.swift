@@ -44,7 +44,30 @@ class DayTableViewCell: UITableViewCell {
 
     }
 
-    func parentTableViewDidScroll(_ rect: CGRect, with day: Day?) {
+    var preOffset: CGFloat?
+    
+    func parentTableViewDidScroll(_ tableView: UITableView, rect: CGRect, with day: Day?) {
+
+        if let preOffset = preOffset {
+            let velocity = tableView.contentOffset.y - preOffset
+            
+            if let indexPaths = self.tableView.indexPathsForVisibleRows?.sorted(by: { $0.row < $1.row }) {
+                indexPaths.forEach { indexPath in
+                    let cell = self.tableView.cellForRow(at: indexPath) as? EventCell
+                    let backView = (self.tableView.cellForRow(at: indexPath) as! EventCell).backView!
+                    let localRect = self.tableView.convert(backView.frame, from: backView)
+                    let rect = self.tableView.convert(localRect, to: tableView.superview)
+                    
+                    let halfHeight = UIApplication.shared.keyWindow?.center.y ?? 0
+                    let distance = abs(halfHeight - rect.origin.y)
+                    let percent = (distance / halfHeight) * 1.4
+
+                    cell?.layer.frame.origin.y = (velocity * percent) + ((CGFloat(indexPath.row) * (cell?.frame.size.height ?? 0)))
+                }
+            }
+        }
+        preOffset = tableView.contentOffset.y
+        
         guard rect.origin.y < 0 else {
             movingView.layer.frame.origin.y = 0
             
