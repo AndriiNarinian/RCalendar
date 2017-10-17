@@ -38,9 +38,8 @@ class Interactor: UIPercentDrivenInteractiveTransition {
     func handlePan(sender: UIPanGestureRecognizer) {
         guard let viewController = viewController else { return }
         let translation = sender.translation(in: viewController.view)
-        guard translation.y >= 0 else {
+        guard translation.y > 0 else {
             resetView()
-            
             return }
         processInteractiveTransition(sender: sender, movement: translation)
         previousTranslation = translation
@@ -71,6 +70,7 @@ class Interactor: UIPercentDrivenInteractiveTransition {
     }
     
     func resetView() {
+        (self.viewController as? DroppingModalVC)?.dataSource?._scrollView?.isUserInteractionEnabled = true
         hasStarted = false
         cancel()
         UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseInOut, animations: { [unowned self] in
@@ -106,14 +106,14 @@ class Interactor: UIPercentDrivenInteractiveTransition {
                 let diff = movement.y - previousTranslation.y
                 
                 viewController.view.layer.frame.origin.y += diff
-//                if let eventDetailVC = viewController as? EventDetailVC {
+//                if let DroppingModalVC = viewController as? DroppingModalVC {
 //                    let percentage = movement.y / verticalMovementLimit
-//                    eventDetailVC.closeButton.frame.origin.y -= diff
+//                    DroppingModalVC.closeButton.frame.origin.y -= diff
 ////
-////                    eventDetailVC.blackCloseButtonView.frame.origin.y -= diff
+////                    DroppingModalVC.blackCloseButtonView.frame.origin.y -= diff
 ////
-//                    blackButton.frame = eventDetailVC.closeButton.frame
-//                    blackButton.titleLabel?.font = eventDetailVC.closeButton.titleLabel?.font
+//                    blackButton.frame = DroppingModalVC.closeButton.frame
+//                    blackButton.titleLabel?.font = DroppingModalVC.closeButton.titleLabel?.font
 //                    
 //                    
 //                }

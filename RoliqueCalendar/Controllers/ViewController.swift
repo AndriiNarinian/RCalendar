@@ -126,7 +126,7 @@ extension ViewController: DayTableViewCellDelegate {
         let vc = EventDetailVC.deploy(with: event)
         vc.transitioningDelegate = self
         vc.interactor = interactor
-        vc.modalPresentationStyle = .overFullScreen
+        vc.modalPresentationStyle = .overCurrentContext
         present(vc, animated: true) {}
     }
 }

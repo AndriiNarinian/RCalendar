@@ -145,11 +145,7 @@ class CoreDataProxy<ResultType: NSFetchRequestResult>: NSObject, UITableViewDele
         let sectionInfo = sections[section]
         return sectionInfo.numberOfObjects
     }
-//    
-//    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-//        return fetchedResultsController?.sections?[section].name
-//    }
-//    
+ 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         guard let indexPaths = tableView?.indexPathsForVisibleRows else { return }
         indexPaths.forEach {

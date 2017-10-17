@@ -39,6 +39,8 @@
 		B52E2F541F8D05B20031FDED /* BasicEventAttributeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B52E2F531F8D05B20031FDED /* BasicEventAttributeView.xib */; };
 		B52E2F561F8D06C70031FDED /* TableEventAttributeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B52E2F551F8D06C70031FDED /* TableEventAttributeView.xib */; };
 		B52E2F581F8D10D60031FDED /* EventDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52E2F571F8D10D60031FDED /* EventDetailVC.swift */; };
+		B55AFFA21F96245E006AA072 /* DroppingModalVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55AFFA01F96245E006AA072 /* DroppingModalVC.swift */; };
+		B55AFFA31F96245E006AA072 /* DroppingModalVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = B55AFFA11F96245E006AA072 /* DroppingModalVC.xib */; };
 		B56E7AAB1F7C8C7B0007B4DC /* Calendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56E7AAA1F7C8C7B0007B4DC /* Calendar.swift */; };
 		B56E7ACE1F7D73D70007B4DC /* CoreDataProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56E7ACD1F7D73D70007B4DC /* CoreDataProxy.swift */; };
 		B57DFDAE1F90E89C002656FF /* Interactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57DFDAD1F90E89C002656FF /* Interactor.swift */; };
@@ -119,6 +121,8 @@
 		B52E2F531F8D05B20031FDED /* BasicEventAttributeView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BasicEventAttributeView.xib; sourceTree = "<group>"; };
 		B52E2F551F8D06C70031FDED /* TableEventAttributeView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TableEventAttributeView.xib; sourceTree = "<group>"; };
 		B52E2F571F8D10D60031FDED /* EventDetailVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventDetailVC.swift; sourceTree = "<group>"; };
+		B55AFFA01F96245E006AA072 /* DroppingModalVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DroppingModalVC.swift; sourceTree = "<group>"; };
+		B55AFFA11F96245E006AA072 /* DroppingModalVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DroppingModalVC.xib; sourceTree = "<group>"; };
 		B56E7AAA1F7C8C7B0007B4DC /* Calendar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Calendar.swift; sourceTree = "<group>"; };
 		B56E7ACD1F7D73D70007B4DC /* CoreDataProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataProxy.swift; sourceTree = "<group>"; };
 		B57DFDAD1F90E89C002656FF /* Interactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Interactor.swift; sourceTree = "<group>"; };
@@ -238,6 +242,8 @@
 				B5D538531F88882B00928E64 /* SideShadowLayer.swift */,
 				B5266BFA1F8F99EE007A266E /* PopAnimator.swift */,
 				B57DFDAD1F90E89C002656FF /* Interactor.swift */,
+				B55AFFA01F96245E006AA072 /* DroppingModalVC.swift */,
+				B55AFFA11F96245E006AA072 /* DroppingModalVC.xib */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -417,6 +423,7 @@
 				B5C6ACBC1F8693DA001FA175 /* EventCell.xib in Resources */,
 				B52E2F541F8D05B20031FDED /* BasicEventAttributeView.xib in Resources */,
 				B5F638B01F79062100E80DEC /* GoogleService-Info.plist in Resources */,
+				B55AFFA31F96245E006AA072 /* DroppingModalVC.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -444,6 +451,7 @@
 				B52C4ED51F7E9D5E000CECC3 /* DateNoTz.swift in Sources */,
 				B5F638CE1F7A668000E80DEC /* GReminder.swift in Sources */,
 				B58EECEE1F7A99170076EFDD /* GEventReminders.swift in Sources */,
+				B55AFFA21F96245E006AA072 /* DroppingModalVC.swift in Sources */,
 				B5D538541F88882B00928E64 /* SideShadowLayer.swift in Sources */,
 				B52C4EDD1F7EABFE000CECC3 /* EventReminders.swift in Sources */,
 				B5F638C81F7A64C500E80DEC /* ViewController.swift in Sources */,
