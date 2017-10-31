@@ -800,6 +800,7 @@
 				);
 				INFOPLIST_FILE = RoCalendar/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = io.rolique.RoCalendar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -826,6 +827,7 @@
 				);
 				INFOPLIST_FILE = RoCalendar/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = io.rolique.RoCalendar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -981,6 +983,7 @@
 				B550ACC01FA884820067082C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		B5F6388A1F78F5BC00E80DEC /* Build configuration list for PBXProject "RoliqueCalendar" */ = {
 			isa = XCConfigurationList;
