@@ -17,3 +17,4 @@ let kScrollEffectDeviationMultiplier: CGFloat = 1.4
 let defaultMinDate = Date().addingTimeInterval(-kEventFetchTimeInterval).withoutTime
 let defaultMaxDate = Date().addingTimeInterval(kEventFetchTimeInterval).withoutTime
 
+let bundle = Bundle(identifier: "io.rolique.RoCalendar")

@@ -13,13 +13,13 @@ enum EventAttributeViewType: Int {
     
     var icon: UIImage? {
         switch self {
-        case .time: return #imageLiteral(resourceName: "time")
-        case .location: return #imageLiteral(resourceName: "location")
-        case .reminder: return #imageLiteral(resourceName: "reminder")
-        case .hangout: return #imageLiteral(resourceName: "hangouts")
-        case .guests: return #imageLiteral(resourceName: "users")
+        case .time: return UIImage(named: "time", in: bundle, compatibleWith: nil)
+        case .location: return UIImage(named: "location", in: bundle, compatibleWith: nil)
+        case .reminder: return UIImage(named: "reminder", in: bundle, compatibleWith: nil)
+        case .hangout: return UIImage(named: "hangouts", in: bundle, compatibleWith: nil)
+        case .guests: return UIImage(named: "users", in: bundle, compatibleWith: nil)
         case .guestsTable: return nil
-        case .calendar: return #imageLiteral(resourceName: "calendar")
+        case .calendar: return UIImage(named: "calendar", in: bundle, compatibleWith: nil)
         }
     }
 }

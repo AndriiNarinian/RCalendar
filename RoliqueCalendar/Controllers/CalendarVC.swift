@@ -34,7 +34,6 @@ open class CalendarVC: VC, GoogleAPICompatible {
         transition.dismissCompletion = { [unowned self] in
             self.selectedEventCell?.backView.isHidden = false
         }
-        let bundle = Bundle(identifier: "io.rolique.RoCalendar")
         tableView.register(UINib(nibName: "DayTableViewCell", bundle: bundle), forCellReuseIdentifier: "DayTableViewCell")
         
         gIDSignInProxy.configure(with: self)

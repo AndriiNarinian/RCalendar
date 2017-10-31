@@ -38,7 +38,6 @@ class TableEventAttributeView: NibLoadingView, EventAttributeView, UITableViewDa
         super.awakeFromNib()
         
         tableView.rowHeight = kRowHeight
-        let bundle = Bundle(identifier: "io.rolique.RoCalendar")
         tableView.register(UINib(nibName: "EventCell", bundle: bundle), forCellReuseIdentifier: "EventCell")
     }
     

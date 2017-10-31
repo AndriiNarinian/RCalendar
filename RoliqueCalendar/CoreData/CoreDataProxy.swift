@@ -143,9 +143,14 @@ class CoreDataProxy<ResultType: NSFetchRequestResult>: NSObject, UITableViewDele
             fatalError("No sections in fetchedResultsController")
         }
         let sectionInfo = sections[section]
-        return sectionInfo.numberOfObjects
+        //guard sectionInfoContainsToday(sectionInfo) else { return sectionInfo.numberOfObjects }
+        return sectionInfo.numberOfObjects// + 1
     }
  
+    fileprivate func sectionInfoContainsToday(_ sectionInfo: NSFetchedResultsSectionInfo) -> Bool {
+        return (sectionInfo.objects as? [Day])?.map { (($0.date ?? NSDate()) as Date).withoutTime }.contains( Date().withoutTime ) ?? false
+    }
+    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         guard let indexPaths = tableView?.indexPathsForVisibleRows else { return }
         indexPaths.forEach {
@@ -217,7 +222,9 @@ class CoreDataProxy<ResultType: NSFetchRequestResult>: NSObject, UITableViewDele
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let object = fetchedResultsController?.object(at: indexPath)
         if let handler = config?.tableViewCellConfigurationHandler {
-            return handler(object, indexPath)
+            let cell = handler(object, indexPath)
+            
+            return cell
         }
         return UITableViewCell()
     }

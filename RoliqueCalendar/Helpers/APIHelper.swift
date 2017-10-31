@@ -17,13 +17,13 @@ enum DebugMode { case none, short, full }
 // MARK: Configuration
 extension APIHelper {
     static let debugMode: DebugMode = .short
-    static func configureGoogleAPI() {
+    static func configureGoogleAPI(with key: String) {
         GIDSignIn.sharedInstance().scopes = [
             "https://www.googleapis.com/auth/calendar",
             "https://www.googleapis.com/auth/calendar.readonly",
             "https://www.googleapis.com/auth/plus.login"
         ]
-        GIDSignIn.sharedInstance().clientID = kClientID
+        GIDSignIn.sharedInstance().clientID = key
     }
     
     static func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
@@ -41,7 +41,7 @@ extension APIHelper {
 enum PaginationBound { case max, min }
 
 // MARK: Public
-class APIHelper {
+open class APIHelper {
     static func signIn() {
         GIDSignIn.sharedInstance().signIn()
     }
@@ -139,7 +139,7 @@ class APIHelper {
 
 // MARK: Private
 fileprivate extension APIHelper {
-    static let kClientID = "343892928011-4ibhevkj1jabjk527b4rhnve41995e1p.apps.googleusercontent.com"
+    
     static func requestFromGoogleAPI(owner: GoogleAPICompatible, router: Router, completion: @escaping (Data?, URLResponse?, Error?) -> Void) {
         getAccessToken(owner: owner) { token in
             let headers = [

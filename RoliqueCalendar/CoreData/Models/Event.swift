@@ -21,7 +21,10 @@ extension Event {
                 guard let event = event else { return nil }
                 let calendarIds = event.calendars.map { $0.id }
                 return ["calendarIds": calendarIds]
-            }, insertion: insert(from:), completion: completion)
+            }, insertion: insert(from:), completion: {
+                
+                completion()
+            })
         }
     }
     
@@ -81,13 +84,12 @@ extension Event {
         
         event.dayString = Formatters.gcFormatDate.string(from: (event.start?.dateToUse ?? NSDate()) as Date)
         event.monthString = Formatters.monthAndYear.string(from: (event.start?.dateToUse ?? NSDate()) as Date)
-        if let timeStamp = event.dayString, let date = event.start?.dateToUse {
-            if let day = Dealer<Day>.fetch(with: NSPredicate(format: "timeStamp == %@", timeStamp)), let events = Unwrap<Event>.arrayFromSet(day.events), !events.contains(event) {
-                event.day = day
-            } else {
-                let day = Day.create(with: date)
-                event.day = day
-            }
+        guard let timeStamp = event.dayString, let date = event.start?.dateToUse else { return event }
+        if let day = Dealer<Day>.fetch(with: NSPredicate(format: "timeStamp == %@", timeStamp)), let events = Unwrap<Event>.arrayFromSet(day.events), !events.contains(event) {
+            event.day = day
+        } else {
+            let day = Day.create(with: date)
+            event.day = day
         }
         return event
     }

@@ -6,7 +6,7 @@
 //  Copyright © 2017 Rolique. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 typealias RCalendarCalendarsCompletion = ([Calendar]) -> Void
 typealias RCalendarEventsCompletion = ([Event]) -> Void
@@ -69,7 +69,19 @@ open class RCalendar {
 }
 
 public extension RCalendar {
-    static func initialize() {
-        APIHelper.configureGoogleAPI()
+    static func initialize(with key: String) {
+        APIHelper.configureGoogleAPI(with: key)
+    }
+    static func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+        return APIHelper.application(application, open: url, sourceApplication: sourceApplication, annotation: annotation)
+    }
+    static func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+        return APIHelper.application(app, open: url, options: options)
+    }
+    static func googleSignIn() {
+        APIHelper.signIn()
+    }
+    static func googleSignOut() {
+        APIHelper.signOut()
     }
 }

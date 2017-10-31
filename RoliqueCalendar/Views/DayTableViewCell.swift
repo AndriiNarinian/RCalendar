@@ -28,7 +28,6 @@ open class DayTableViewCell: UITableViewCell {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.separatorStyle = UITableViewCellSeparatorStyle.none
-        let bundle = Bundle(identifier: "io.rolique.RoCalendar")
         tableView.register(UINib(nibName: "EventCell", bundle: bundle), forCellReuseIdentifier: "EventCell")
     }
     

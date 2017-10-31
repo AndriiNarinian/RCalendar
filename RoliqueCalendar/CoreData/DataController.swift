@@ -216,7 +216,16 @@ class DataController: NSObject {
          application to it. This property is optional since there are legitimate
          error conditions that could cause the creation of the store to fail.
          */
-        let container = NSPersistentContainer(name: "RCDataModel")
+        let name = "RCDataModel"
+        let bundle = Bundle(identifier: "io.rolique.RoCalendar")
+        print("bundle: \(bundle)")
+        guard let modelURL = bundle?.url(forResource: name, withExtension: "momd"),
+            let mom = NSManagedObjectModel(contentsOf: modelURL)
+            else {
+                fatalError("Unable to locate Core Data model")
+        }
+        
+        let container = NSPersistentContainer(name: name, managedObjectModel: mom)
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
                 // Replace this implementation with code to handle the error appropriately.
