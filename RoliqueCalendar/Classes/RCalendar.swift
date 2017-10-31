@@ -12,7 +12,7 @@ typealias RCalendarCalendarsCompletion = ([Calendar]) -> Void
 typealias RCalendarEventsCompletion = ([Event]) -> Void
 typealias RCalendarCompletion = () -> Void
 
-class RCalendar {
+open class RCalendar {
     static let main = RCalendar()
     fileprivate init() {}
     
@@ -66,4 +66,10 @@ class RCalendar {
         }
     }
     
+}
+
+public extension RCalendar {
+    static func initialize() {
+        APIHelper.configureGoogleAPI()
+    }
 }

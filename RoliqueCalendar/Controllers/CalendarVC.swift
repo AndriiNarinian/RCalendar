@@ -136,7 +136,6 @@ extension CalendarVC: ProxyConfigWithTableViewDelegate {
         
     }
 
-
     func willUpdate() {
         if lastBound == .min {
             lastMinOffset = tableView.contentSize.height
