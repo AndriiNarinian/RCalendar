@@ -42,7 +42,6 @@ open class DayTableViewCell: UITableViewCell {
         dayNumber.text = Formatters.dayNumber.string(from: date)
         dayName.text = Formatters.dayNameShort.string(from: date)
         
-
     }
 
     var preOffset: CGFloat?

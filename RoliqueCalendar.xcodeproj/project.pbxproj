@@ -133,6 +133,7 @@
 		B59BAD8B1F7A9B8E00A65AD1 /* GAttachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = B59BAD8A1F7A9B8E00A65AD1 /* GAttachment.swift */; };
 		B59BAD901F7AA3D400A65AD1 /* GErrorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B59BAD8F1F7AA3D400A65AD1 /* GErrorModel.swift */; };
 		B59BAD921F7AA3EC00A65AD1 /* GError.swift in Sources */ = {isa = PBXBuildFile; fileRef = B59BAD911F7AA3EC00A65AD1 /* GError.swift */; };
+		B5AE8BAC1FA8E25900536262 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B5F638961F78F5BC00E80DEC /* Main.storyboard */; };
 		B5C4F5D71F7B976500C1FF23 /* RCDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B5C4F5D51F7B976500C1FF23 /* RCDataModel.xcdatamodeld */; };
 		B5C4F5D91F7BA2D300C1FF23 /* GCalendarExtendedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C4F5D81F7BA2D300C1FF23 /* GCalendarExtendedList.swift */; };
 		B5C6ACBB1F8693DA001FA175 /* EventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C6ACB91F8693DA001FA175 /* EventCell.swift */; };
@@ -577,6 +578,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B5AE8BAC1FA8E25900536262 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
