@@ -67,7 +67,7 @@
 		B550ACD91FA884D10067082C /* EventCell.xib in Sources */ = {isa = PBXBuildFile; fileRef = B5C6ACBA1F8693DA001FA175 /* EventCell.xib */; };
 		B550ACDA1FA884D10067082C /* OverlayButton.xib in Sources */ = {isa = PBXBuildFile; fileRef = B5D5384F1F88739100928E64 /* OverlayButton.xib */; };
 		B550ACDB1FA884D10067082C /* OverlayButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D538511F8874D200928E64 /* OverlayButton.swift */; };
-		B550ACDC1FA884D10067082C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F638C71F7A64C500E80DEC /* ViewController.swift */; };
+		B550ACDC1FA884D10067082C /* CalendarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F638C71F7A64C500E80DEC /* CalendarVC.swift */; };
 		B550ACDD1FA884D10067082C /* BaseVC+GoogleSignIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51C549C1F7BCF6A00A7D2CF /* BaseVC+GoogleSignIn.swift */; };
 		B550ACDE1FA884D10067082C /* EventDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52E2F571F8D10D60031FDED /* EventDetailVC.swift */; };
 		B550ACDF1FA884D10067082C /* GModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F638BF1F7A48C400E80DEC /* GModelType.swift */; };
@@ -156,7 +156,7 @@
 		B5F638C01F7A48C400E80DEC /* GModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F638BF1F7A48C400E80DEC /* GModelType.swift */; };
 		B5F638C21F7A493F00E80DEC /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F638C11F7A493F00E80DEC /* Extensions.swift */; };
 		B5F638C51F7A62E100E80DEC /* APIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F638C31F7A62E100E80DEC /* APIHelper.swift */; };
-		B5F638C81F7A64C500E80DEC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F638C71F7A64C500E80DEC /* ViewController.swift */; };
+		B5F638C81F7A64C500E80DEC /* CalendarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F638C71F7A64C500E80DEC /* CalendarVC.swift */; };
 		B5F638CA1F7A664500E80DEC /* GNotificationSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F638C91F7A664500E80DEC /* GNotificationSettings.swift */; };
 		B5F638CC1F7A666A00E80DEC /* GNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F638CB1F7A666A00E80DEC /* GNotification.swift */; };
 		B5F638CE1F7A668000E80DEC /* GReminder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F638CD1F7A668000E80DEC /* GReminder.swift */; };
@@ -266,7 +266,7 @@
 		B5F638BF1F7A48C400E80DEC /* GModelType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GModelType.swift; sourceTree = "<group>"; };
 		B5F638C11F7A493F00E80DEC /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		B5F638C31F7A62E100E80DEC /* APIHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIHelper.swift; sourceTree = "<group>"; };
-		B5F638C71F7A64C500E80DEC /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		B5F638C71F7A64C500E80DEC /* CalendarVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarVC.swift; sourceTree = "<group>"; };
 		B5F638C91F7A664500E80DEC /* GNotificationSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GNotificationSettings.swift; sourceTree = "<group>"; };
 		B5F638CB1F7A666A00E80DEC /* GNotification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GNotification.swift; sourceTree = "<group>"; };
 		B5F638CD1F7A668000E80DEC /* GReminder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GReminder.swift; sourceTree = "<group>"; };
@@ -447,7 +447,7 @@
 		B5F638BB1F794CFE00E80DEC /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				B5F638C71F7A64C500E80DEC /* ViewController.swift */,
+				B5F638C71F7A64C500E80DEC /* CalendarVC.swift */,
 				B51C549C1F7BCF6A00A7D2CF /* BaseVC+GoogleSignIn.swift */,
 				B52E2F571F8D10D60031FDED /* EventDetailVC.swift */,
 			);
@@ -632,7 +632,7 @@
 				B550ACD91FA884D10067082C /* EventCell.xib in Sources */,
 				B550ACDA1FA884D10067082C /* OverlayButton.xib in Sources */,
 				B550ACDB1FA884D10067082C /* OverlayButton.swift in Sources */,
-				B550ACDC1FA884D10067082C /* ViewController.swift in Sources */,
+				B550ACDC1FA884D10067082C /* CalendarVC.swift in Sources */,
 				B550ACDD1FA884D10067082C /* BaseVC+GoogleSignIn.swift in Sources */,
 				B550ACDE1FA884D10067082C /* EventDetailVC.swift in Sources */,
 				B550ACDF1FA884D10067082C /* GModelType.swift in Sources */,
@@ -708,7 +708,7 @@
 				B55AFFA21F96245E006AA072 /* DroppingModalVC.swift in Sources */,
 				B5D538541F88882B00928E64 /* SideShadowLayer.swift in Sources */,
 				B52C4EDD1F7EABFE000CECC3 /* EventReminders.swift in Sources */,
-				B5F638C81F7A64C500E80DEC /* ViewController.swift in Sources */,
+				B5F638C81F7A64C500E80DEC /* CalendarVC.swift in Sources */,
 				B59BAD901F7AA3D400A65AD1 /* GErrorModel.swift in Sources */,
 				B5D538521F8874D200928E64 /* OverlayButton.swift in Sources */,
 				B52C4ED71F7EA128000CECC3 /* TimeStamp.swift in Sources */,

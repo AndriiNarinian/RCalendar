@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  CalendarVC.swift
 //  RoliqueCalendar
 //
 //  Created by Andrii Narinian on 9/25/17.
@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class ViewController: VC, GoogleAPICompatible {
+open class CalendarVC: VC, GoogleAPICompatible {
     internal var gIDSignInProxy = GIDSignInProxyObject()
     fileprivate var eventProxy = CoreDataProxy<Day>()
     fileprivate var isLoading = false
@@ -28,7 +28,7 @@ class ViewController: VC, GoogleAPICompatible {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
-    override func viewDidLoad() {
+    override open func viewDidLoad() {
         super.viewDidLoad()
         
         transition.dismissCompletion = { [unowned self] in
@@ -69,7 +69,7 @@ class ViewController: VC, GoogleAPICompatible {
         scrollToToday(true)
     }
     
-    override func viewDidLayoutSubviews() {
+    override open func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
     }
@@ -101,7 +101,7 @@ class ViewController: VC, GoogleAPICompatible {
     }
 }
 
-fileprivate extension ViewController {
+fileprivate extension CalendarVC {
     func loadEvents(bound: PaginationBound? = nil, completion: RCalendarCompletion? = nil) {
         if !isLoading {
             activityIndicator.startAnimating()
@@ -115,7 +115,7 @@ fileprivate extension ViewController {
     }
 }
 
-extension ViewController: DayTableViewCellDelegate {
+extension CalendarVC: DayTableViewCellDelegate {
     func dayTableViewCelldidSelectEvent(cell: DayTableViewCell, on day: Day?, at indexPath: IndexPath) {
         guard let day = day, let event = day.sortedEvents[safe: indexPath.row] else { return }
         self.selectedEventCell = cell.tableView.cellForRow(at: indexPath) as? EventCell
@@ -131,7 +131,7 @@ extension ViewController: DayTableViewCellDelegate {
     }
 }
 
-extension ViewController: ProxyConfigWithTableViewDelegate {
+extension CalendarVC: ProxyConfigWithTableViewDelegate {
     func didSelectRow(at indexPath: IndexPath) {
         
     }
@@ -160,8 +160,8 @@ extension ViewController: ProxyConfigWithTableViewDelegate {
     }
 }
 
-extension ViewController: UIViewControllerTransitioningDelegate {
-    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+extension CalendarVC: UIViewControllerTransitioningDelegate {
+    public func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         guard let eventToOpen = eventToOpen else { return nil }
 
         transition.originFrame = eventToOpen.rect
@@ -170,12 +170,12 @@ extension ViewController: UIViewControllerTransitioningDelegate {
         return transition
     }
     
-    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    public func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         transition.presenting = false
         return transition
     }
     
-    func interactionControllerForDismissal(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+    public func interactionControllerForDismissal(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
         return interactor.hasStarted ? interactor : nil
     }
 }

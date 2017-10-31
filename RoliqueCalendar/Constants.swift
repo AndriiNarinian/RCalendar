@@ -8,7 +8,7 @@
 
 import UIKit
 
-typealias VC = UIViewController
+public typealias VC = UIViewController
 
 let kEventFetchTimeInterval: TimeInterval = 3600 * 24 * 365 / 4
 let kScrollEffectVelocityLimit: CGFloat = 20

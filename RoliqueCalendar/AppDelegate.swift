@@ -21,7 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //            self.window?.backgroundColor = .white
 //            let storyboard = UIStoryboard(name: "Main", bundle: nil)
 //            
-//            let initialViewController = storyboard.instantiateViewController(withIdentifier: "ViewController")
+//            let initialViewController = storyboard.instantiateViewController(withIdentifier: "CalendarVC")
 //            
 //            self.window?.rootViewController = initialViewController
 //            self.window?.makeKeyAndVisible()
