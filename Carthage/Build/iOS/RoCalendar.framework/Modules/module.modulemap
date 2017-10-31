@@ -1,0 +1,10 @@
+framework module RoCalendar {
+  umbrella header "RoCalendar.h"
+
+  export *
+  module * { export * }
+}
+
+module RoCalendar.Swift {
+    header "RoCalendar-Swift.h"
+}
