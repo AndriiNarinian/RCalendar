@@ -12,7 +12,7 @@ protocol DayTableViewCellDelegate: class {
     func dayTableViewCelldidSelectEvent(cell: DayTableViewCell, on day: Day?, at indexPath: IndexPath)
 }
 
-class DayTableViewCell: UITableViewCell {
+open class DayTableViewCell: UITableViewCell {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var movingView: UIView!
     @IBOutlet weak var dayNumber: UILabel!
@@ -21,14 +21,15 @@ class DayTableViewCell: UITableViewCell {
     var day: Day?
     weak var delegate: DayTableViewCellDelegate?
     
-    override func awakeFromNib() {
+    override open func awakeFromNib() {
         super.awakeFromNib()
         
         tableView.rowHeight = 70
         tableView.dataSource = self
         tableView.delegate = self
         tableView.separatorStyle = UITableViewCellSeparatorStyle.none
-        tableView.register(UINib(nibName: "EventCell", bundle: nil), forCellReuseIdentifier: "EventCell")
+        let bundle = Bundle(identifier: "io.rolique.RoCalendar")
+        tableView.register(UINib(nibName: "EventCell", bundle: bundle), forCellReuseIdentifier: "EventCell")
     }
     
     func update(with day: Day, delegate: DayTableViewCellDelegate?) {

@@ -404,7 +404,8 @@ extension UIViewController {
         return String(describing: self)
     }
     static func instantiateInitial(_ storyboardId: StoryboardId) -> UIViewController {
-        let storyboard = UIStoryboard(name: storyboardId.rawValue, bundle: nil) as UIStoryboard?
+        let bundle = Bundle(identifier: "io.rolique.RoCalendar")
+        let storyboard = UIStoryboard(name: storyboardId.rawValue, bundle: bundle) as UIStoryboard?
         assert(storyboard != nil, "Storyboard name is incorrect")
         let vc = storyboard?.instantiateInitialViewController()
         assert(vc != nil, "No initialViewcontroller in storyboard")
@@ -416,8 +417,8 @@ extension StoryboardInitializing where Self: UIViewController {
     
     static func instantiateFromStoryboardId(_ storyboardId: StoryboardId) -> Self {
         let vcIdentifier = self.className()
-        
-        let storyboard = UIStoryboard(name: storyboardId.rawValue, bundle: nil) as UIStoryboard?
+        let bundle = Bundle(identifier: "io.rolique.RoCalendar")
+        let storyboard = UIStoryboard(name: storyboardId.rawValue, bundle: bundle) as UIStoryboard?
         assert(storyboard != nil, "Storyboard name is incorrect")
         
         let vc = storyboard?.instantiateViewController(withIdentifier: vcIdentifier)

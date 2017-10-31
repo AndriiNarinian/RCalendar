@@ -16,17 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         APIHelper.configureGoogleAPI()
         DataController.main.printLibraryPath()
-//            {
-//            self.window = UIWindow(frame: UIScreen.main.bounds)
-//            self.window?.backgroundColor = .white
-//            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//            
-//            let initialViewController = storyboard.instantiateViewController(withIdentifier: "CalendarVC")
-//            
-//            self.window?.rootViewController = initialViewController
-//            self.window?.makeKeyAndVisible()
-//        }
-        
+
         return true
     }
 

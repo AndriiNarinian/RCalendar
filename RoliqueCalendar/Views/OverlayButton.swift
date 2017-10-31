@@ -8,7 +8,7 @@
 
 import UIKit
 
-class OverlayButton: NibLoadingView {
+open class OverlayButton: NibLoadingView {
     @IBOutlet weak var backView: UIView!
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var textLabel: UILabel!
