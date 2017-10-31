@@ -9,6 +9,7 @@
 import UIKit
 import CoreData
 
+
 class CoreData: NSObject {
     static var controller: DataController {
         return DataController.main
@@ -31,37 +32,44 @@ class CoreData: NSObject {
     }
 }
 
-class Dealer<R: NSFetchRequestResult> {
-    static func updateWith(array: [Insertion], shouldClearAllBeforeInsert: Bool = false, isMainConext: Bool = false, insertion: @escaping (Insertion) -> R, completion: @escaping () -> Void) {
+class Dealer<R: NSManagedObject> {
+    typealias ObjectClearConfirmationHandler = (R?) -> [String: Any]?
+    
+    static func updateWith(array: [Insertion], shouldClearAllBeforeInsert: Bool = false, shouldClearObject: ObjectClearConfirmationHandler? = nil, insertion: @escaping (Insertion) -> R, completion: @escaping () -> Void) {
         CoreData.backContext.perform {
             if shouldClearAllBeforeInsert { clearAllObjects() }
+            
             array.forEach { ins in
+                var insert = ins
                 if !shouldClearAllBeforeInsert {
-                    self.clearIfNeeded(with: "id", value: ins.dictValue["id"] as? String)
+                    insert.dictToSave = self.clearIfNeeded(with: "id", value: ins.dictValue["id"] as? String, shouldClearObject: shouldClearObject)
                 }
-                _ = insertion(ins)
+                _ = insertion(insert)
             }
-            completion()
-            saveBackgroundContext()
+            
+            saveBackgroundContext(completion: completion)
         }
     }
     
-    static func saveBackgroundContext() {
+    static func saveBackgroundContext(completion: @escaping () -> Void) {
         do {
             try CoreData.backContext.save()
-            saveMainContext()
+            saveMainContext(completion: completion)
         } catch {
             print(error)
         }
     }
     
-    static func saveMainContext() {
+    static func saveMainContext(completion: @escaping () -> Void) {
         CoreData.mainContext.performAndWait {
             do {
                 try CoreData.mainContext.save()
                 saveMasterContext()
             } catch {
                 print(error)
+            }
+            DispatchQueue.main.async {
+                completion()
             }
         }
     }
@@ -75,23 +83,37 @@ class Dealer<R: NSFetchRequestResult> {
             }
         }
     }
+
+    static var inserted: R {
+        return R(context: CoreData.backContext)
+    }
     
-    static func clearIfNeeded(with key: String, value: String?) {
+    static func clearIfNeeded(with key: String, value: String?, shouldClearObject: ObjectClearConfirmationHandler? = nil) -> [String: Any]? {
+
         if let value = value {
-            if exististsObject(with: key, value: value) {
-                clearObject(with: key, value: value)
+            if let confirmationHandler = shouldClearObject {
+                if let object = fetch(with: key, value: value) {
+                    let dictToSave = confirmationHandler(object)
+                    clearObject(with: key, value: value)
+                    return dictToSave
+                } else { _ = confirmationHandler(nil) }
+            } else {
+                if exististsObject(with: key, value: value) {
+                    clearObject(with: key, value: value)
+                }
             }
         } else {
             print("no value for key: \(key) for \(String(describing: R.self))")
         }
+        return nil
     }
     
     static func clearAllObjects() {
         let context = CoreData.backContext
         let fetchRequest = NSFetchRequest<R>(entityName: String(describing: R.self))
         do {
-            let objects = try context.fetch(fetchRequest) as? [NSManagedObject]
-            _ = objects.map { $0.map { context.delete($0) } }
+            let objects = try context.fetch(fetchRequest)
+            _ = objects.map { context.delete($0) }
         } catch let error {
             print("ERROR DELETING : \(error)")
         }
@@ -103,8 +125,8 @@ class Dealer<R: NSFetchRequestResult> {
         let fetchRequest = NSFetchRequest<R>(entityName: String(describing: R.self))
         fetchRequest.predicate = NSPredicate(format: "\(key) == %@", value)
         do {
-            let objects = try context.fetch(fetchRequest) as? [NSManagedObject]
-            _ = objects.map { $0.map { context.delete($0) } }
+            let objects = try context.fetch(fetchRequest)
+            _ = objects.map { context.delete($0) }
         } catch let error {
             print("ERROR DELETING : \(error)")
         }
@@ -114,6 +136,15 @@ class Dealer<R: NSFetchRequestResult> {
         guard let value = value else { return nil }
         let fetchRequest = NSFetchRequest<R>(entityName: String(describing: R.self))
         fetchRequest.predicate = NSPredicate(format: "\(key) == %@", value)
+        do {
+            let object = try CoreData.backContext.fetch(fetchRequest).first
+            return object
+        } catch { print(error); return nil }
+    }
+    
+    static func fetch(with predicate: NSPredicate) -> R? {
+        let fetchRequest = NSFetchRequest<R>(entityName: String(describing: R.self))
+        fetchRequest.predicate = predicate
         do {
             let object = try CoreData.backContext.fetch(fetchRequest).first
             return object
@@ -249,6 +280,7 @@ protocol Insertion {
     var stringValue: String { get }
     var day: (NSDate, NSMutableOrderedSet)? { get }
     var dayValue: (NSDate, NSMutableOrderedSet) { get }
+    var dictToSave: [String: Any]? { get set }
 }
 
 extension Insertion {
@@ -275,54 +307,92 @@ extension Insertion {
 struct DictInsertion: Insertion {
     var type: InsertionType
     var container: Any
-    init(_ dict: [String: Any]) {
+    var dictToSave: [String: Any]?
+    init(_ dict: [String: Any], dictToSave: [String: Any]? = nil) {
         self.container = dict
         self.type = .dict
+        self.dictToSave = dictToSave
     }
 }
 
 struct StringInsertion: Insertion {
     var type: InsertionType
     var container: Any
-    init(_ string: String) {
+    var dictToSave: [String: Any]?
+    init(_ string: String, dictToSave: [String: Any]? = nil) {
         self.container = string
         self.type = .string
+        self.dictToSave = dictToSave
     }
 }
 
 struct DayInsertion: Insertion {
     var type: InsertionType
     var container: Any
-    init(_ day: (NSDate, NSMutableOrderedSet)) {
+    var dictToSave: [String: Any]?
+    init(_ day: (NSDate, NSMutableOrderedSet), dictToSave: [String: Any]? = nil) {
         self.container = day
         self.type = .day
+        self.dictToSave = dictToSave
+    }
+}
+
+struct Unwrap<R: NSFetchRequestResult> {
+    static func arrayFromSet(_ set: NSOrderedSet?) -> [R]? {
+        return set.unwrapped()
+    }
+    
+    static func arrayValueFromSet(_ set: NSOrderedSet?) -> [R] {
+        return set.unwrappedValue()
+    }
+}
+
+extension Optional where Wrapped: NSOrderedSet {
+    func unwrapped<R: NSFetchRequestResult>() -> [R]? {
+        switch self {
+        case .some(let wrapped):
+            return wrapped.array as? [R]
+        default: break
+        }
+        return nil
+    }
+    
+    func unwrappedValue<R>() -> [R] {
+        switch self {
+        case .some(let wrapped):
+            if let array = wrapped.array as? [R] {
+                return array
+            }
+        default: break
+        }
+        return [R]()
     }
 }
 
 extension Optional {
-    func maybeInsertDictArray<R: NSFetchRequestResult>(_ insertion: @escaping (Insertion) -> R) -> NSMutableOrderedSet? {
+    func maybeInsertDictArray<R: NSFetchRequestResult>(_ insertion: @escaping (Insertion) -> R?) -> NSMutableOrderedSet? {
         if let array = jsonArray {
-            return NSMutableOrderedSet(array: array.map {
+            return NSMutableOrderedSet(array: array.flatMap {
                 return insertion(DictInsertion($0))
             })
         } else { return nil }
     }
     
-    func maybeInsertDictObject<R: NSFetchRequestResult>(_ insertion: (Insertion) -> R) -> R? {
+    func maybeInsertDictObject<R: NSFetchRequestResult>(_ insertion: (Insertion) -> R?) -> R? {
         if let json = json {
             return insertion(DictInsertion(json))
         } else { return nil }
     }
     
-    func maybeInsertStringArray<R: NSFetchRequestResult>(_ insertion: (Insertion) -> R) -> NSMutableOrderedSet? {
+    func maybeInsertStringArray<R: NSFetchRequestResult>(_ insertion: (Insertion) -> R?) -> NSMutableOrderedSet? {
         if let array = stringArray {
-            return NSMutableOrderedSet(array: array.map {
+            return NSMutableOrderedSet(array: array.flatMap {
                 return insertion(StringInsertion($0))
             })
         } else { return nil }
     }
     
-    func maybeInsertStringObject<R: NSFetchRequestResult>(_ insertion: (Insertion) -> R) -> R? {
+    func maybeInsertStringObject<R: NSFetchRequestResult>(_ insertion: (Insertion) -> R?) -> R? {
         if let string = string {
             return insertion(StringInsertion(string))
         } else { return nil }

@@ -12,9 +12,11 @@ import GoogleSignIn
 typealias APICompletion = ([String: Any]) -> Void
 typealias APICompletionArray = ([[String: Any]]) -> Void
 
+enum DebugMode { case none, short, full }
+
 // MARK: Configuration
 extension APIHelper {
-    static let isDebug = false
+    static let debugMode: DebugMode = .short
     static func configureGoogleAPI() {
         GIDSignIn.sharedInstance().scopes = [
             "https://www.googleapis.com/auth/calendar",
@@ -35,6 +37,8 @@ extension APIHelper {
                     annotation: options[UIApplicationOpenURLOptionsKey.annotation])
     }
 }
+
+enum PaginationBound { case max, min }
 
 // MARK: Public
 class APIHelper {
@@ -64,9 +68,67 @@ class APIHelper {
         requestFromGoogleAPI(owner: owner, router: .getCalendar(id: id), completion: handleResponce(forObject: owner, completion: completion))
     }
     
-    static func getEventList(with calendarId: String?, for owner: GoogleAPICompatible, completion: @escaping APICompletion) {
+    static func getEventList(with calendarId: String?, for owner: GoogleAPICompatible, bound: PaginationBound? = nil, completion: @escaping APICompletion) {
         guard let calendarId = calendarId else { owner.displayError("calendar id is missing"); return }
-        requestFromGoogleAPI(owner: owner, router: .getEventList(calendarId: calendarId), completion: handleResponce(forObject: owner, completion: completion))
+
+        let params: Parameters = [
+            "singleEvents": "true",
+            "timeMax": Formatters.gcFormat.string(from: RCalendar.main.maxDate),
+            "timeMin": Formatters.gcFormat.string(from: RCalendar.main.minDate)
+        ]
+        getAllPages(with: calendarId, for: owner, parameters: params, completion: { dict in
+            let sortedAllDays = dict["items"].jsonArrayValue.map { dict -> Date? in
+                let date = Formatters.gcFormatDate.date(from: (dict["start"].jsonValue["date"] as? String).stringValue)
+                let dateTime = Formatters.gcFormatTz.date(from: (dict["start"].jsonValue["dateTime"] as? String).stringValue)
+                
+                return dateTime ?? date
+                }.flatMap { $0 }.sorted(by: { $0 > $1 })
+
+            if let bound = bound, let loadedMaxDate = sortedAllDays.first?.withoutTime, let loadedMinDate = sortedAllDays.last?.withoutTime {
+                switch bound {
+                case .max:
+                    let maxBound = RCalendar.main.maxDate// <= loadedMaxDate ? RCalendar.main.maxDate : loadedMaxDate
+                    let minBound = RCalendar.main.bounds?.min ?? defaultMinDate
+                    let bounds = (maxBound, minBound)
+                    RCalendar.main.bounds = bounds
+                case .min:
+                    let maxBound = RCalendar.main.bounds?.max ?? defaultMaxDate
+                    let minBound = RCalendar.main.minDate// >= loadedMinDate ? RCalendar.main.minDate : loadedMinDate
+                    let bounds = (maxBound, minBound)
+                    RCalendar.main.bounds = bounds
+                }
+            } else {
+                RCalendar.main.bounds = (RCalendar.main.bounds?.max ?? defaultMaxDate, RCalendar.main.bounds?.min ?? defaultMinDate)
+                
+            }
+            
+            completion(dict)
+        })
+    }
+    
+    static func getAllPages(with calendarId: String?, for owner: GoogleAPICompatible, parameters: Parameters, transferDict: [String: Any]? = nil, nextPageToken: String? = nil, completion: @escaping APICompletion) {
+        guard let calendarId = calendarId else { owner.displayError("calendar id is missing"); return }
+        var parameters = parameters
+        if let nextPageToken = nextPageToken {
+            parameters["pageToken"] = nextPageToken
+        }
+        let router: Router = .getEventList(calendarId: calendarId, parameters: parameters)
+        
+        requestFromGoogleAPI(owner: owner, router: router, completion: handleResponce(forObject: owner, completion: { dict in
+            
+            var transferDct = transferDict
+            var existingItems = transferDct?["items"] as? [[String: Any]] ?? [[String: Any]]()
+            let newItems = dict["items"] as? [[String: Any]] ?? [[String: Any]]()
+            existingItems.append(contentsOf: newItems)
+            transferDct?["items"] = existingItems
+            let trnsfrDict = transferDct ?? dict
+
+            if let nextPageToken = dict["nextPageToken"] as? String {
+                getAllPages(with: calendarId, for: owner, parameters: parameters, transferDict: trnsfrDict, nextPageToken: nextPageToken, completion: completion)
+            } else {
+                completion(trnsfrDict)
+            }
+        }))
     }
     
     static func getEvent(with calendarId: String?, eventId: String?, for owner: GoogleAPICompatible, completion: @escaping APICompletion) {
@@ -84,15 +146,15 @@ fileprivate extension APIHelper {
                 "authorization": "Bearer \(token)"
             ]
             
-            let url = router.urlString
+            let url = router.urlEncodedWithParameters!
             
-            if isDebug {
+            if (debugMode == .short) || (debugMode == .full) {
                 print(">>>>>>>>>>")
                 print("\nAPIHelper request with url:\n[\(url)]\n")
                 print("<<<<<<<<<<")
             }
             
-            let request = NSMutableURLRequest(url: NSURL(string: url)! as URL,
+            let request = NSMutableURLRequest(url: url,
                                               cachePolicy: .useProtocolCachePolicy,
                                               timeoutInterval: 10.0)
             request.httpMethod = router.method.rawValue
@@ -129,7 +191,7 @@ fileprivate extension APIHelper {
                         handleErrorString(errorModel.dictNoNilDescription, with: owner)
                     } else if let json = serialized?["items"] as? [[String: Any]] {
                         let string = json.map { GModel(dict: $0)?.dictDescription ?? "" }.reduce(with: ",\n\n")
-                        if isDebug {
+                        if debugMode == .full {
                             print(">>>>>>>>>>")
                             print("\nAPIHelper received objects:\n[\(string)]\n")
                             print("<<<<<<<<<<")
@@ -155,7 +217,7 @@ fileprivate extension APIHelper {
                         guard let errorModel = GErrorModel(dict: errorDict) else { return }
                         handleErrorString(errorModel.dictNoNilDescription, with: owner)
                     } else if let json = serialized {
-                        if isDebug {
+                        if debugMode == .full {
                             print(">>>>>>>>>>")
                             print("\nAPIHelper received object:\n\(GModel(dict: json)?.dictDescription ?? "")\n")
                             print("<<<<<<<<<<")
@@ -172,7 +234,7 @@ fileprivate extension APIHelper {
     }
     
     static func handleErrorString(_ errStr: String, with owner: GoogleAPICompatible) {
-        if isDebug {
+        if (debugMode == .short) || (debugMode == .full) {
             print(">>>>>>>>>>")
             print("\nAPIHelper got an errror:\n\(errStr)\n")
             print("<<<<<<<<<<")

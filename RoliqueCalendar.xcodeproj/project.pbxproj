@@ -13,11 +13,16 @@
 		B51099931F850D0200A416BE /* EventSectionHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B51099921F850D0200A416BE /* EventSectionHeaderView.xib */; };
 		B51099951F850D0C00A416BE /* EventSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51099941F850D0C00A416BE /* EventSectionHeaderView.swift */; };
 		B51099971F850D4D00A416BE /* NibLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51099961F850D4D00A416BE /* NibLoadingView.swift */; };
+		B510999A1F851A0F00A416BE /* DayTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51099981F851A0F00A416BE /* DayTableViewCell.swift */; };
+		B510999B1F851A0F00A416BE /* DayTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B51099991F851A0F00A416BE /* DayTableViewCell.xib */; };
 		B51C548D1F7BA6FA00A7D2CF /* GEventList.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51C548C1F7BA6FA00A7D2CF /* GEventList.swift */; };
 		B51C54931F7BC5D100A7D2CF /* GDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51C54921F7BC5D100A7D2CF /* GDate.swift */; };
 		B51C54971F7BC71F00A7D2CF /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51C54961F7BC71F00A7D2CF /* DataController.swift */; };
 		B51C549D1F7BCF6A00A7D2CF /* BaseVC+GoogleSignIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51C549C1F7BCF6A00A7D2CF /* BaseVC+GoogleSignIn.swift */; };
 		B52161EA1F7C18A2005A55FD /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52161E91F7C18A2005A55FD /* Model.swift */; };
+		B5266BF71F8F5BB7007A266E /* TableEventAttributeHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B5266BF61F8F5BB7007A266E /* TableEventAttributeHeaderView.xib */; };
+		B5266BF91F8F5BCA007A266E /* TableEventAttributeHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5266BF81F8F5BCA007A266E /* TableEventAttributeHeaderView.swift */; };
+		B5266BFB1F8F99EE007A266E /* PopAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5266BFA1F8F99EE007A266E /* PopAnimator.swift */; };
 		B52C4ED11F7E6F1E000CECC3 /* Attachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52C4ED01F7E6F1E000CECC3 /* Attachment.swift */; };
 		B52C4ED31F7E6FC0000CECC3 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52C4ED21F7E6FC0000CECC3 /* User.swift */; };
 		B52C4ED51F7E9D5E000CECC3 /* DateNoTz.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52C4ED41F7E9D5E000CECC3 /* DateNoTz.swift */; };
@@ -28,8 +33,97 @@
 		B52C4EDF1F7EAC81000CECC3 /* Source.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52C4EDE1F7EAC81000CECC3 /* Source.swift */; };
 		B52C4EE11F7EACD2000CECC3 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52C4EE01F7EACD2000CECC3 /* Event.swift */; };
 		B52C4EE31F7F06C4000CECC3 /* Day.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52C4EE21F7F06C4000CECC3 /* Day.swift */; };
+		B52E2F4E1F8CF0590031FDED /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52E2F4D1F8CF0590031FDED /* UserCell.swift */; };
+		B52E2F501F8CF0800031FDED /* BasicEventAttributeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52E2F4F1F8CF0800031FDED /* BasicEventAttributeView.swift */; };
+		B52E2F521F8D05270031FDED /* TableEventAttributeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52E2F511F8D05270031FDED /* TableEventAttributeView.swift */; };
+		B52E2F541F8D05B20031FDED /* BasicEventAttributeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B52E2F531F8D05B20031FDED /* BasicEventAttributeView.xib */; };
+		B52E2F561F8D06C70031FDED /* TableEventAttributeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B52E2F551F8D06C70031FDED /* TableEventAttributeView.xib */; };
+		B52E2F581F8D10D60031FDED /* EventDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52E2F571F8D10D60031FDED /* EventDetailVC.swift */; };
+		B550ACBA1FA884810067082C /* RoCalendar.h in Headers */ = {isa = PBXBuildFile; fileRef = B550ACB81FA884810067082C /* RoCalendar.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B550ACBD1FA884820067082C /* RoCalendar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B550ACB61FA884810067082C /* RoCalendar.framework */; };
+		B550ACBE1FA884820067082C /* RoCalendar.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B550ACB61FA884810067082C /* RoCalendar.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		B550ACC31FA884D10067082C /* RCalendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B510998C1F84EB9D00A416BE /* RCalendar.swift */; };
+		B550ACC41FA884D10067082C /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = B510998D1F84EB9D00A416BE /* Router.swift */; };
+		B550ACC51FA884D10067082C /* MultiActionAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = B510998E1F84EB9D00A416BE /* MultiActionAlert.swift */; };
+		B550ACC61FA884D10067082C /* Formatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D83BC21F7ADA9E004C7A12 /* Formatters.swift */; };
+		B550ACC71FA884D10067082C /* SideShadowLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D538531F88882B00928E64 /* SideShadowLayer.swift */; };
+		B550ACC81FA884D10067082C /* PopAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5266BFA1F8F99EE007A266E /* PopAnimator.swift */; };
+		B550ACC91FA884D10067082C /* Interactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57DFDAD1F90E89C002656FF /* Interactor.swift */; };
+		B550ACCA1FA884D10067082C /* DroppingModalVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55AFFA01F96245E006AA072 /* DroppingModalVC.swift */; };
+		B550ACCB1FA884D10067082C /* DroppingModalVC.xib in Sources */ = {isa = PBXBuildFile; fileRef = B55AFFA11F96245E006AA072 /* DroppingModalVC.xib */; };
+		B550ACCC1FA884D10067082C /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52E2F4D1F8CF0590031FDED /* UserCell.swift */; };
+		B550ACCD1FA884D10067082C /* BasicEventAttributeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52E2F4F1F8CF0800031FDED /* BasicEventAttributeView.swift */; };
+		B550ACCE1FA884D10067082C /* BasicEventAttributeView.xib in Sources */ = {isa = PBXBuildFile; fileRef = B52E2F531F8D05B20031FDED /* BasicEventAttributeView.xib */; };
+		B550ACCF1FA884D10067082C /* TableEventAttributeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52E2F511F8D05270031FDED /* TableEventAttributeView.swift */; };
+		B550ACD01FA884D10067082C /* TableEventAttributeView.xib in Sources */ = {isa = PBXBuildFile; fileRef = B52E2F551F8D06C70031FDED /* TableEventAttributeView.xib */; };
+		B550ACD11FA884D10067082C /* TableEventAttributeHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5266BF81F8F5BCA007A266E /* TableEventAttributeHeaderView.swift */; };
+		B550ACD21FA884D10067082C /* TableEventAttributeHeaderView.xib in Sources */ = {isa = PBXBuildFile; fileRef = B5266BF61F8F5BB7007A266E /* TableEventAttributeHeaderView.xib */; };
+		B550ACD31FA884D10067082C /* NibLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51099961F850D4D00A416BE /* NibLoadingView.swift */; };
+		B550ACD41FA884D10067082C /* EventSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51099941F850D0C00A416BE /* EventSectionHeaderView.swift */; };
+		B550ACD51FA884D10067082C /* EventSectionHeaderView.xib in Sources */ = {isa = PBXBuildFile; fileRef = B51099921F850D0200A416BE /* EventSectionHeaderView.xib */; };
+		B550ACD61FA884D10067082C /* DayTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51099981F851A0F00A416BE /* DayTableViewCell.swift */; };
+		B550ACD71FA884D10067082C /* DayTableViewCell.xib in Sources */ = {isa = PBXBuildFile; fileRef = B51099991F851A0F00A416BE /* DayTableViewCell.xib */; };
+		B550ACD81FA884D10067082C /* EventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C6ACB91F8693DA001FA175 /* EventCell.swift */; };
+		B550ACD91FA884D10067082C /* EventCell.xib in Sources */ = {isa = PBXBuildFile; fileRef = B5C6ACBA1F8693DA001FA175 /* EventCell.xib */; };
+		B550ACDA1FA884D10067082C /* OverlayButton.xib in Sources */ = {isa = PBXBuildFile; fileRef = B5D5384F1F88739100928E64 /* OverlayButton.xib */; };
+		B550ACDB1FA884D10067082C /* OverlayButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D538511F8874D200928E64 /* OverlayButton.swift */; };
+		B550ACDC1FA884D10067082C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F638C71F7A64C500E80DEC /* ViewController.swift */; };
+		B550ACDD1FA884D10067082C /* BaseVC+GoogleSignIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51C549C1F7BCF6A00A7D2CF /* BaseVC+GoogleSignIn.swift */; };
+		B550ACDE1FA884D10067082C /* EventDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52E2F571F8D10D60031FDED /* EventDetailVC.swift */; };
+		B550ACDF1FA884D10067082C /* GModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F638BF1F7A48C400E80DEC /* GModelType.swift */; };
+		B550ACE01FA884D10067082C /* GCalendarExtended.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F638BD1F794DF300E80DEC /* GCalendarExtended.swift */; };
+		B550ACE11FA884D10067082C /* GCalendarExtendedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C4F5D81F7BA2D300C1FF23 /* GCalendarExtendedList.swift */; };
+		B550ACE21FA884D10067082C /* GCalendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F638CF1F7A874100E80DEC /* GCalendar.swift */; };
+		B550ACE31FA884D10067082C /* GEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F638D11F7A8D9F00E80DEC /* GEvent.swift */; };
+		B550ACE41FA884D10067082C /* GEventList.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51C548C1F7BA6FA00A7D2CF /* GEventList.swift */; };
+		B550ACE51FA884D10067082C /* GNotificationSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F638C91F7A664500E80DEC /* GNotificationSettings.swift */; };
+		B550ACE61FA884D10067082C /* GNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F638CB1F7A666A00E80DEC /* GNotification.swift */; };
+		B550ACE71FA884D10067082C /* GReminder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F638CD1F7A668000E80DEC /* GReminder.swift */; };
+		B550ACE81FA884D10067082C /* GUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58EECE51F7A92550076EFDD /* GUser.swift */; };
+		B550ACE91FA884D10067082C /* GTimeStamp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58EECE71F7A935F0076EFDD /* GTimeStamp.swift */; };
+		B550ACEA1FA884D10067082C /* GDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51C54921F7BC5D100A7D2CF /* GDate.swift */; };
+		B550ACEB1FA884D10067082C /* GProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58EECE91F7A967A0076EFDD /* GProperties.swift */; };
+		B550ACEC1FA884D10067082C /* GGadget.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58EECEB1F7A97560076EFDD /* GGadget.swift */; };
+		B550ACED1FA884D10067082C /* GEventReminders.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58EECED1F7A99170076EFDD /* GEventReminders.swift */; };
+		B550ACEE1FA884D10067082C /* GSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = B59BAD881F7A9B3600A65AD1 /* GSource.swift */; };
+		B550ACEF1FA884D10067082C /* GAttachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = B59BAD8A1F7A9B8E00A65AD1 /* GAttachment.swift */; };
+		B550ACF01FA884D10067082C /* GErrorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B59BAD8F1F7AA3D400A65AD1 /* GErrorModel.swift */; };
+		B550ACF11FA884D10067082C /* GError.swift in Sources */ = {isa = PBXBuildFile; fileRef = B59BAD911F7AA3EC00A65AD1 /* GError.swift */; };
+		B550ACF21FA884D10067082C /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51C54961F7BC71F00A7D2CF /* DataController.swift */; };
+		B550ACF31FA884D10067082C /* CoreDataProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56E7ACD1F7D73D70007B4DC /* CoreDataProxy.swift */; };
+		B550ACF41FA884D10067082C /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52161E91F7C18A2005A55FD /* Model.swift */; };
+		B550ACF51FA884D10067082C /* Calendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56E7AAA1F7C8C7B0007B4DC /* Calendar.swift */; };
+		B550ACF61FA884D10067082C /* CalendarList.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FFD1FD1F7E51000034CAB8 /* CalendarList.swift */; };
+		B550ACF71FA884D10067082C /* Reminder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FFD1F71F7D77A00034CAB8 /* Reminder.swift */; };
+		B550ACF81FA884D10067082C /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FFD1F91F7D7EAD0034CAB8 /* Notification.swift */; };
+		B550ACF91FA884D10067082C /* NotificationSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FFD1FB1F7D7F1A0034CAB8 /* NotificationSettings.swift */; };
+		B550ACFA1FA884D10067082C /* Attachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52C4ED01F7E6F1E000CECC3 /* Attachment.swift */; };
+		B550ACFB1FA884D10067082C /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52C4ED21F7E6FC0000CECC3 /* User.swift */; };
+		B550ACFC1FA884D10067082C /* DateNoTz.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52C4ED41F7E9D5E000CECC3 /* DateNoTz.swift */; };
+		B550ACFD1FA884D10067082C /* TimeStamp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52C4ED61F7EA128000CECC3 /* TimeStamp.swift */; };
+		B550ACFE1FA884D10067082C /* Properties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52C4ED81F7EA8CA000CECC3 /* Properties.swift */; };
+		B550ACFF1FA884D10067082C /* Gadget.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52C4EDA1F7EAA70000CECC3 /* Gadget.swift */; };
+		B550AD001FA884D10067082C /* EventReminders.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52C4EDC1F7EABFE000CECC3 /* EventReminders.swift */; };
+		B550AD011FA884D10067082C /* Source.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52C4EDE1F7EAC81000CECC3 /* Source.swift */; };
+		B550AD021FA884D10067082C /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52C4EE01F7EACD2000CECC3 /* Event.swift */; };
+		B550AD031FA884D10067082C /* Day.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52C4EE21F7F06C4000CECC3 /* Day.swift */; };
+		B550AD041FA884D10067082C /* APIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F638C31F7A62E100E80DEC /* APIHelper.swift */; };
+		B550AD051FA884D10067082C /* Spinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D5384D1F87FE3800928E64 /* Spinner.swift */; };
+		B550AD061FA884D10067082C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F638921F78F5BC00E80DEC /* AppDelegate.swift */; };
+		B550AD071FA884D10067082C /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F638B31F7908E400E80DEC /* Constants.swift */; };
+		B550AD081FA884D10067082C /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F638C11F7A493F00E80DEC /* Extensions.swift */; };
+		B550AD091FA884D10067082C /* RCDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B5C4F5D51F7B976500C1FF23 /* RCDataModel.xcdatamodeld */; };
+		B550AD0A1FA884D10067082C /* Assets.xcassets in Sources */ = {isa = PBXBuildFile; fileRef = B5F638991F78F5BC00E80DEC /* Assets.xcassets */; };
+		B550AD0B1FA884D10067082C /* Info.plist in Sources */ = {isa = PBXBuildFile; fileRef = B5F6389E1F78F5BC00E80DEC /* Info.plist */; };
+		B550AD0C1FA884D10067082C /* GoogleService-Info.plist in Sources */ = {isa = PBXBuildFile; fileRef = B5F638AF1F79062100E80DEC /* GoogleService-Info.plist */; };
+		B550AD101FA8876F0067082C /* GoogleSignIn.bundle in Frameworks */ = {isa = PBXBuildFile; fileRef = B5F638A41F7902F100E80DEC /* GoogleSignIn.bundle */; };
+		B550AD111FA8876F0067082C /* GoogleSignIn.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5F638A51F7902F100E80DEC /* GoogleSignIn.framework */; };
+		B550AD121FA8876F0067082C /* GoogleSignInDependencies.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5F638A61F7902F100E80DEC /* GoogleSignInDependencies.framework */; };
+		B55AFFA21F96245E006AA072 /* DroppingModalVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55AFFA01F96245E006AA072 /* DroppingModalVC.swift */; };
+		B55AFFA31F96245E006AA072 /* DroppingModalVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = B55AFFA11F96245E006AA072 /* DroppingModalVC.xib */; };
 		B56E7AAB1F7C8C7B0007B4DC /* Calendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56E7AAA1F7C8C7B0007B4DC /* Calendar.swift */; };
 		B56E7ACE1F7D73D70007B4DC /* CoreDataProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56E7ACD1F7D73D70007B4DC /* CoreDataProxy.swift */; };
+		B57DFDAE1F90E89C002656FF /* Interactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57DFDAD1F90E89C002656FF /* Interactor.swift */; };
 		B58EECE61F7A92550076EFDD /* GUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58EECE51F7A92550076EFDD /* GUser.swift */; };
 		B58EECE81F7A935F0076EFDD /* GTimeStamp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58EECE71F7A935F0076EFDD /* GTimeStamp.swift */; };
 		B58EECEA1F7A967A0076EFDD /* GProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58EECE91F7A967A0076EFDD /* GProperties.swift */; };
@@ -41,6 +135,12 @@
 		B59BAD921F7AA3EC00A65AD1 /* GError.swift in Sources */ = {isa = PBXBuildFile; fileRef = B59BAD911F7AA3EC00A65AD1 /* GError.swift */; };
 		B5C4F5D71F7B976500C1FF23 /* RCDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B5C4F5D51F7B976500C1FF23 /* RCDataModel.xcdatamodeld */; };
 		B5C4F5D91F7BA2D300C1FF23 /* GCalendarExtendedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C4F5D81F7BA2D300C1FF23 /* GCalendarExtendedList.swift */; };
+		B5C6ACBB1F8693DA001FA175 /* EventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C6ACB91F8693DA001FA175 /* EventCell.swift */; };
+		B5C6ACBC1F8693DA001FA175 /* EventCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B5C6ACBA1F8693DA001FA175 /* EventCell.xib */; };
+		B5D5384E1F87FE3800928E64 /* Spinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D5384D1F87FE3800928E64 /* Spinner.swift */; };
+		B5D538501F88739100928E64 /* OverlayButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = B5D5384F1F88739100928E64 /* OverlayButton.xib */; };
+		B5D538521F8874D200928E64 /* OverlayButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D538511F8874D200928E64 /* OverlayButton.swift */; };
+		B5D538541F88882B00928E64 /* SideShadowLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D538531F88882B00928E64 /* SideShadowLayer.swift */; };
 		B5D83BC31F7ADA9E004C7A12 /* Formatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D83BC21F7ADA9E004C7A12 /* Formatters.swift */; };
 		B5F638931F78F5BC00E80DEC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F638921F78F5BC00E80DEC /* AppDelegate.swift */; };
 		B5F638981F78F5BC00E80DEC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B5F638961F78F5BC00E80DEC /* Main.storyboard */; };
@@ -68,6 +168,30 @@
 		B5FFD1FE1F7E51000034CAB8 /* CalendarList.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FFD1FD1F7E51000034CAB8 /* CalendarList.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		B550ACBB1FA884820067082C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B5F638871F78F5BC00E80DEC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B550ACB51FA884810067082C;
+			remoteInfo = RoCalendar;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		B550ACC21FA884820067082C /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				B550ACBE1FA884820067082C /* RoCalendar.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		B510998C1F84EB9D00A416BE /* RCalendar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RCalendar.swift; sourceTree = "<group>"; };
 		B510998D1F84EB9D00A416BE /* Router.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
@@ -75,11 +199,16 @@
 		B51099921F850D0200A416BE /* EventSectionHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EventSectionHeaderView.xib; sourceTree = "<group>"; };
 		B51099941F850D0C00A416BE /* EventSectionHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventSectionHeaderView.swift; sourceTree = "<group>"; };
 		B51099961F850D4D00A416BE /* NibLoadingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NibLoadingView.swift; sourceTree = "<group>"; };
+		B51099981F851A0F00A416BE /* DayTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DayTableViewCell.swift; sourceTree = "<group>"; };
+		B51099991F851A0F00A416BE /* DayTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DayTableViewCell.xib; sourceTree = "<group>"; };
 		B51C548C1F7BA6FA00A7D2CF /* GEventList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GEventList.swift; sourceTree = "<group>"; };
 		B51C54921F7BC5D100A7D2CF /* GDate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GDate.swift; sourceTree = "<group>"; };
 		B51C54961F7BC71F00A7D2CF /* DataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 		B51C549C1F7BCF6A00A7D2CF /* BaseVC+GoogleSignIn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BaseVC+GoogleSignIn.swift"; sourceTree = "<group>"; };
 		B52161E91F7C18A2005A55FD /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		B5266BF61F8F5BB7007A266E /* TableEventAttributeHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TableEventAttributeHeaderView.xib; sourceTree = "<group>"; };
+		B5266BF81F8F5BCA007A266E /* TableEventAttributeHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableEventAttributeHeaderView.swift; sourceTree = "<group>"; };
+		B5266BFA1F8F99EE007A266E /* PopAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopAnimator.swift; sourceTree = "<group>"; };
 		B52C4ED01F7E6F1E000CECC3 /* Attachment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Attachment.swift; sourceTree = "<group>"; };
 		B52C4ED21F7E6FC0000CECC3 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		B52C4ED41F7E9D5E000CECC3 /* DateNoTz.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateNoTz.swift; sourceTree = "<group>"; };
@@ -90,8 +219,20 @@
 		B52C4EDE1F7EAC81000CECC3 /* Source.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Source.swift; sourceTree = "<group>"; };
 		B52C4EE01F7EACD2000CECC3 /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		B52C4EE21F7F06C4000CECC3 /* Day.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Day.swift; sourceTree = "<group>"; };
+		B52E2F4D1F8CF0590031FDED /* UserCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
+		B52E2F4F1F8CF0800031FDED /* BasicEventAttributeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicEventAttributeView.swift; sourceTree = "<group>"; };
+		B52E2F511F8D05270031FDED /* TableEventAttributeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableEventAttributeView.swift; sourceTree = "<group>"; };
+		B52E2F531F8D05B20031FDED /* BasicEventAttributeView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BasicEventAttributeView.xib; sourceTree = "<group>"; };
+		B52E2F551F8D06C70031FDED /* TableEventAttributeView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TableEventAttributeView.xib; sourceTree = "<group>"; };
+		B52E2F571F8D10D60031FDED /* EventDetailVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventDetailVC.swift; sourceTree = "<group>"; };
+		B550ACB61FA884810067082C /* RoCalendar.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RoCalendar.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B550ACB81FA884810067082C /* RoCalendar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RoCalendar.h; sourceTree = "<group>"; };
+		B550ACB91FA884810067082C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B55AFFA01F96245E006AA072 /* DroppingModalVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DroppingModalVC.swift; sourceTree = "<group>"; };
+		B55AFFA11F96245E006AA072 /* DroppingModalVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DroppingModalVC.xib; sourceTree = "<group>"; };
 		B56E7AAA1F7C8C7B0007B4DC /* Calendar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Calendar.swift; sourceTree = "<group>"; };
 		B56E7ACD1F7D73D70007B4DC /* CoreDataProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataProxy.swift; sourceTree = "<group>"; };
+		B57DFDAD1F90E89C002656FF /* Interactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Interactor.swift; sourceTree = "<group>"; };
 		B58EECE51F7A92550076EFDD /* GUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GUser.swift; sourceTree = "<group>"; };
 		B58EECE71F7A935F0076EFDD /* GTimeStamp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GTimeStamp.swift; sourceTree = "<group>"; };
 		B58EECE91F7A967A0076EFDD /* GProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GProperties.swift; sourceTree = "<group>"; };
@@ -103,6 +244,12 @@
 		B59BAD911F7AA3EC00A65AD1 /* GError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GError.swift; sourceTree = "<group>"; };
 		B5C4F5D61F7B976500C1FF23 /* RCDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = RCDataModel.xcdatamodel; sourceTree = "<group>"; };
 		B5C4F5D81F7BA2D300C1FF23 /* GCalendarExtendedList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GCalendarExtendedList.swift; sourceTree = "<group>"; };
+		B5C6ACB91F8693DA001FA175 /* EventCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventCell.swift; sourceTree = "<group>"; };
+		B5C6ACBA1F8693DA001FA175 /* EventCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EventCell.xib; sourceTree = "<group>"; };
+		B5D5384D1F87FE3800928E64 /* Spinner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Spinner.swift; sourceTree = "<group>"; };
+		B5D5384F1F88739100928E64 /* OverlayButton.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OverlayButton.xib; sourceTree = "<group>"; };
+		B5D538511F8874D200928E64 /* OverlayButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OverlayButton.swift; sourceTree = "<group>"; };
+		B5D538531F88882B00928E64 /* SideShadowLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SideShadowLayer.swift; sourceTree = "<group>"; };
 		B5D83BC21F7ADA9E004C7A12 /* Formatters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Formatters.swift; sourceTree = "<group>"; };
 		B5F6388F1F78F5BC00E80DEC /* RoliqueCalendar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RoliqueCalendar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5F638921F78F5BC00E80DEC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -132,6 +279,16 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		B550ACB21FA884810067082C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B550AD101FA8876F0067082C /* GoogleSignIn.bundle in Frameworks */,
+				B550AD111FA8876F0067082C /* GoogleSignIn.framework in Frameworks */,
+				B550AD121FA8876F0067082C /* GoogleSignInDependencies.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B5F6388C1F78F5BC00E80DEC /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -139,6 +296,7 @@
 				B5F638AC1F7905E800E80DEC /* GoogleSignIn.bundle in Frameworks */,
 				B5F638AD1F7905E800E80DEC /* GoogleSignIn.framework in Frameworks */,
 				B5F638AE1F7905E800E80DEC /* GoogleSignInDependencies.framework in Frameworks */,
+				B550ACBD1FA884820067082C /* RoCalendar.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -178,6 +336,29 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		B52E2F4C1F8CEFEB0031FDED /* EventDetail */ = {
+			isa = PBXGroup;
+			children = (
+				B52E2F4D1F8CF0590031FDED /* UserCell.swift */,
+				B52E2F4F1F8CF0800031FDED /* BasicEventAttributeView.swift */,
+				B52E2F531F8D05B20031FDED /* BasicEventAttributeView.xib */,
+				B52E2F511F8D05270031FDED /* TableEventAttributeView.swift */,
+				B52E2F551F8D06C70031FDED /* TableEventAttributeView.xib */,
+				B5266BF81F8F5BCA007A266E /* TableEventAttributeHeaderView.swift */,
+				B5266BF61F8F5BB7007A266E /* TableEventAttributeHeaderView.xib */,
+			);
+			path = EventDetail;
+			sourceTree = "<group>";
+		};
+		B550ACB71FA884810067082C /* RoCalendar */ = {
+			isa = PBXGroup;
+			children = (
+				B550ACB81FA884810067082C /* RoCalendar.h */,
+				B550ACB91FA884810067082C /* Info.plist */,
+			);
+			path = RoCalendar;
+			sourceTree = "<group>";
+		};
 		B59BAD8C1F7AA3AE00A65AD1 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
@@ -185,6 +366,11 @@
 				B510998D1F84EB9D00A416BE /* Router.swift */,
 				B510998E1F84EB9D00A416BE /* MultiActionAlert.swift */,
 				B5D83BC21F7ADA9E004C7A12 /* Formatters.swift */,
+				B5D538531F88882B00928E64 /* SideShadowLayer.swift */,
+				B5266BFA1F8F99EE007A266E /* PopAnimator.swift */,
+				B57DFDAD1F90E89C002656FF /* Interactor.swift */,
+				B55AFFA01F96245E006AA072 /* DroppingModalVC.swift */,
+				B55AFFA11F96245E006AA072 /* DroppingModalVC.xib */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -193,6 +379,7 @@
 			isa = PBXGroup;
 			children = (
 				B5F638911F78F5BC00E80DEC /* RoliqueCalendar */,
+				B550ACB71FA884810067082C /* RoCalendar */,
 				B5F638901F78F5BC00E80DEC /* Products */,
 			);
 			sourceTree = "<group>";
@@ -201,6 +388,7 @@
 			isa = PBXGroup;
 			children = (
 				B5F6388F1F78F5BC00E80DEC /* RoliqueCalendar.app */,
+				B550ACB61FA884810067082C /* RoCalendar.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -234,6 +422,7 @@
 			isa = PBXGroup;
 			children = (
 				B5F638C31F7A62E100E80DEC /* APIHelper.swift */,
+				B5D5384D1F87FE3800928E64 /* Spinner.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -241,9 +430,16 @@
 		B5F638BA1F794CFE00E80DEC /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				B52E2F4C1F8CEFEB0031FDED /* EventDetail */,
 				B51099961F850D4D00A416BE /* NibLoadingView.swift */,
 				B51099941F850D0C00A416BE /* EventSectionHeaderView.swift */,
 				B51099921F850D0200A416BE /* EventSectionHeaderView.xib */,
+				B51099981F851A0F00A416BE /* DayTableViewCell.swift */,
+				B51099991F851A0F00A416BE /* DayTableViewCell.xib */,
+				B5C6ACB91F8693DA001FA175 /* EventCell.swift */,
+				B5C6ACBA1F8693DA001FA175 /* EventCell.xib */,
+				B5D5384F1F88739100928E64 /* OverlayButton.xib */,
+				B5D538511F8874D200928E64 /* OverlayButton.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -253,6 +449,7 @@
 			children = (
 				B5F638C71F7A64C500E80DEC /* ViewController.swift */,
 				B51C549C1F7BCF6A00A7D2CF /* BaseVC+GoogleSignIn.swift */,
+				B52E2F571F8D10D60031FDED /* EventDetailVC.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -285,7 +482,36 @@
 		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		B550ACB31FA884810067082C /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B550ACBA1FA884810067082C /* RoCalendar.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
+		B550ACB51FA884810067082C /* RoCalendar */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B550ACC11FA884820067082C /* Build configuration list for PBXNativeTarget "RoCalendar" */;
+			buildPhases = (
+				B550ACB11FA884810067082C /* Sources */,
+				B550ACB21FA884810067082C /* Frameworks */,
+				B550ACB31FA884810067082C /* Headers */,
+				B550ACB41FA884810067082C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RoCalendar;
+			productName = RoCalendar;
+			productReference = B550ACB61FA884810067082C /* RoCalendar.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 		B5F6388E1F78F5BC00E80DEC /* RoliqueCalendar */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = B5F638A11F78F5BC00E80DEC /* Build configuration list for PBXNativeTarget "RoliqueCalendar" */;
@@ -293,10 +519,12 @@
 				B5F6388B1F78F5BC00E80DEC /* Sources */,
 				B5F6388C1F78F5BC00E80DEC /* Frameworks */,
 				B5F6388D1F78F5BC00E80DEC /* Resources */,
+				B550ACC21FA884820067082C /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				B550ACBC1FA884820067082C /* PBXTargetDependency */,
 			);
 			name = RoliqueCalendar;
 			productName = RoliqueCalendar;
@@ -313,6 +541,11 @@
 				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = Rolique;
 				TargetAttributes = {
+					B550ACB51FA884810067082C = {
+						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = ZL58JZZ8KD;
+						ProvisioningStyle = Automatic;
+					};
 					B5F6388E1F78F5BC00E80DEC = {
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = ZL58JZZ8KD;
@@ -334,34 +567,133 @@
 			projectRoot = "";
 			targets = (
 				B5F6388E1F78F5BC00E80DEC /* RoliqueCalendar */,
+				B550ACB51FA884810067082C /* RoCalendar */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		B550ACB41FA884810067082C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B5F6388D1F78F5BC00E80DEC /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B52E2F561F8D06C70031FDED /* TableEventAttributeView.xib in Resources */,
 				B5F638A71F7902F100E80DEC /* GoogleSignIn.bundle in Resources */,
 				B5F6389D1F78F5BC00E80DEC /* LaunchScreen.storyboard in Resources */,
+				B5D538501F88739100928E64 /* OverlayButton.xib in Resources */,
+				B5266BF71F8F5BB7007A266E /* TableEventAttributeHeaderView.xib in Resources */,
 				B5F6389A1F78F5BC00E80DEC /* Assets.xcassets in Resources */,
 				B5F638981F78F5BC00E80DEC /* Main.storyboard in Resources */,
 				B51099931F850D0200A416BE /* EventSectionHeaderView.xib in Resources */,
+				B510999B1F851A0F00A416BE /* DayTableViewCell.xib in Resources */,
+				B5C6ACBC1F8693DA001FA175 /* EventCell.xib in Resources */,
+				B52E2F541F8D05B20031FDED /* BasicEventAttributeView.xib in Resources */,
 				B5F638B01F79062100E80DEC /* GoogleService-Info.plist in Resources */,
+				B55AFFA31F96245E006AA072 /* DroppingModalVC.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		B550ACB11FA884810067082C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B550ACC31FA884D10067082C /* RCalendar.swift in Sources */,
+				B550ACC41FA884D10067082C /* Router.swift in Sources */,
+				B550ACC51FA884D10067082C /* MultiActionAlert.swift in Sources */,
+				B550ACC61FA884D10067082C /* Formatters.swift in Sources */,
+				B550ACC71FA884D10067082C /* SideShadowLayer.swift in Sources */,
+				B550ACC81FA884D10067082C /* PopAnimator.swift in Sources */,
+				B550ACC91FA884D10067082C /* Interactor.swift in Sources */,
+				B550ACCA1FA884D10067082C /* DroppingModalVC.swift in Sources */,
+				B550ACCB1FA884D10067082C /* DroppingModalVC.xib in Sources */,
+				B550ACCC1FA884D10067082C /* UserCell.swift in Sources */,
+				B550ACCD1FA884D10067082C /* BasicEventAttributeView.swift in Sources */,
+				B550ACCE1FA884D10067082C /* BasicEventAttributeView.xib in Sources */,
+				B550ACCF1FA884D10067082C /* TableEventAttributeView.swift in Sources */,
+				B550ACD01FA884D10067082C /* TableEventAttributeView.xib in Sources */,
+				B550ACD11FA884D10067082C /* TableEventAttributeHeaderView.swift in Sources */,
+				B550ACD21FA884D10067082C /* TableEventAttributeHeaderView.xib in Sources */,
+				B550ACD31FA884D10067082C /* NibLoadingView.swift in Sources */,
+				B550ACD41FA884D10067082C /* EventSectionHeaderView.swift in Sources */,
+				B550ACD51FA884D10067082C /* EventSectionHeaderView.xib in Sources */,
+				B550ACD61FA884D10067082C /* DayTableViewCell.swift in Sources */,
+				B550ACD71FA884D10067082C /* DayTableViewCell.xib in Sources */,
+				B550ACD81FA884D10067082C /* EventCell.swift in Sources */,
+				B550ACD91FA884D10067082C /* EventCell.xib in Sources */,
+				B550ACDA1FA884D10067082C /* OverlayButton.xib in Sources */,
+				B550ACDB1FA884D10067082C /* OverlayButton.swift in Sources */,
+				B550ACDC1FA884D10067082C /* ViewController.swift in Sources */,
+				B550ACDD1FA884D10067082C /* BaseVC+GoogleSignIn.swift in Sources */,
+				B550ACDE1FA884D10067082C /* EventDetailVC.swift in Sources */,
+				B550ACDF1FA884D10067082C /* GModelType.swift in Sources */,
+				B550ACE01FA884D10067082C /* GCalendarExtended.swift in Sources */,
+				B550ACE11FA884D10067082C /* GCalendarExtendedList.swift in Sources */,
+				B550ACE21FA884D10067082C /* GCalendar.swift in Sources */,
+				B550ACE31FA884D10067082C /* GEvent.swift in Sources */,
+				B550ACE41FA884D10067082C /* GEventList.swift in Sources */,
+				B550ACE51FA884D10067082C /* GNotificationSettings.swift in Sources */,
+				B550ACE61FA884D10067082C /* GNotification.swift in Sources */,
+				B550ACE71FA884D10067082C /* GReminder.swift in Sources */,
+				B550ACE81FA884D10067082C /* GUser.swift in Sources */,
+				B550ACE91FA884D10067082C /* GTimeStamp.swift in Sources */,
+				B550ACEA1FA884D10067082C /* GDate.swift in Sources */,
+				B550ACEB1FA884D10067082C /* GProperties.swift in Sources */,
+				B550ACEC1FA884D10067082C /* GGadget.swift in Sources */,
+				B550ACED1FA884D10067082C /* GEventReminders.swift in Sources */,
+				B550ACEE1FA884D10067082C /* GSource.swift in Sources */,
+				B550ACEF1FA884D10067082C /* GAttachment.swift in Sources */,
+				B550ACF01FA884D10067082C /* GErrorModel.swift in Sources */,
+				B550ACF11FA884D10067082C /* GError.swift in Sources */,
+				B550ACF21FA884D10067082C /* DataController.swift in Sources */,
+				B550ACF31FA884D10067082C /* CoreDataProxy.swift in Sources */,
+				B550ACF41FA884D10067082C /* Model.swift in Sources */,
+				B550ACF51FA884D10067082C /* Calendar.swift in Sources */,
+				B550ACF61FA884D10067082C /* CalendarList.swift in Sources */,
+				B550ACF71FA884D10067082C /* Reminder.swift in Sources */,
+				B550ACF81FA884D10067082C /* Notification.swift in Sources */,
+				B550ACF91FA884D10067082C /* NotificationSettings.swift in Sources */,
+				B550ACFA1FA884D10067082C /* Attachment.swift in Sources */,
+				B550ACFB1FA884D10067082C /* User.swift in Sources */,
+				B550ACFC1FA884D10067082C /* DateNoTz.swift in Sources */,
+				B550ACFD1FA884D10067082C /* TimeStamp.swift in Sources */,
+				B550ACFE1FA884D10067082C /* Properties.swift in Sources */,
+				B550ACFF1FA884D10067082C /* Gadget.swift in Sources */,
+				B550AD001FA884D10067082C /* EventReminders.swift in Sources */,
+				B550AD011FA884D10067082C /* Source.swift in Sources */,
+				B550AD021FA884D10067082C /* Event.swift in Sources */,
+				B550AD031FA884D10067082C /* Day.swift in Sources */,
+				B550AD041FA884D10067082C /* APIHelper.swift in Sources */,
+				B550AD051FA884D10067082C /* Spinner.swift in Sources */,
+				B550AD061FA884D10067082C /* AppDelegate.swift in Sources */,
+				B550AD071FA884D10067082C /* Constants.swift in Sources */,
+				B550AD081FA884D10067082C /* Extensions.swift in Sources */,
+				B550AD091FA884D10067082C /* RCDataModel.xcdatamodeld in Sources */,
+				B550AD0A1FA884D10067082C /* Assets.xcassets in Sources */,
+				B550AD0B1FA884D10067082C /* Info.plist in Sources */,
+				B550AD0C1FA884D10067082C /* GoogleService-Info.plist in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B5F6388B1F78F5BC00E80DEC /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B57DFDAE1F90E89C002656FF /* Interactor.swift in Sources */,
 				B51C548D1F7BA6FA00A7D2CF /* GEventList.swift in Sources */,
 				B51C54931F7BC5D100A7D2CF /* GDate.swift in Sources */,
 				B59BAD921F7AA3EC00A65AD1 /* GError.swift in Sources */,
+				B5C6ACBB1F8693DA001FA175 /* EventCell.swift in Sources */,
+				B52E2F581F8D10D60031FDED /* EventDetailVC.swift in Sources */,
 				B5D83BC31F7ADA9E004C7A12 /* Formatters.swift in Sources */,
 				B59BAD8B1F7A9B8E00A65AD1 /* GAttachment.swift in Sources */,
 				B52C4ED91F7EA8CA000CECC3 /* Properties.swift in Sources */,
@@ -369,13 +701,18 @@
 				B52C4EE11F7EACD2000CECC3 /* Event.swift in Sources */,
 				B5FFD1FE1F7E51000034CAB8 /* CalendarList.swift in Sources */,
 				B5C4F5D91F7BA2D300C1FF23 /* GCalendarExtendedList.swift in Sources */,
+				B5D5384E1F87FE3800928E64 /* Spinner.swift in Sources */,
 				B52C4ED51F7E9D5E000CECC3 /* DateNoTz.swift in Sources */,
 				B5F638CE1F7A668000E80DEC /* GReminder.swift in Sources */,
 				B58EECEE1F7A99170076EFDD /* GEventReminders.swift in Sources */,
+				B55AFFA21F96245E006AA072 /* DroppingModalVC.swift in Sources */,
+				B5D538541F88882B00928E64 /* SideShadowLayer.swift in Sources */,
 				B52C4EDD1F7EABFE000CECC3 /* EventReminders.swift in Sources */,
 				B5F638C81F7A64C500E80DEC /* ViewController.swift in Sources */,
 				B59BAD901F7AA3D400A65AD1 /* GErrorModel.swift in Sources */,
+				B5D538521F8874D200928E64 /* OverlayButton.swift in Sources */,
 				B52C4ED71F7EA128000CECC3 /* TimeStamp.swift in Sources */,
+				B52E2F521F8D05270031FDED /* TableEventAttributeView.swift in Sources */,
 				B5F638931F78F5BC00E80DEC /* AppDelegate.swift in Sources */,
 				B51099911F84EB9D00A416BE /* MultiActionAlert.swift in Sources */,
 				B5F638B41F7908E400E80DEC /* Constants.swift in Sources */,
@@ -383,6 +720,7 @@
 				B59BAD891F7A9B3600A65AD1 /* GSource.swift in Sources */,
 				B5F638BE1F794DF300E80DEC /* GCalendarExtended.swift in Sources */,
 				B52C4EDF1F7EAC81000CECC3 /* Source.swift in Sources */,
+				B52E2F501F8CF0800031FDED /* BasicEventAttributeView.swift in Sources */,
 				B52C4ED11F7E6F1E000CECC3 /* Attachment.swift in Sources */,
 				B5FFD1F81F7D77A00034CAB8 /* Reminder.swift in Sources */,
 				B58EECE61F7A92550076EFDD /* GUser.swift in Sources */,
@@ -396,23 +734,35 @@
 				B5C4F5D71F7B976500C1FF23 /* RCDataModel.xcdatamodeld in Sources */,
 				B5F638C01F7A48C400E80DEC /* GModelType.swift in Sources */,
 				B56E7ACE1F7D73D70007B4DC /* CoreDataProxy.swift in Sources */,
+				B5266BF91F8F5BCA007A266E /* TableEventAttributeHeaderView.swift in Sources */,
 				B51C54971F7BC71F00A7D2CF /* DataController.swift in Sources */,
 				B510998F1F84EB9D00A416BE /* RCalendar.swift in Sources */,
 				B5F638D21F7A8D9F00E80DEC /* GEvent.swift in Sources */,
+				B510999A1F851A0F00A416BE /* DayTableViewCell.swift in Sources */,
 				B52C4EE31F7F06C4000CECC3 /* Day.swift in Sources */,
 				B51099951F850D0C00A416BE /* EventSectionHeaderView.swift in Sources */,
 				B5FFD1FC1F7D7F1A0034CAB8 /* NotificationSettings.swift in Sources */,
+				B52E2F4E1F8CF0590031FDED /* UserCell.swift in Sources */,
 				B51099971F850D4D00A416BE /* NibLoadingView.swift in Sources */,
 				B58EECE81F7A935F0076EFDD /* GTimeStamp.swift in Sources */,
 				B52161EA1F7C18A2005A55FD /* Model.swift in Sources */,
 				B5FFD1FA1F7D7EAD0034CAB8 /* Notification.swift in Sources */,
 				B5F638CA1F7A664500E80DEC /* GNotificationSettings.swift in Sources */,
+				B5266BFB1F8F99EE007A266E /* PopAnimator.swift in Sources */,
 				B58EECEC1F7A97560076EFDD /* GGadget.swift in Sources */,
 				B56E7AAB1F7C8C7B0007B4DC /* Calendar.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		B550ACBC1FA884820067082C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B550ACB51FA884810067082C /* RoCalendar */;
+			targetProxy = B550ACBB1FA884820067082C /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		B5F638961F78F5BC00E80DEC /* Main.storyboard */ = {
@@ -434,6 +784,58 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		B550ACBF1FA884820067082C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = ZL58JZZ8KD;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/RoliqueCalendar",
+				);
+				INFOPLIST_FILE = RoCalendar/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = io.rolique.RoCalendar;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		B550ACC01FA884820067082C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = ZL58JZZ8KD;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/RoliqueCalendar",
+				);
+				INFOPLIST_FILE = RoCalendar/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = io.rolique.RoCalendar;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
 		B5F6389F1F78F5BC00E80DEC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -532,6 +934,7 @@
 		B5F638A21F78F5BC00E80DEC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = ZL58JZZ8KD;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -539,6 +942,7 @@
 					"$(PROJECT_DIR)/RoliqueCalendar",
 				);
 				INFOPLIST_FILE = RoliqueCalendar/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = io.rolique.RoliqueCalendar;
@@ -550,6 +954,7 @@
 		B5F638A31F78F5BC00E80DEC /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = ZL58JZZ8KD;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -557,6 +962,7 @@
 					"$(PROJECT_DIR)/RoliqueCalendar",
 				);
 				INFOPLIST_FILE = RoliqueCalendar/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = io.rolique.RoliqueCalendar;
@@ -568,6 +974,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		B550ACC11FA884820067082C /* Build configuration list for PBXNativeTarget "RoCalendar" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B550ACBF1FA884820067082C /* Debug */,
+				B550ACC01FA884820067082C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		B5F6388A1F78F5BC00E80DEC /* Build configuration list for PBXProject "RoliqueCalendar" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

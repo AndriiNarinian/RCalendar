@@ -27,6 +27,12 @@ struct Formatters {
         return formatter
     }
     
+    static var hoursAndMinutes: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HH:mm"
+        return formatter
+    }
+    
     static var dayNumber: DateFormatter {
         let formatter = DateFormatter()
         formatter.dateFormat = "d"
@@ -48,6 +54,12 @@ struct Formatters {
     static var monthAndYear: DateFormatter {
         let formatter = DateFormatter()
         formatter.dateFormat = "MMMM yyyy"
+        return formatter
+    }
+    
+    static var dayAndMonthAndYear: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "EEEE, MMM d, yyyy"
         return formatter
     }
 }

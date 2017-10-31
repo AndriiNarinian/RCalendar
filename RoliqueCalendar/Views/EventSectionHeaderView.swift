@@ -9,6 +9,25 @@
 import UIKit
 
 class EventSectionHeaderView: NibLoadingView {
-    @IBOutlet weak var dayNumber: UILabel!
-    @IBOutlet weak var dayName: UILabel!
+    @IBOutlet weak var monthLabel: UILabel!
+    @IBOutlet weak var shadowView: UIView!
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        initialize()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        initialize()
+    }
+    
+    
+    
+    func initialize() {
+        //shadowView.layer.addSublayer(SideShadowLayer(frame: shadowView.layer.frame, side: .bottom, shadowMagnitude: 4))
+        shadowView.layer.shadowColor = UIColor.black.cgColor
+        shadowView.layer.shadowRadius = 4.0
+        shadowView.layer.shadowOffset = CGSize(width: 0, height: 4)
+        shadowView.layer.shadowOpacity = 0.5
+    }
 }

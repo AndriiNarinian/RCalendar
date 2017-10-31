@@ -10,7 +10,7 @@ import Foundation
 
 extension DateNoTz {
     @discardableResult static func insert(from string: String) -> DateNoTz {
-        let dateNoTz = DateNoTz(context: CoreData.backContext)
+        let dateNoTz = Dealer<DateNoTz>.inserted
         dateNoTz.stringValue = string
         return dateNoTz
     }
@@ -28,7 +28,7 @@ extension DateNoTz {
 
 extension DateTz {
     @discardableResult static func insert(from string: String) -> DateTz {
-        let dateNoTz = DateTz(context: CoreData.backContext)
+        let dateNoTz = Dealer<DateTz>.inserted
         dateNoTz.stringValue = string
         return dateNoTz
     }

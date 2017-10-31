@@ -10,7 +10,7 @@ import Foundation
 
 extension Properties {
     @discardableResult static func insert(from dict: [String: Any]) -> Properties {
-        let properties = Properties(context: CoreData.backContext)
+        let properties = Dealer<Properties>.inserted
         properties.privat = NSMutableDictionary(dictionary: dict["private"] as! [String: String])
         properties.shared = NSMutableDictionary(dictionary: dict["shared"] as! [String: String])
         

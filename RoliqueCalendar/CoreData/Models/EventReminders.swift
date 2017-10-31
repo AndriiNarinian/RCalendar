@@ -10,7 +10,7 @@ import Foundation
 
 extension EventReminders {
     @discardableResult static func insert(from dict: [String: Any]) -> EventReminders {
-        let reminders = EventReminders(context: CoreData.backContext)
+        let reminders = Dealer<EventReminders>.inserted
         reminders.useDefault = dict["type"].boolValue
         reminders.overrides = dict["overrides"].maybeInsertDictArray { Reminder.insert(from: $0.dictValue) }
         
@@ -18,7 +18,7 @@ extension EventReminders {
     }
     
     @discardableResult static func insertBack(from dict: [String: Any]) -> EventReminders {
-        let reminders = EventReminders(context: CoreData.backContext)
+        let reminders = Dealer<EventReminders>.inserted
         reminders.useDefault = dict["type"].boolValue
         reminders.overrides = dict["overrides"].maybeInsertDictArray { Reminder.insertBack(from: $0.dictValue) }
         
