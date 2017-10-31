@@ -73,7 +73,7 @@ class DayTableViewCell: UITableViewCell {
                     
                     let centerY = UIApplication.shared.keyWindow?.center.y ?? 0
                     let deviation = (abs(centerY - rect.origin.y) / centerY) * kScrollEffectDeviationMultiplier
-                    cell?.layer.frame.origin.y = (velocity * deviation) + ((CGFloat(indexPath.row) * (cell?.frame.size.height ?? 0)))
+                    cell?.layer.frame.origin.y = (velocity * deviation) + (CGFloat(indexPath.row) * (cell?.frame.size.height ?? 0))
                 }
             }
         }
