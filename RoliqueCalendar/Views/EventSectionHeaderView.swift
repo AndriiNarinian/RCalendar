@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class EventSectionHeaderView: NibLoadingView {
+class EventSectionHeaderView: NibLoadingView {
     @IBOutlet weak var monthLabel: UILabel!
     @IBOutlet weak var shadowView: UIView!
     override init(frame: CGRect) {

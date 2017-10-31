@@ -83,11 +83,11 @@ open class DayTableViewCell: UITableViewCell {
 }
 
 extension DayTableViewCell: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return day?.sortedEvents.count ?? 0
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "EventCell") as! EventCell
         let event = day?.sortedEvents[safe: indexPath.row]
         cell.update(with: event)
@@ -97,7 +97,7 @@ extension DayTableViewCell: UITableViewDataSource {
 }
 
 extension DayTableViewCell: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         delegate?.dayTableViewCelldidSelectEvent(cell: self, on: day, at: indexPath)
     }
