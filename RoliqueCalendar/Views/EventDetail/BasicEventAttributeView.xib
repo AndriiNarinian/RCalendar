@@ -10,7 +10,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="BasicEventAttributeView" customModule="RoliqueCalendar" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="BasicEventAttributeView" customModule="RoCalendar" customModuleProvider="target">
             <connections>
                 <outlet property="iconImageView" destination="YFI-Qn-T4u" id="lAW-RH-xp5"/>
                 <outlet property="subtitleLabel" destination="FUf-fU-7Ms" id="RE9-gr-PNh"/>

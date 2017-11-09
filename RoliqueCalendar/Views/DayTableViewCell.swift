@@ -19,6 +19,12 @@ open class DayTableViewCell: UITableViewCell {
     @IBOutlet weak var dayName: UILabel!
     
     var day: Day?
+    var filterCalendarIds: [String]?
+    
+    var events: [Event] {
+        return DayTableViewCell.filterEvents(events: day?.sortedEvents, with: filterCalendarIds)
+    }
+    
     weak var delegate: DayTableViewCellDelegate?
     
     override open func awakeFromNib() {
@@ -31,23 +37,39 @@ open class DayTableViewCell: UITableViewCell {
         tableView.register(UINib(nibName: "EventCell", bundle: bundle), forCellReuseIdentifier: "EventCell")
     }
     
-    func update(with day: Day, delegate: DayTableViewCellDelegate?) {
+    static func filterEvents(events: [Event]?, with calendarIds: [String]?) -> [Event] {
+        if let filterCalendarIds = calendarIds {
+            return events?.filter({ storedEvent -> Bool in
+                var result = false
+                for calendarId in filterCalendarIds {
+                    let ids = storedEvent.calendars.map { $0.id }
+                    if ids.contains(calendarId) { result = true }
+                }
+                return result
+            }) ?? []
+        } else {
+            return events ?? []
+        }
+    }
+    
+    func update(with day: Day, delegate: DayTableViewCellDelegate?, filterCalendarIds: [String]?) {
         self.day = day
+        self.filterCalendarIds = filterCalendarIds
         self.delegate = delegate
+        
         tableView.reloadData()
         movingView.layer.frame.origin.y = 0
         
         guard let date = day.date as Date? else { return }
         dayNumber.text = Formatters.dayNumber.string(from: date)
         dayName.text = Formatters.dayNameShort.string(from: date)
-        
     }
 
     var preOffset: CGFloat?
     
     func parentTableViewDidScroll(_ tableView: UITableView, rect: CGRect, with day: Day?) {
         
-        performScrollingEffect(tableView)
+        //performScrollingEffect(tableView)
         
         guard rect.origin.y < 0 else {
             movingView.layer.frame.origin.y = 0
@@ -82,12 +104,12 @@ open class DayTableViewCell: UITableViewCell {
 
 extension DayTableViewCell: UITableViewDataSource {
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return day?.sortedEvents.count ?? 0
+        return events.count
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "EventCell") as! EventCell
-        let event = day?.sortedEvents[safe: indexPath.row]
+        let event = events[safe: indexPath.row]
         cell.update(with: event)
         
         return cell

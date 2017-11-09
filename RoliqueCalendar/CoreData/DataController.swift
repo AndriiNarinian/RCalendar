@@ -168,7 +168,9 @@ class DataController: NSObject {
     
     func printLibraryPath() {
         if let url = FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask).last {
+            print("vvvv")
             print(url.path)
+            print("^^^^")
         }
     }
     
@@ -217,7 +219,6 @@ class DataController: NSObject {
          error conditions that could cause the creation of the store to fail.
          */
         let name = "RCDataModel"
-        let bundle = Bundle(identifier: "io.rolique.RoCalendar")
         print("bundle: \(bundle)")
         guard let modelURL = bundle?.url(forResource: name, withExtension: "momd"),
             let mom = NSManagedObjectModel(contentsOf: modelURL)

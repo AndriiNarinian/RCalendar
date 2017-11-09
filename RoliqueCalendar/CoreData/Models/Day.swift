@@ -14,7 +14,6 @@ extension Day {
         let day = Dealer<Day>.inserted
         day.date = dayValue.0
         day.events = dayValue.1
-        
         return day
     }
     
@@ -29,6 +28,13 @@ extension Day {
     var sortedEvents: [Event] { return Unwrap<Event>.arrayValueFromSet(events).sorted(by: { (event1, event2) -> Bool in
         guard let date1 = event1.start?.dateToUse, let date2 = event2.start?.dateToUse else { return false }
         return (date1 as Date) < (date2 as Date)
-    })
-    }
+    })}
+    
+//    var includedCalendars: String {
+//        return sortedEvents.map { event in
+//            event.calendars.map { calendarData in
+//                return calendarData.id
+//            }.reduce(with: ",")
+//        }.reduce(with: ",")
+//    }
 }

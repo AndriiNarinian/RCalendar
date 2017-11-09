@@ -11,7 +11,7 @@ import CoreData
 
 open class CalendarVC: VC, GoogleAPICompatible {
     internal var gIDSignInProxy = GIDSignInProxyObject()
-    fileprivate var eventProxy = CoreDataProxy<Day>()
+    fileprivate var eventProxy: CoreDataProxy<Day>!
     fileprivate var isLoading = false
     fileprivate var topDay: Day?
     
@@ -23,10 +23,12 @@ open class CalendarVC: VC, GoogleAPICompatible {
     var lastMinOffset: CGFloat?
     var lastBound: PaginationBound?
     var selectedEventCell: EventCell?
+    var selectedCalendars: [Calendar]?
     
     @IBOutlet weak var overlayButton: OverlayButton!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var filterButton: UIButton!
     
     override open func viewDidLoad() {
         super.viewDidLoad()
@@ -37,21 +39,9 @@ open class CalendarVC: VC, GoogleAPICompatible {
         tableView.register(UINib(nibName: "DayTableViewCell", bundle: bundle), forCellReuseIdentifier: "DayTableViewCell")
         
         gIDSignInProxy.configure(with: self)
+
+        makeProxy()
         
-        let eventProxyConfig = ProxyConfigWithTableView(
-            tableView: tableView,
-            sortDescriptors: [(#keyPath(Day.date), true)],
-            updateMode: .tableViewReload,
-            proxyConfigTableViewDelegate: self
-        ) { [unowned self] (object, indexPath) -> UITableViewCell in
-            if let day = object as? Day {
-                let cell = self.tableView.dequeueReusableCell(withIdentifier: "DayTableViewCell") as! DayTableViewCell
-                cell.update(with: day, delegate: self)
-                return cell
-            }
-            return UITableViewCell()
-        }
-        eventProxy.configure(config: eventProxyConfig)
         isLoading = true
         scrollToToday(false)
         activityIndicator.startAnimating()
@@ -62,10 +52,68 @@ open class CalendarVC: VC, GoogleAPICompatible {
         }
         
         overlayButton.configure(text: "today", target: self, selector: #selector(todayButtonAction))
+        filterButton.addTarget(self, action: #selector(showInfo), for: .touchUpInside)
+    }
+    
+    func makeProxy() {
+        eventProxy = CoreDataProxy<Day>()
+        
+        let eventProxyConfig = ProxyConfigWithTableView(
+            tableView: tableView,
+            sortDescriptors: [(#keyPath(Day.date), true)],
+            filterCalendarIds: selectedCalendars != nil ? selectedCalendars!.map { $0.id ?? "" } : nil,
+            updateMode: .tableViewReload,
+            proxyConfigTableViewDelegate: self
+        ) { [unowned self] (object, indexPath) -> UITableViewCell in
+            if let day = object as? Day {
+                let cell = self.tableView.dequeueReusableCell(withIdentifier: "DayTableViewCell") as! DayTableViewCell
+                let filter = self.selectedCalendars != nil ? self.selectedCalendars!.map { $0.id ?? "" } : nil
+                cell.update(with: day, delegate: self, filterCalendarIds: filter)
+                return cell
+            }
+            return UITableViewCell()
+        }
+        eventProxy.configure(config: eventProxyConfig)
+    }
+    
+    func showInfo() {
+        let calendars = generateCalendarSamples()
+        let rowHeight: CGFloat = 50
+        let vc = TableInfoViewController.deploy(with: calendars, selectedCalendars: selectedCalendars) { [unowned self] selectedCalendars in
+                self.filter(with: selectedCalendars)
+                var title = ""
+                switch selectedCalendars.count {
+                case calendars.count: title = "All"
+                case 1: title = selectedCalendars.first?.summary ?? ""
+                default: title = "\(selectedCalendars.count)"
+            }
+            self.filterButton.setTitle(title, for: .normal)
+        }
+        vc.modalPresentationStyle = .popover
+        vc.preferredContentSize = CGSize(width: 300, height: rowHeight * CGFloat(calendars.count + 1))
+        let popover = vc.popoverPresentationController
+        popover?.delegate = self
+        popover?.sourceView = filterButton
+        popover?.canOverlapSourceViewRect = true
+        popover?.permittedArrowDirections = .any
+        present(vc, animated: true)
+    }
+    
+    func generateCalendarSamples() -> [Calendar] {
+        let calendarIds = RCalendar.main.calendarIds
+        
+        let calendars = calendarIds.flatMap { Dealer<Calendar>.fetch(with: "id", value: $0) }
+        return calendars
     }
     
     func todayButtonAction() {
         scrollToToday(true)
+    }
+    
+    func filter(with calendars: [Calendar]) {
+        self.selectedCalendars = calendars
+        self.makeProxy()
+        self.tableView.reloadData()
     }
     
     override open func viewDidLayoutSubviews() {
@@ -175,5 +223,17 @@ extension CalendarVC: UIViewControllerTransitioningDelegate {
     
     public func interactionControllerForDismissal(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
         return interactor.hasStarted ? interactor : nil
+    }
+}
+
+
+// MARK: - UIPopoverPresentationControllerDelegate
+extension CalendarVC: UIPopoverPresentationControllerDelegate {
+    public func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        return .none
+    }
+    
+    public func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
+        return .none
     }
 }

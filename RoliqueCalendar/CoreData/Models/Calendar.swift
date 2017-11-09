@@ -6,7 +6,7 @@
 //  Copyright © 2017 Rolique. All rights reserved.
 //
 
-import Foundation
+import UIKit
 import CoreData
 
 extension Calendar {

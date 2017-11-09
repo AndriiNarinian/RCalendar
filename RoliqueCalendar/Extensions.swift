@@ -393,6 +393,16 @@ extension Optional {
     }
 }
 
+extension UITableView {
+    func register(_ cells: [UITableViewCell.Type]) {
+        cells.forEach({
+            let cellName = String(describing: $0)
+            let nib = UINib(nibName: cellName, bundle: bundle)
+            register(nib, forCellReuseIdentifier: cellName)
+        })
+    }
+}
+
 enum StoryboardId: String {
     case main = "Main"
 }

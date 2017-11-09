@@ -87,10 +87,25 @@ extension Event {
         guard let timeStamp = event.dayString, let date = event.start?.dateToUse else { return event }
         if let day = Dealer<Day>.fetch(with: NSPredicate(format: "timeStamp == %@", timeStamp)), let events = Unwrap<Event>.arrayFromSet(day.events), !events.contains(event) {
             event.day = day
+            
         } else {
             let day = Day.create(with: date)
             event.day = day
+            
         }
+        
+        if let day = Dealer<Day>.fetch(with: NSPredicate(format: "timeStamp == %@", timeStamp)), let existingEvents = Unwrap<Event>.arrayFromSet(day.events) {
+            for event in existingEvents {
+                for calendar in event.calendars {
+                    if day.calendarsString == nil { day.calendarsString = "" }
+                    if !(day.calendarsString?.contains(calendar.id) ?? true) {
+                        day.calendarsString = (day.calendarsString ?? "") + ",\(calendar.id)"
+                    }
+                }
+            }
+        }
+        
+        
         return event
     }
     

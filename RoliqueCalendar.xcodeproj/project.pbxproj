@@ -15,6 +15,12 @@
 		B51099971F850D4D00A416BE /* NibLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51099961F850D4D00A416BE /* NibLoadingView.swift */; };
 		B510999A1F851A0F00A416BE /* DayTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51099981F851A0F00A416BE /* DayTableViewCell.swift */; };
 		B510999B1F851A0F00A416BE /* DayTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B51099991F851A0F00A416BE /* DayTableViewCell.xib */; };
+		B51581D71FB46A2F00F186FC /* TableInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51581D61FB46A2F00F186FC /* TableInfoViewController.swift */; };
+		B51581DB1FB46C9F00F186FC /* CheckInTypeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51581D91FB46C9F00F186FC /* CheckInTypeTableViewCell.swift */; };
+		B51581DC1FB46C9F00F186FC /* CheckInTypeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B51581DA1FB46C9F00F186FC /* CheckInTypeTableViewCell.xib */; };
+		B51581DD1FB46EBD00F186FC /* TableInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51581D61FB46A2F00F186FC /* TableInfoViewController.swift */; };
+		B51581DE1FB46FC400F186FC /* CheckInTypeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B51581DA1FB46C9F00F186FC /* CheckInTypeTableViewCell.xib */; };
+		B51581DF1FB46FC700F186FC /* CheckInTypeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51581D91FB46C9F00F186FC /* CheckInTypeTableViewCell.swift */; };
 		B51C548D1F7BA6FA00A7D2CF /* GEventList.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51C548C1F7BA6FA00A7D2CF /* GEventList.swift */; };
 		B51C54931F7BC5D100A7D2CF /* GDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51C54921F7BC5D100A7D2CF /* GDate.swift */; };
 		B51C54971F7BC71F00A7D2CF /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51C54961F7BC71F00A7D2CF /* DataController.swift */; };
@@ -202,6 +208,9 @@
 		B51099961F850D4D00A416BE /* NibLoadingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NibLoadingView.swift; sourceTree = "<group>"; };
 		B51099981F851A0F00A416BE /* DayTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DayTableViewCell.swift; sourceTree = "<group>"; };
 		B51099991F851A0F00A416BE /* DayTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DayTableViewCell.xib; sourceTree = "<group>"; };
+		B51581D61FB46A2F00F186FC /* TableInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableInfoViewController.swift; sourceTree = "<group>"; };
+		B51581D91FB46C9F00F186FC /* CheckInTypeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckInTypeTableViewCell.swift; sourceTree = "<group>"; };
+		B51581DA1FB46C9F00F186FC /* CheckInTypeTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CheckInTypeTableViewCell.xib; sourceTree = "<group>"; };
 		B51C548C1F7BA6FA00A7D2CF /* GEventList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GEventList.swift; sourceTree = "<group>"; };
 		B51C54921F7BC5D100A7D2CF /* GDate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GDate.swift; sourceTree = "<group>"; };
 		B51C54961F7BC71F00A7D2CF /* DataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
@@ -304,6 +313,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B51581D81FB46C9F00F186FC /* CheckInTypeTableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				B51581D91FB46C9F00F186FC /* CheckInTypeTableViewCell.swift */,
+				B51581DA1FB46C9F00F186FC /* CheckInTypeTableViewCell.xib */,
+			);
+			path = CheckInTypeTableViewCell;
+			sourceTree = "<group>";
+		};
 		B51C54941F7BC64B00A7D2CF /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
@@ -431,6 +449,7 @@
 		B5F638BA1F794CFE00E80DEC /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				B51581D81FB46C9F00F186FC /* CheckInTypeTableViewCell */,
 				B52E2F4C1F8CEFEB0031FDED /* EventDetail */,
 				B51099961F850D4D00A416BE /* NibLoadingView.swift */,
 				B51099941F850D0C00A416BE /* EventSectionHeaderView.swift */,
@@ -451,6 +470,7 @@
 				B5F638C71F7A64C500E80DEC /* CalendarVC.swift */,
 				B51C549C1F7BCF6A00A7D2CF /* BaseVC+GoogleSignIn.swift */,
 				B52E2F571F8D10D60031FDED /* EventDetailVC.swift */,
+				B51581D61FB46A2F00F186FC /* TableInfoViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -579,6 +599,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B5AE8BAC1FA8E25900536262 /* Main.storyboard in Resources */,
+				B51581DE1FB46FC400F186FC /* CheckInTypeTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -593,6 +614,7 @@
 				B5266BF71F8F5BB7007A266E /* TableEventAttributeHeaderView.xib in Resources */,
 				B5F6389A1F78F5BC00E80DEC /* Assets.xcassets in Resources */,
 				B5F638981F78F5BC00E80DEC /* Main.storyboard in Resources */,
+				B51581DC1FB46C9F00F186FC /* CheckInTypeTableViewCell.xib in Resources */,
 				B51099931F850D0200A416BE /* EventSectionHeaderView.xib in Resources */,
 				B510999B1F851A0F00A416BE /* DayTableViewCell.xib in Resources */,
 				B5C6ACBC1F8693DA001FA175 /* EventCell.xib in Resources */,
@@ -632,6 +654,7 @@
 				B550ACD71FA884D10067082C /* DayTableViewCell.xib in Sources */,
 				B550ACD81FA884D10067082C /* EventCell.swift in Sources */,
 				B550ACD91FA884D10067082C /* EventCell.xib in Sources */,
+				B51581DD1FB46EBD00F186FC /* TableInfoViewController.swift in Sources */,
 				B550ACDA1FA884D10067082C /* OverlayButton.xib in Sources */,
 				B550ACDB1FA884D10067082C /* OverlayButton.swift in Sources */,
 				B550ACDC1FA884D10067082C /* CalendarVC.swift in Sources */,
@@ -663,6 +686,7 @@
 				B550ACF61FA884D10067082C /* CalendarList.swift in Sources */,
 				B550ACF71FA884D10067082C /* Reminder.swift in Sources */,
 				B550ACF81FA884D10067082C /* Notification.swift in Sources */,
+				B51581DF1FB46FC700F186FC /* CheckInTypeTableViewCell.swift in Sources */,
 				B550ACF91FA884D10067082C /* NotificationSettings.swift in Sources */,
 				B550ACFA1FA884D10067082C /* Attachment.swift in Sources */,
 				B550ACFB1FA884D10067082C /* User.swift in Sources */,
@@ -698,6 +722,7 @@
 				B52E2F581F8D10D60031FDED /* EventDetailVC.swift in Sources */,
 				B5D83BC31F7ADA9E004C7A12 /* Formatters.swift in Sources */,
 				B59BAD8B1F7A9B8E00A65AD1 /* GAttachment.swift in Sources */,
+				B51581DB1FB46C9F00F186FC /* CheckInTypeTableViewCell.swift in Sources */,
 				B52C4ED91F7EA8CA000CECC3 /* Properties.swift in Sources */,
 				B5F638C21F7A493F00E80DEC /* Extensions.swift in Sources */,
 				B52C4EE11F7EACD2000CECC3 /* Event.swift in Sources */,
@@ -733,6 +758,7 @@
 				B51C549D1F7BCF6A00A7D2CF /* BaseVC+GoogleSignIn.swift in Sources */,
 				B52C4ED31F7E6FC0000CECC3 /* User.swift in Sources */,
 				B51099901F84EB9D00A416BE /* Router.swift in Sources */,
+				B51581D71FB46A2F00F186FC /* TableInfoViewController.swift in Sources */,
 				B5C4F5D71F7B976500C1FF23 /* RCDataModel.xcdatamodeld in Sources */,
 				B5F638C01F7A48C400E80DEC /* GModelType.swift in Sources */,
 				B56E7ACE1F7D73D70007B4DC /* CoreDataProxy.swift in Sources */,

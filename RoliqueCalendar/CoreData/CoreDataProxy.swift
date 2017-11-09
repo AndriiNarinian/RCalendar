@@ -22,6 +22,7 @@ enum ProxyConfigMode { case withTableView, withDelegate }
 protocol ProxyConfig {
     var mode: ProxyConfigMode { get set }
     var sortDescriptors: [SortDescriptor] { get set }
+    var filterCalendarIds: [String]? { get set }
     var tableView: UITableView? { get }
     var tableViewCellConfigurationHandler: TableViewCellConfigurationHandler? { get }
     var proxyConfigTableViewDelegate: ProxyConfigWithTableViewDelegate? { get }
@@ -48,6 +49,7 @@ protocol ProxyConfigWithTableViewDelegate: class {
 }
 
 struct ProxyConfigWithTableView: ProxyConfig {
+    var filterCalendarIds: [String]?
     var mode: ProxyConfigMode
     var sortDescriptors: [SortDescriptor]
     var tableViewCellConfigurationHandler: TableViewCellConfigurationHandler?
@@ -57,11 +59,13 @@ struct ProxyConfigWithTableView: ProxyConfig {
     
     init (tableView: UITableView,
           sortDescriptors: [SortDescriptor],
+          filterCalendarIds: [String]?,
           updateMode: ProxyConfigWithTableViewTableViewUpdateMode = .rowInsertion,
           proxyConfigTableViewDelegate: ProxyConfigWithTableViewDelegate? = nil,
           tableViewCellConfigurationHandler: TableViewCellConfigurationHandler?) {
         self.tableView = tableView
         self.sortDescriptors = sortDescriptors
+        self.filterCalendarIds = filterCalendarIds
         self.tableViewCellConfigurationHandler = tableViewCellConfigurationHandler
         self.mode = .withTableView
         self.updateMode = updateMode
@@ -70,14 +74,16 @@ struct ProxyConfigWithTableView: ProxyConfig {
 }
 
 struct ProxyConfigWithDelegate: ProxyConfig {
+    var filterCalendarIds: [String]?
     var mode: ProxyConfigMode
     var sortDescriptors: [SortDescriptor]
     var delegate: CoreDataProxyDelegate?
     
-    init (delegate: CoreDataProxyDelegate, sortDescriptors: [SortDescriptor]) {
+    init (delegate: CoreDataProxyDelegate, sortDescriptors: [SortDescriptor], filterCalendarIds: [String]?) {
         self.sortDescriptors = sortDescriptors
         self.delegate = delegate
         self.mode = .withDelegate
+        self.filterCalendarIds = filterCalendarIds
     }
 }
 
@@ -117,6 +123,13 @@ class CoreDataProxy<ResultType: NSFetchRequestResult>: NSObject, UITableViewDele
         guard let config = config else { return nil }
         let request = NSFetchRequest<ResultType>(entityName: String(describing: ResultType.self))
         request.sortDescriptors = config.sortDescriptors.map { NSSortDescriptor(key: $0.0, ascending: $0.1) }
+        if let filterCalendarIds = config.filterCalendarIds {
+            
+            let predicate = NSCompoundPredicate(type: .or, subpredicates: filterCalendarIds.map { NSPredicate(format: "calendarsString contains %@", $0) })
+            dump(predicate)
+            request.predicate = predicate
+            
+        }
         let fetchedResultsController = NSFetchedResultsController(
             fetchRequest: request,
             managedObjectContext: CoreData.mainContext,
@@ -167,7 +180,8 @@ class CoreDataProxy<ResultType: NSFetchRequestResult>: NSObject, UITableViewDele
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let day = fetchedResultsController?.object(at: indexPath) as? Day
-        let tableviewHeight = CGFloat(day?.events?.count ?? 0) * 70
+        let events = DayTableViewCell.filterEvents(events: day?.sortedEvents, with: config?.filterCalendarIds)
+        let tableviewHeight = CGFloat(events.count) * 70
         return tableviewHeight > 0 ? tableviewHeight + 16 : 0
     }
     
