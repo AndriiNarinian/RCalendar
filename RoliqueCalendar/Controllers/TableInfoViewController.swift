@@ -94,7 +94,7 @@ extension TableInfoViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = CheckInTypeTableViewCell.dequeued(by: tableView)
+        let cell = CalendarSelectionCell.dequeued(by: tableView)
         if indexPath.row == 0 {
             cell.configure(with: "all", color: .black)
         } else {
@@ -111,7 +111,7 @@ fileprivate extension TableInfoViewController {
     func configureTableView() {
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register([CheckInTypeTableViewCell.self])
+        tableView.register([CalendarSelectionCell.self])
         populateselectionData()
     }
     

@@ -1,5 +1,5 @@
 //
-//  CheckInTypeTableViewCell.swift
+//  CalendarSelectionCell.swift
 //  Rolique
 //
 //  Created by Bohdan Savych on 10/31/17.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-final class CheckInTypeTableViewCell: UITableViewCell {
+final class CalendarSelectionCell: UITableViewCell {
     @IBOutlet fileprivate weak var titleLabel: UILabel!
     @IBOutlet fileprivate weak var colorView: UIView!
     
