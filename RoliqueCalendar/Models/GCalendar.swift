@@ -48,9 +48,9 @@ struct GCalendar: GModelType {
 
 extension GCalendar {
     static func find(withCalendarId calendarId: String?, owner: GoogleAPICompatible, completion: @escaping CalendarCompletion) {
-        APIHelper.getCalendar(with: calendarId, for: owner) { dict in
+        APIHelper.getCalendar(with: calendarId, for: owner, completion: { dict in
             guard let calendar = GCalendar(dict: dict) else { return }
             completion(calendar)
-        }
+        })
     }
 }

@@ -136,16 +136,16 @@ struct GEvent: GModelType {
 
 extension GEvent {
     static func findAll(withCalendarId calendarId: String?, owner: GoogleAPICompatible, completion: @escaping EventListCompletion) {
-        APIHelper.getEventList(with: calendarId, for: owner) { eventListDict in
+        APIHelper.getEventList(with: calendarId, for: owner, completion: { eventListDict in
             guard let eventList = GEventList(dict: eventListDict) else { return }
             completion(eventList)
-        }
+        })
     }
     
     static func find(withCalendarId calendarId: String?, eventId: String?, owner: GoogleAPICompatible, completion: @escaping EventCompletion) {
-        APIHelper.getEvent(with: calendarId, eventId: eventId, for: owner) { eventDict in
+        APIHelper.getEvent(with: calendarId, eventId: eventId, for: owner, completion: { eventDict in
             guard let event = GEvent(dict: eventDict) else { return }
             completion(event)
-        }
+        })
     }
 }

@@ -11,19 +11,19 @@ import Foundation
 typealias CalendarListCalendarIdsCompletion = ([String]) -> Void
 
 extension CalendarList {
-    static func fetch(for vc: GoogleAPICompatible, completion: @escaping CalendarListCalendarIdsCompletion) {
-        APIHelper.getExtendedCalendarList(owner: vc) { dict in
+    static func fetch(for vc: GoogleAPICompatible, completion: @escaping CalendarListCalendarIdsCompletion, onError: RCalendarCompletion? = nil) {
+        APIHelper.getExtendedCalendarList(owner: vc, completion: { dict in
             Dealer<CalendarList>.updateWith(array: [DictInsertion(dict)], shouldClearAllBeforeInsert: true, insertion: insert(from:)) {
                 let calendars = dict["items"] as? [[String: Any]] ?? [[String: Any]]()
                 completion(calendars.map { $0["id"].stringValue })
             }
-        }
+        })
     }
     
     static func getAllCalendarsForCurrentUser(for owner: GoogleAPICompatible, completion: RCalendarCalendarsCompletion) {
-        APIHelper.getExtendedCalendarList(owner: owner) { dict in
+        APIHelper.getExtendedCalendarList(owner: owner, completion: { dict in
             
-        }
+        })
     }
     
     @discardableResult static func insert(from insertion: Insertion) -> CalendarList {

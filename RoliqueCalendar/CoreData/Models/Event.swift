@@ -9,8 +9,8 @@
 import Foundation
 
 extension Event {
-    static func all(calendarId: String, for vc: GoogleAPICompatible, bound: PaginationBound? = nil, completion: @escaping () -> Void) {
-        APIHelper.getEventList(with: calendarId, for: vc, bound: bound) { dict in
+    static func all(calendarId: String, for vc: GoogleAPICompatible, bound: PaginationBound? = nil, completion: @escaping () -> Void, onError: RCalendarCompletion? = nil) {
+        APIHelper.getEventList(with: calendarId, for: vc, bound: bound, completion: { dict in
             guard let dicts = dict["items"] as? [[String: Any]] else { return }
             let dictsWithCalendar = dicts.map { dict -> [String: Any] in
                 var newDict = dict
@@ -25,7 +25,7 @@ extension Event {
                 
                 completion()
             })
-        }
+        }, onError: onError)
     }
     
     @discardableResult static func insert(from insertion: Insertion) -> Event {

@@ -50,25 +50,25 @@ open class APIHelper {
         GIDSignIn.sharedInstance().signOut()
     }
     
-    static func getExtendedCalendars(owner: GoogleAPICompatible, completion: @escaping APICompletionArray) {
-        requestFromGoogleAPI(owner: owner, router: .getExtendedCalendarList, completion: handleResponce(forArray: owner, completion: completion))
+    static func getExtendedCalendars(owner: GoogleAPICompatible, completion: @escaping APICompletionArray, onError: RCalendarCompletion? = nil) {
+        requestFromGoogleAPI(owner: owner, router: .getExtendedCalendarList, completion: handleResponce(forArray: owner, completion: completion, onError: onError))
     }
     
-    static func getExtendedCalendarList(owner: GoogleAPICompatible, completion: @escaping APICompletion) {
-        requestFromGoogleAPI(owner: owner, router: .getExtendedCalendarList, completion: handleResponce(forObject: owner, completion: completion))
+    static func getExtendedCalendarList(owner: GoogleAPICompatible, completion: @escaping APICompletion, onError: RCalendarCompletion? = nil) {
+        requestFromGoogleAPI(owner: owner, router: .getExtendedCalendarList, completion: handleResponce(forObject: owner, completion: completion, onError: onError))
     }
     
-    static func getExtendedCalendar(with id: String?, for owner: GoogleAPICompatible, completion: @escaping APICompletion) {
+    static func getExtendedCalendar(with id: String?, for owner: GoogleAPICompatible, completion: @escaping APICompletion, onError: RCalendarCompletion? = nil) {
         guard let id = id else { owner.displayError("calendar id is missing"); return }
-        requestFromGoogleAPI(owner: owner, router: .getExtendedCalendar(id: id), completion: handleResponce(forObject: owner, completion: completion))
+        requestFromGoogleAPI(owner: owner, router: .getExtendedCalendar(id: id), completion: handleResponce(forObject: owner, completion: completion, onError: onError))
     }
     
-    static func getCalendar(with id: String?, for owner: GoogleAPICompatible, completion: @escaping APICompletion) {
+    static func getCalendar(with id: String?, for owner: GoogleAPICompatible, completion: @escaping APICompletion, onError: RCalendarCompletion? = nil) {
         guard let id = id else { owner.displayError("calendar id is missing"); return }
-        requestFromGoogleAPI(owner: owner, router: .getCalendar(id: id), completion: handleResponce(forObject: owner, completion: completion))
+        requestFromGoogleAPI(owner: owner, router: .getCalendar(id: id), completion: handleResponce(forObject: owner, completion: completion, onError: onError))
     }
     
-    static func getEventList(with calendarId: String?, for owner: GoogleAPICompatible, bound: PaginationBound? = nil, completion: @escaping APICompletion) {
+    static func getEventList(with calendarId: String?, for owner: GoogleAPICompatible, bound: PaginationBound? = nil, completion: @escaping APICompletion, onError: RCalendarCompletion? = nil) {
         guard let calendarId = calendarId else { owner.displayError("calendar id is missing"); return }
 
         let params: Parameters = [
@@ -83,7 +83,6 @@ open class APIHelper {
                 
                 return dateTime ?? date
                 }.flatMap { $0 }.sorted(by: { $0 > $1 })
-
             if let bound = bound, let loadedMaxDate = sortedAllDays.first?.withoutTime, let loadedMinDate = sortedAllDays.last?.withoutTime {
                 switch bound {
                 case .max:
@@ -103,10 +102,10 @@ open class APIHelper {
             }
             
             completion(dict)
-        })
+        }, onError: onError)
     }
     
-    static func getAllPages(with calendarId: String?, for owner: GoogleAPICompatible, parameters: Parameters, transferDict: [String: Any]? = nil, nextPageToken: String? = nil, completion: @escaping APICompletion) {
+    static func getAllPages(with calendarId: String?, for owner: GoogleAPICompatible, parameters: Parameters, transferDict: [String: Any]? = nil, nextPageToken: String? = nil, completion: @escaping APICompletion, onError: RCalendarCompletion? = nil) {
         guard let calendarId = calendarId else { owner.displayError("calendar id is missing"); return }
         var parameters = parameters
         if let nextPageToken = nextPageToken {
@@ -128,12 +127,12 @@ open class APIHelper {
             } else {
                 completion(trnsfrDict)
             }
-        }))
+        }, onError: onError))
     }
     
-    static func getEvent(with calendarId: String?, eventId: String?, for owner: GoogleAPICompatible, completion: @escaping APICompletion) {
+    static func getEvent(with calendarId: String?, eventId: String?, for owner: GoogleAPICompatible, completion: @escaping APICompletion, onError: RCalendarCompletion? = nil) {
         guard let calendarId = calendarId, let eventId = eventId else { owner.displayError("calendar id is missing"); return }
-        requestFromGoogleAPI(owner: owner, router: .getEvent(calendarId: calendarId, eventId: eventId), completion: handleResponce(forObject: owner, completion: completion))
+        requestFromGoogleAPI(owner: owner, router: .getEvent(calendarId: calendarId, eventId: eventId), completion: handleResponce(forObject: owner, completion: completion, onError: onError))
     }
 }
 
@@ -180,15 +179,17 @@ fileprivate extension APIHelper {
         }
     }
     
-    static func handleResponce(forArray owner: GoogleAPICompatible, completion: @escaping APICompletionArray) -> (Data?, URLResponse?, Error?) -> Void {
+    static func handleResponce(forArray owner: GoogleAPICompatible, completion: @escaping APICompletionArray, onError: RCalendarCompletion? = nil) -> (Data?, URLResponse?, Error?) -> Void {
         return { data, responce, error in
             if let error = error {
                 handleErrorString(error.localizedDescription, with: owner)
+                onError?()
             } else if let data = data {
                 if let serialized = try? JSONSerialization.jsonObject(with: data) as? [String: Any] {
                     if let errorDict = serialized?["error"] as? [String: Any] {
                         guard let errorModel = GErrorModel(dict: errorDict) else { return }
                         handleErrorString(errorModel.dictNoNilDescription, with: owner)
+                        onError?()
                     } else if let json = serialized?["items"] as? [[String: Any]] {
                         let string = json.map { GModel(dict: $0)?.dictDescription ?? "" }.reduce(with: ",\n\n")
                         if debugMode == .full {
@@ -203,19 +204,22 @@ fileprivate extension APIHelper {
                 }
             } else {
                 handleErrorString("no data", with: owner)
+                onError?()
             }
         }
     }
     
-    static func handleResponce(forObject owner: GoogleAPICompatible, completion: @escaping APICompletion) -> (Data?, URLResponse?, Error?) -> Void {
+    static func handleResponce(forObject owner: GoogleAPICompatible, completion: @escaping APICompletion, onError: RCalendarCompletion? = nil) -> (Data?, URLResponse?, Error?) -> Void {
         return { data, responce, error in
             if let error = error {
                 handleErrorString(error.localizedDescription, with: owner)
+                onError?()
             } else if let data = data {
                 if let serialized = try? JSONSerialization.jsonObject(with: data) as? [String: Any] {
                     if let errorDict = serialized?["error"] as? [String: Any] {
                         guard let errorModel = GErrorModel(dict: errorDict) else { return }
                         handleErrorString(errorModel.dictNoNilDescription, with: owner)
+                        onError?()
                     } else if let json = serialized {
                         if debugMode == .full {
                             print(">>>>>>>>>>")
@@ -229,6 +233,7 @@ fileprivate extension APIHelper {
                 }
             } else {
                 handleErrorString("no data", with: owner)
+                onError?()
             }
         }
     }

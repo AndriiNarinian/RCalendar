@@ -30,6 +30,43 @@ class CoreData: NSObject {
     static var masterContext: NSManagedObjectContext {
         return controller.masterContext
     }
+    
+    static func saveContext(completion: @escaping () -> Void) {
+        saveBackgroundContext(completion: completion)
+    }
+    
+    static func saveBackgroundContext(completion: @escaping () -> Void) {
+        do {
+            try backContext.save()
+            saveMainContext(completion: completion)
+        } catch {
+            print(error)
+        }
+    }
+    
+    static func saveMainContext(completion: @escaping () -> Void) {
+        mainContext.performAndWait {
+            do {
+                try mainContext.save()
+                saveMasterContext()
+            } catch {
+                print(error)
+            }
+            DispatchQueue.main.async {
+                completion()
+            }
+        }
+    }
+    
+    static func saveMasterContext() {
+        masterContext.perform {
+            do {
+                try masterContext.save()
+            } catch {
+                print(error)
+            }
+        }
+    }
 }
 
 class Dealer<R: NSManagedObject> {
@@ -49,6 +86,10 @@ class Dealer<R: NSManagedObject> {
             
             saveBackgroundContext(completion: completion)
         }
+    }
+    
+    static func saveContext(completion: @escaping () -> Void) {
+        saveBackgroundContext(completion: completion)
     }
     
     static func saveBackgroundContext(completion: @escaping () -> Void) {

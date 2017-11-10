@@ -12,7 +12,17 @@ import CoreData
 open class CalendarVC: VC, GoogleAPICompatible {
     internal var gIDSignInProxy = GIDSignInProxyObject()
     fileprivate var eventProxy: CoreDataProxy<Day>!
-    fileprivate var isLoading = false
+    fileprivate var isLoading = false {
+        didSet {
+            guard activityIndicator != nil, reloadButton != nil else { return }
+            activityIndicator.isHidden = !isLoading
+            reloadButton.isHidden = isLoading
+            configureFilterButton()
+            if isClean {
+                if self.generateCalendarSamples().count > 0 { isClean = false }
+            }
+        }
+    }
     fileprivate var topDay: Day?
     
     fileprivate var eventToOpen: (event: Event, rect: CGRect)?
@@ -24,11 +34,13 @@ open class CalendarVC: VC, GoogleAPICompatible {
     var lastBound: PaginationBound?
     var selectedEventCell: EventCell?
     var selectedCalendars: [Calendar]?
+    var isClean = false
     
     @IBOutlet weak var overlayButton: OverlayButton!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var filterButton: UIButton!
+    @IBOutlet weak var reloadButton: UIButton!
     
     override open func viewDidLoad() {
         super.viewDidLoad()
@@ -45,14 +57,60 @@ open class CalendarVC: VC, GoogleAPICompatible {
         isLoading = true
         scrollToToday(false)
         activityIndicator.startAnimating()
-        RCalendar.main.startForCurrentUser(withOwner: self) { [unowned self] in
+        RCalendar.main.startForCurrentUser(withOwner: self, calendarListCompletion: { [unowned self] in
+            self.configureFilterButton()
+        }, completion: { [unowned self] in
             self.isLoading = false
             self.scrollToToday(true)
             self.activityIndicator.stopAnimating()
-        }
+            }, onError: { [unowned self] in
+                self.isLoading = false
+                self.activityIndicator.stopAnimating()
+        })
         
         overlayButton.configure(text: "today", target: self, selector: #selector(todayButtonAction))
         filterButton.addTarget(self, action: #selector(showInfo), for: .touchUpInside)
+        reloadButton.addTarget(self, action: #selector(reloadCurrentBounds), for: .touchUpInside)
+        configureFilterButton()
+        configureReloadButton()
+        configureNotifications()
+    }
+    
+    open override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if isClean {
+            reloadCurrentBounds()
+        }
+    }
+    
+    func configureReloadButton() {
+        reloadButton.setImage(UIImage(named: "reload", in: bundle, compatibleWith: nil), for: .normal)
+    }
+    
+    func configureNotifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(cleanUI), name: NSNotification.Name("rolique-calendar-sign-out"), object: nil)
+    }
+    
+    func reloadCurrentBounds() {
+        loadEvents()
+    }
+    
+    func cleanUI() {
+        configureFilterButton()
+        selectedCalendars = []
+        Dealer<Calendar>.clearAllObjects()
+        Dealer<Event>.clearAllObjects()
+        Dealer<Day>.clearAllObjects()
+        CoreData.saveContext {
+            self.isClean = true
+        }
+        makeProxy()
+        tableView.reloadData()
+    }
+    
+    func configureFilterButton() {
+        filterButton.isEnabled = self.generateCalendarSamples().count > 0 && !isLoading
     }
     
     func makeProxy() {
@@ -84,8 +142,7 @@ open class CalendarVC: VC, GoogleAPICompatible {
                 var title = ""
                 switch selectedCalendars.count {
                 case calendars.count: title = "All"
-                case 1: title = selectedCalendars.first?.summary ?? ""
-                default: title = "\(selectedCalendars.count)"
+                default: title = "\(selectedCalendars.count) of \(calendars.count)"
             }
             self.filterButton.setTitle(title, for: .normal)
         }
@@ -111,9 +168,10 @@ open class CalendarVC: VC, GoogleAPICompatible {
     }
     
     func filter(with calendars: [Calendar]) {
-        self.selectedCalendars = calendars
-        self.makeProxy()
-        self.tableView.reloadData()
+        selectedCalendars = calendars
+        makeProxy()
+        tableView.reloadData()
+        scrollToToday(true)
     }
     
     override open func viewDidLayoutSubviews() {
@@ -153,11 +211,14 @@ fileprivate extension CalendarVC {
         if !isLoading {
             activityIndicator.startAnimating()
             isLoading = true
-            RCalendar.main.loadEventsForCurrentCalendars(withOwner: self, bound: bound) { [unowned self] in
+            RCalendar.main.loadEventsForCurrentCalendars(withOwner: self, bound: bound, completion: { [unowned self] in
                 self.isLoading = false
                 self.activityIndicator.stopAnimating()
                 completion?()
-            }
+                }, onError: { [unowned self] in
+                    self.isLoading = false
+                    self.activityIndicator.stopAnimating()
+            })
         }
     }
 }

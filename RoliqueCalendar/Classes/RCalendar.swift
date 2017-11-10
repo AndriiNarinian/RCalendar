@@ -21,21 +21,22 @@ open class RCalendar {
     var minDate = defaultMinDate
     var maxDate = defaultMaxDate
     
-    func startForCurrentUser(withOwner owner: GoogleAPICompatible, completion: @escaping RCalendarCompletion) {
+    func startForCurrentUser(withOwner owner: GoogleAPICompatible, calendarListCompletion: RCalendarCompletion? = nil, completion: @escaping RCalendarCompletion, onError: RCalendarCompletion? = nil) {
         let dispatchGroup = DispatchGroup()
         dispatchGroup.enter()
-        CalendarList.fetch(for: owner) { calendarIds in
+        CalendarList.fetch(for: owner, completion: { calendarIds in
             self.calendarIds = calendarIds
-            RCalendar.main.getEventsForCalendarsRecurcively(withOwner: owner, for: calendarIds) {
+            calendarListCompletion?()
+            RCalendar.main.getEventsForCalendarsRecurcively(withOwner: owner, for: calendarIds, completion: {
                 dispatchGroup.leave()
-            }
-        }
+            }, onError: onError)
+        }, onError: onError)
         dispatchGroup.notify(queue: DispatchQueue.main) {
             completion()
         }
     }
     
-    func loadEventsForCurrentCalendars(withOwner owner: GoogleAPICompatible, bound: PaginationBound? = nil, completion: @escaping RCalendarCompletion) {
+    func loadEventsForCurrentCalendars(withOwner owner: GoogleAPICompatible, bound: PaginationBound? = nil, completion: @escaping RCalendarCompletion, onError: RCalendarCompletion? = nil) {
         if let bound = bound {
             switch bound {
             case .min:
@@ -51,16 +52,16 @@ open class RCalendar {
                 }
             }
         }
-        getEventsForCalendarsRecurcively(withOwner: owner, for: calendarIds, bound: bound, completion: completion)
+        getEventsForCalendarsRecurcively(withOwner: owner, for: calendarIds, bound: bound, completion: completion, onError: onError)
     }
     
-    fileprivate func getEventsForCalendarsRecurcively(withOwner owner: GoogleAPICompatible, for ids: [String], bound: PaginationBound? = nil, completion: @escaping RCalendarCompletion) {
+    fileprivate func getEventsForCalendarsRecurcively(withOwner owner: GoogleAPICompatible, for ids: [String], bound: PaginationBound? = nil, completion: @escaping RCalendarCompletion, onError: RCalendarCompletion? = nil) {
         var calendars = ids
         if calendars.count > 0 {
             let calendarId = calendars.removeFirst()
             Event.all(calendarId: calendarId, for: owner, bound: bound, completion: { [unowned self] in
-                self.getEventsForCalendarsRecurcively(withOwner: owner, for: calendars, bound: bound, completion: completion)
-            })
+                self.getEventsForCalendarsRecurcively(withOwner: owner, for: calendars, bound: bound, completion: completion, onError: onError)
+            }, onError: onError)
         } else {
             completion()
         }
@@ -83,5 +84,7 @@ public extension RCalendar {
     }
     static func googleSignOut() {
         APIHelper.signOut()
+        main.calendarIds = []
+        NotificationCenter.default.post(name: NSNotification.Name("rolique-calendar-sign-out"), object: nil)
     }
 }

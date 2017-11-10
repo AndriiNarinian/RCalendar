@@ -11,9 +11,9 @@ import CoreData
 
 extension Calendar {
     static func all(for vc: GoogleAPICompatible) {
-        APIHelper.getExtendedCalendars(owner: vc) { dicts in
+        APIHelper.getExtendedCalendars(owner: vc, completion: { dicts in
                 Dealer<Calendar>.updateWith(array: dicts.map { DictInsertion($0) }, insertion: insert(from:)){}
-        }
+        })
     }
     
     @discardableResult static func fetch(from insertion: Insertion) -> Calendar? {

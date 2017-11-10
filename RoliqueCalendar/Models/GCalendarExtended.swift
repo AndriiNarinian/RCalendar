@@ -73,16 +73,16 @@ struct GCalendarExtended: GModelType {
 
 extension GCalendarExtended {
     static func findAll(for owner: GoogleAPICompatible, completion: @escaping ExtendedCalendarListCompletion) {
-        APIHelper.getExtendedCalendarList(owner: owner) { dict in
+        APIHelper.getExtendedCalendarList(owner: owner, completion: { dict in
             guard let extendedCalendarList = GCalendarExtendedList(dict: dict) else { return }
             completion(extendedCalendarList)
-        }
+        })
     }
     
     static func find(withCalendarId calendarId: String, owner: GoogleAPICompatible, completion: @escaping ExtendedCalendarCompletion) {
-        APIHelper.getExtendedCalendar(with: calendarId, for: owner) { dict in
+        APIHelper.getExtendedCalendar(with: calendarId, for: owner, completion: { dict in
             guard let extendedCalendar = GCalendarExtended(dict: dict) else { return }
             completion(extendedCalendar)
-        }
+        })
     }
 }

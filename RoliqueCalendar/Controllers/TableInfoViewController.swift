@@ -38,11 +38,7 @@ final class TableInfoViewController: UIViewController {
     fileprivate var handler: (([Calendar]) -> Void)?
     fileprivate var calendars: [Calendar]!
     fileprivate var calendarSelection: [Int: Bool] = [:]
-    fileprivate var selectedCalendars: [Calendar] = [] {
-        didSet {
-            print(selectedCalendars.map { $0.summary })
-        }
-    }
+    fileprivate var selectedCalendars: [Calendar] = []
     
     @IBAction func doneButtonAction(_ sender: UIBarButtonItem) {
         dismiss(animated: true) {}
