@@ -46,9 +46,9 @@ class BasicEventAttributeView: NibLoadingView, EventAttributeView {
         iconImageView.image = type.icon
         switch type {
         case .time:
-            let start = Formatters.hoursAndMinutes.string(from: (event.start?.dateToUse ?? NSDate()) as Date)
-            let end = Formatters.hoursAndMinutes.string(from: (event.end?.dateToUse ?? NSDate()) as Date)
-            titleLabel.text = Formatters.dayAndMonthAndYear.string(from: (event.start?.dateToUse ?? NSDate()) as Date)
+            let start = Formatters.hoursAndMinutes.string(from: (event.start?.dateToUse ?? Date()))
+            let end = Formatters.hoursAndMinutes.string(from: (event.end?.dateToUse ?? Date()))
+            titleLabel.text = Formatters.dayAndMonthAndYear.string(from: (event.start?.dateToUse ?? Date()))
             subtitleLabel.text = (start == end ? "" : "\(start) - \(end)")
         case .reminder:
             let reminders = Unwrap<Reminder>.arrayValueFromSet(event.reminders?.overrides)

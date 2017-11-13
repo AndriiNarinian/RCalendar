@@ -19,8 +19,8 @@ open class EventCell: UITableViewCell {
     func update(with event: Event?) {
         self.event = event
         titleLabel.text = event?.summary
-        let start = Formatters.hoursAndMinutes.string(from: (event?.start?.dateToUse ?? NSDate()) as Date)
-        let end = Formatters.hoursAndMinutes.string(from: (event?.end?.dateToUse ?? NSDate()) as Date)
+        let start = Formatters.hoursAndMinutes.string(from: (event?.start?.dateToUse ?? Date()))
+        let end = Formatters.hoursAndMinutes.string(from: (event?.end?.dateToUse ?? Date()))
         timeLabel.text = start == end ? "" : "\(start) - \(end)"
         let calendarColorHex = event?.calendars.first?.colorHex
         backView.backgroundColor = calendarColorHex != nil ? UIColor(hexString: calendarColorHex!) : .darkGray

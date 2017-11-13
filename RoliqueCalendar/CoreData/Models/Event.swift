@@ -82,8 +82,8 @@ extension Event {
         Unwrap<Calendar>.arrayValueFromSet(dict["calendarIds"].maybeInsertStringArray { Calendar.fetch(from: $0) }).forEach { calendarData[$0.id.stringValue] = $0.dataDict }
         event.calendarData = calendarData
         
-        event.dayString = Formatters.gcFormatDate.string(from: (event.start?.dateToUse ?? NSDate()) as Date)
-        event.monthString = Formatters.monthAndYear.string(from: (event.start?.dateToUse ?? NSDate()) as Date)
+        event.dayString = Formatters.gcFormatDate.string(from: (event.start?.dateToUse ?? Date()))
+        event.monthString = Formatters.monthAndYear.string(from: (event.start?.dateToUse ?? Date()))
         guard let timeStamp = event.dayString, let date = event.start?.dateToUse else { return event }
         if let day = Dealer<Day>.fetch(with: NSPredicate(format: "timeStamp == %@", timeStamp)), let events = Unwrap<Event>.arrayFromSet(day.events), !events.contains(event) {
             event.day = day

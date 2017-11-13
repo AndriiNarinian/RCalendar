@@ -17,7 +17,7 @@ extension Day {
         return day
     }
     
-    @discardableResult static func create(with date: NSDate) -> Day {
+    @discardableResult static func create(with date: Date) -> Day {
         let day = Dealer<Day>.inserted
         day.date = date
         day.monthString = Formatters.monthAndYear.string(from: date as Date)

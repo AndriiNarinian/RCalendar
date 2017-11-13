@@ -329,8 +329,8 @@ protocol Insertion {
     var dictValue: [String: Any] { get }
     var string: String? { get }
     var stringValue: String { get }
-    var day: (NSDate, NSMutableOrderedSet)? { get }
-    var dayValue: (NSDate, NSMutableOrderedSet) { get }
+    var day: (Date, NSMutableOrderedSet)? { get }
+    var dayValue: (Date, NSMutableOrderedSet) { get }
     var dictToSave: [String: Any]? { get set }
 }
 
@@ -347,11 +347,11 @@ extension Insertion {
     var stringValue: String {
         return container as? String ?? ""
     }
-    var day: (NSDate, NSMutableOrderedSet)? {
-        return container as? (NSDate, NSMutableOrderedSet)
+    var day: (Date, NSMutableOrderedSet)? {
+        return container as? (Date, NSMutableOrderedSet)
     }
-    var dayValue: (NSDate, NSMutableOrderedSet) {
-        return container as? (NSDate, NSMutableOrderedSet) ?? (NSDate(), NSMutableOrderedSet())
+    var dayValue: (Date, NSMutableOrderedSet) {
+        return container as? (Date, NSMutableOrderedSet) ?? (Date(), NSMutableOrderedSet())
     }
 }
 
@@ -381,7 +381,7 @@ struct DayInsertion: Insertion {
     var type: InsertionType
     var container: Any
     var dictToSave: [String: Any]?
-    init(_ day: (NSDate, NSMutableOrderedSet), dictToSave: [String: Any]? = nil) {
+    init(_ day: (Date, NSMutableOrderedSet), dictToSave: [String: Any]? = nil) {
         self.container = day
         self.type = .day
         self.dictToSave = dictToSave

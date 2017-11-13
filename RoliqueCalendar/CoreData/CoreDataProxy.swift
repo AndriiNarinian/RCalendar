@@ -161,7 +161,7 @@ class CoreDataProxy<ResultType: NSFetchRequestResult>: NSObject, UITableViewDele
     }
  
     fileprivate func sectionInfoContainsToday(_ sectionInfo: NSFetchedResultsSectionInfo) -> Bool {
-        return (sectionInfo.objects as? [Day])?.map { (($0.date ?? NSDate()) as Date).withoutTime }.contains( Date().withoutTime ) ?? false
+        return (sectionInfo.objects as? [Day])?.map { (($0.date ?? Date()) as Date).withoutTime }.contains( Date().withoutTime ) ?? false
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

@@ -11,10 +11,10 @@ import Foundation
 extension TimeStamp {
     @discardableResult static func insert(from dict: [String: Any]) -> TimeStamp {
         let timeStamp = Dealer<TimeStamp>.inserted
-        timeStamp.date = Formatters.gcFormatDate.date(from: dict["date"].stringValue) as NSDate?
-        timeStamp.dateTime = Formatters.gcFormatTz.date(from: dict["dateTime"].stringValue) as NSDate?
+        timeStamp.date = Formatters.gcFormatDate.date(from: dict["date"].stringValue) as Date?
+        timeStamp.dateTime = Formatters.gcFormatTz.date(from: dict["dateTime"].stringValue) as Date?
         timeStamp.timeZone = dict["timeZone"].maybeInsertStringObject { DateTz.insert(from: $0.stringValue) }
-        timeStamp.dateToUse = timeStamp.dateTime ?? timeStamp.date ?? NSDate()
+        timeStamp.dateToUse = timeStamp.dateTime ?? timeStamp.date ?? Date()
         return timeStamp
     }
 }
