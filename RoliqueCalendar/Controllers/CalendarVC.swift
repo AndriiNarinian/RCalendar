@@ -92,11 +92,11 @@ open class CalendarVC: VC, GoogleAPICompatible {
         NotificationCenter.default.addObserver(self, selector: #selector(cleanUI), name: NSNotification.Name("rolique-calendar-sign-out"), object: nil)
     }
     
-    func reloadCurrentBounds() {
+    @objc func reloadCurrentBounds() {
         loadEvents()
     }
     
-    func cleanUI() {
+    @objc func cleanUI() {
         configureFilterButton()
         selectedCalendars = []
         Dealer<Calendar>.clearAllObjects()
@@ -134,7 +134,7 @@ open class CalendarVC: VC, GoogleAPICompatible {
         eventProxy.configure(config: eventProxyConfig)
     }
     
-    func showInfo() {
+    @objc func showInfo() {
         let calendars = generateCalendarSamples()
         let rowHeight: CGFloat = 50
         let vc = TableInfoViewController.deploy(with: calendars, selectedCalendars: selectedCalendars) { [unowned self] selectedCalendars in
@@ -163,7 +163,7 @@ open class CalendarVC: VC, GoogleAPICompatible {
         return calendars
     }
     
-    func todayButtonAction() {
+    @objc func todayButtonAction() {
         scrollToToday(true)
     }
     

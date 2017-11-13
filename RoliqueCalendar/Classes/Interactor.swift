@@ -35,7 +35,7 @@ class Interactor: UIPercentDrivenInteractiveTransition {
 //        viewController?.presentingViewController?.view.addSubview(blackButton)
     }
     
-    func handlePan(sender: UIPanGestureRecognizer) {
+    @objc func handlePan(sender: UIPanGestureRecognizer) {
         guard let viewController = viewController else { return }
         let translation = sender.translation(in: viewController.view)
         guard translation.y > 0 else {

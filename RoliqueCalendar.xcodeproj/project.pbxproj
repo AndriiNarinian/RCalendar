@@ -565,11 +565,13 @@
 					B550ACB51FA884810067082C = {
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = ZL58JZZ8KD;
+						LastSwiftMigration = 0910;
 						ProvisioningStyle = Automatic;
 					};
 					B5F6388E1F78F5BC00E80DEC = {
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = ZL58JZZ8KD;
+						LastSwiftMigration = 0910;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -834,7 +836,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = io.rolique.RoCalendar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -862,7 +865,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = io.rolique.RoCalendar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -979,7 +983,8 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = io.rolique.RoliqueCalendar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -999,7 +1004,8 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = io.rolique.RoliqueCalendar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};

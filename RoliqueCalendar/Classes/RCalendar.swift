@@ -22,6 +22,8 @@ open class RCalendar {
     var maxDate = defaultMaxDate
     
     func startForCurrentUser(withOwner owner: GoogleAPICompatible, calendarListCompletion: RCalendarCompletion? = nil, completion: @escaping RCalendarCompletion, onError: RCalendarCompletion? = nil) {
+        let operation = Operation()
+        
         let dispatchGroup = DispatchGroup()
         dispatchGroup.enter()
         CalendarList.fetch(for: owner, completion: { calendarIds in
@@ -86,5 +88,11 @@ public extension RCalendar {
         APIHelper.signOut()
         main.calendarIds = []
         NotificationCenter.default.post(name: NSNotification.Name("rolique-calendar-sign-out"), object: nil)
+    }
+}
+
+class NetworkOperation: Operation {
+    override func start() {
+        super.start()
     }
 }
