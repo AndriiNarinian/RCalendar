@@ -15,12 +15,15 @@ open class CalendarVC: VC, GoogleAPICompatible {
     fileprivate var isLoading = false {
         didSet {
             guard activityIndicator != nil, reloadButton != nil else { return }
-            activityIndicator.isHidden = !isLoading
-            reloadButton.isHidden = isLoading
-            configureFilterButton()
-            if isClean {
-                if self.generateCalendarSamples().count > 0 { isClean = false }
+            DispatchQueue.main.async {
+                self.activityIndicator.isHidden = !self.isLoading
+                self.reloadButton.isHidden = self.isLoading
+                self.configureFilterButton()
+                if self.isClean {
+                    if self.generateCalendarSamples().count > 0 { self.isClean = false }
+                }
             }
+            
         }
     }
     fileprivate var topDay: Day?
@@ -60,12 +63,16 @@ open class CalendarVC: VC, GoogleAPICompatible {
         RCalendar.main.startForCurrentUser(withOwner: self, calendarListCompletion: { [unowned self] in
             self.configureFilterButton()
         }, completion: { [unowned self] in
-            self.isLoading = false
-            self.scrollToToday(true)
-            self.activityIndicator.stopAnimating()
-            }, onError: { [unowned self] in
+            DispatchQueue.main.async {
                 self.isLoading = false
+                self.scrollToToday(true)
                 self.activityIndicator.stopAnimating()
+            }
+            }, onError: { [unowned self] in
+                DispatchQueue.main.async {
+                    self.isLoading = false
+                    self.activityIndicator.stopAnimating()
+                }
         })
         
         overlayButton.configure(text: "today", target: self, selector: #selector(todayButtonAction))
@@ -212,12 +219,17 @@ fileprivate extension CalendarVC {
             activityIndicator.startAnimating()
             isLoading = true
             RCalendar.main.loadEventsForCurrentCalendars(withOwner: self, bound: bound, completion: { [unowned self] in
-                self.isLoading = false
-                self.activityIndicator.stopAnimating()
-                completion?()
-                }, onError: { [unowned self] in
+                DispatchQueue.main.async {
                     self.isLoading = false
                     self.activityIndicator.stopAnimating()
+                    completion?()
+                }
+                }, onError: { [unowned self] in
+                    DispatchQueue.main.async {
+                        self.isLoading = false
+                        self.activityIndicator.stopAnimating()
+                        completion?()
+                    }
             })
         }
     }
