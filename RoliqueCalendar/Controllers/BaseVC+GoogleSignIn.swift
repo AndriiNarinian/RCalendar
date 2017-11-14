@@ -22,7 +22,7 @@ class GIDSignInProxyObject: NSObject, GIDSignInProxy, GIDSignInDelegate, GIDSign
     }
 }
 
-protocol GoogleAPICompatible {
+protocol GoogleAPICompatible: class {
     var gIDSignInProxy: GIDSignInProxyObject { get }
     func observeToken(completion: @escaping (String) -> Void)
     func displayString(_ string: String)

@@ -23,9 +23,11 @@ open class RCalendar {
     
     func startForCurrentUser(withOwner owner: GoogleAPICompatible, calendarListCompletion: RCalendarCompletion? = nil, completion: @escaping RCalendarCompletion, onError: RCalendarCompletion? = nil) {
         let operation = Operation()
+        operation.main()
         
         let dispatchGroup = DispatchGroup()
         dispatchGroup.enter()
+        
         CalendarList.fetch(for: owner, completion: { calendarIds in
             self.calendarIds = calendarIds
             calendarListCompletion?()
@@ -91,8 +93,51 @@ public extension RCalendar {
     }
 }
 
-class NetworkOperation: Operation {
-    override func start() {
-        super.start()
+class FetchEventsOperation: Operation {
+    var calendarIds: [String]
+    
+    init(calendarIds: [String]) {
+        self.calendarIds = calendarIds
     }
+    
+    override func main() {
+        super.main()
+        
+        if isCancelled { return }
+        
+        if isCancelled { return }
+    }
+}
+
+class FetchEventOperation: Operation {
+    var calendarId: String
+    weak var owner: GoogleAPICompatible?
+    var bound: PaginationBound?
+    var completion: RCalendarCompletion?
+    var onError: RCalendarCompletion?
+    
+    init(calendarId: String, owner: GoogleAPICompatible?, bound: PaginationBound?, completion: RCalendarCompletion?, onError: RCalendarCompletion?) {
+        self.calendarId = calendarId
+        self.owner = owner
+        self.bound = bound
+        self.completion = completion
+        self.onError = onError
+    }
+    
+    override func main() {
+        super.main()
+        
+        if isCancelled { return }
+        guard let owner = owner, let completion = completion else { return }
+        Event.all(calendarId: calendarId, for: owner, bound: bound, completion: completion, onError: onError)
+    }
+}
+
+class PendingOperations {
+    lazy var fetchingEvents = [Calendar: Operation]()
+    lazy var fetchQueue: OperationQueue = {
+        var queue = OperationQueue()
+        queue.name = "Event Fetch Queue"
+        return queue
+    }()
 }
