@@ -110,14 +110,14 @@ class FetchEventsOperation: Operation {
 }
 
 class FetchEventOperation: Operation {
-    var calendarId: String
+    var calendarIds: [String]
     weak var owner: GoogleAPICompatible?
     var bound: PaginationBound?
     var completion: RCalendarCompletion?
     var onError: RCalendarCompletion?
     
-    init(calendarId: String, owner: GoogleAPICompatible?, bound: PaginationBound?, completion: RCalendarCompletion?, onError: RCalendarCompletion?) {
-        self.calendarId = calendarId
+    init(calendarIds: [String], owner: GoogleAPICompatible?, bound: PaginationBound?, completion: RCalendarCompletion?, onError: RCalendarCompletion?) {
+        self.calendarIds = calendarIds
         self.owner = owner
         self.bound = bound
         self.completion = completion
@@ -129,6 +129,36 @@ class FetchEventOperation: Operation {
         
         if isCancelled { return }
         guard let owner = owner, let completion = completion else { return }
+        
+        let dispatchGroup = DispatchGroup()
+        
+        dispatchGroup.enter()
+        fetchUnknownActors {
+            dispatchGroup.leave()
+        }
+        dispatchGroup.enter()
+        fetchUnknownItemImages {
+            dispatchGroup.leave()
+        }
+        dispatchGroup.enter()
+        fetchUnknownItemIdentifiers {
+            dispatchGroup.leave()
+        }
+        dispatchGroup.enter()
+        fetchUnknownGameModes {
+            dispatchGroup.leave()
+        }
+        dispatchGroup.enter()
+        fetchUnknownSkins {
+            dispatchGroup.leave()
+        }
+        dispatchGroup.notify(queue: DispatchQueue.main) {
+            if isFinal {
+                AppConfig.current.finishedToFetchData = true
+            }
+            completion()
+        }
+        
         Event.all(calendarId: calendarId, for: owner, bound: bound, completion: completion, onError: onError)
     }
 }
