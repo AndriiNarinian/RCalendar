@@ -9,7 +9,7 @@
 import Foundation
 
 extension Event {
-    static func all(calendarId: String, for vc: GoogleAPICompatible, bound: PaginationBound? = nil, completion: @escaping () -> Void, onError: RCalendarCompletion? = nil) {
+    static func all(calendarId: String, for vc: GoogleAPICompatible?, bound: PaginationBound? = nil, cancellationHandler: (() -> Bool)?, completion: @escaping () -> Void, onError: RCalendarCompletion? = nil) {
         APIHelper.getEventList(with: calendarId, for: vc, bound: bound, completion: { dict in
             guard let dicts = dict["items"] as? [[String: Any]] else { return }
             let dictsWithCalendar = dicts.map { dict -> [String: Any] in
@@ -17,12 +17,18 @@ extension Event {
                 newDict["calendarId"] = calendarId
                 return newDict
             }
+            let isCancelled = cancellationHandler?() ?? false
+            guard !isCancelled else {
+                print("skipping events parsing due to cancellation")
+                completion()
+                
+                return
+            }
             Dealer<Event>.updateWith(array: dictsWithCalendar.map { DictInsertion($0) }, shouldClearObject: { event -> [String: Any]? in
                 guard let event = event else { return nil }
                 let calendarIds = event.calendars.map { $0.id }
                 return ["calendarIds": calendarIds]
-            }, insertion: insert(from:), completion: {
-                
+            }, cancellationHandler: cancellationHandler, insertion: insert(from:), completion: {
                 completion()
             })
         }, onError: onError)

@@ -9,7 +9,7 @@
 import UIKit
 
 protocol DayTableViewCellDelegate: class {
-    func dayTableViewCelldidSelectEvent(cell: DayTableViewCell, on day: Day?, at indexPath: IndexPath)
+    func dayTableViewCell(cell: DayTableViewCell, didSelect event: Event?, at indexPath: IndexPath)
 }
 
 open class DayTableViewCell: UITableViewCell {
@@ -22,7 +22,8 @@ open class DayTableViewCell: UITableViewCell {
     var filterCalendarIds: [String]?
     
     var events: [Event] {
-        return DayTableViewCell.filterEvents(events: day?.sortedEvents, with: filterCalendarIds)
+        let filtered = filterEvents(events: day?.sortedEvents, with: filterCalendarIds)
+        return filtered
     }
     
     weak var delegate: DayTableViewCellDelegate?
@@ -37,7 +38,7 @@ open class DayTableViewCell: UITableViewCell {
         tableView.register(UINib(nibName: "EventCell", bundle: bundle), forCellReuseIdentifier: "EventCell")
     }
     
-    static func filterEvents(events: [Event]?, with calendarIds: [String]?) -> [Event] {
+    func filterEvents(events: [Event]?, with calendarIds: [String]?) -> [Event] {
         if let filterCalendarIds = calendarIds {
             return events?.filter({ storedEvent -> Bool in
                 var result = false
@@ -119,6 +120,7 @@ extension DayTableViewCell: UITableViewDataSource {
 extension DayTableViewCell: UITableViewDelegate {
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        delegate?.dayTableViewCelldidSelectEvent(cell: self, on: day, at: indexPath)
+        let event = events[safe: indexPath.row]
+        delegate?.dayTableViewCell(cell: self, didSelect: event, at: indexPath)
     }
 }

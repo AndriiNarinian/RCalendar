@@ -52,9 +52,9 @@ class CoreData: NSObject {
             } catch {
                 print(error)
             }
-            DispatchQueue.main.async {
+//            DispatchQueue.main.async {
                 completion()
-            }
+//            }
         }
     }
     
@@ -72,18 +72,31 @@ class CoreData: NSObject {
 class Dealer<R: NSManagedObject> {
     typealias ObjectClearConfirmationHandler = (R?) -> [String: Any]?
     
-    static func updateWith(array: [Insertion], shouldClearAllBeforeInsert: Bool = false, shouldClearObject: ObjectClearConfirmationHandler? = nil, insertion: @escaping (Insertion) -> R, completion: @escaping () -> Void) {
+    static func updateWith(array: [Insertion], shouldClearAllBeforeInsert: Bool = false, shouldClearObject: ObjectClearConfirmationHandler? = nil, cancellationHandler: (() -> Bool)? = nil, insertion: @escaping (Insertion) -> R, completion: @escaping () -> Void) {
         CoreData.backContext.perform {
             if shouldClearAllBeforeInsert { clearAllObjects() }
             
             array.forEach { ins in
+                let isCancelled = cancellationHandler?() ?? false
+                guard !isCancelled else {
+                    print("skipping events insertion due to cancellation")
+                    completion()
+                    
+                    return
+                }
                 var insert = ins
                 if !shouldClearAllBeforeInsert {
                     insert.dictToSave = self.clearIfNeeded(with: "id", value: ins.dictValue["id"] as? String, shouldClearObject: shouldClearObject)
                 }
                 _ = insertion(insert)
             }
-            
+            let isCancelled = cancellationHandler?() ?? false
+            guard !isCancelled else {
+                print("skipping events storring due to cancellation")
+                completion()
+
+                return
+            }
             saveBackgroundContext(completion: completion)
         }
     }
@@ -109,9 +122,9 @@ class Dealer<R: NSManagedObject> {
             } catch {
                 print(error)
             }
-            DispatchQueue.main.async {
+//            DispatchQueue.main.async {
                 completion()
-            }
+//            }
         }
     }
     

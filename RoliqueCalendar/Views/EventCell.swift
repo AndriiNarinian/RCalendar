@@ -25,8 +25,7 @@ open class EventCell: UITableViewCell {
         let calendarColorHex = event?.calendars.first?.colorHex
         backView.backgroundColor = calendarColorHex != nil ? UIColor(hexString: calendarColorHex!) : .darkGray
         backView.layer.cornerRadius = 4.0
-        calendarsLabel.text = String(describing: event?.calendars.map { $0.name } ?? [""] )
-        
+        calendarsLabel.text = event?.calendars.count == 1 ? event?.calendars.first?.name : "\(event?.calendars.count ?? 0) calendars"
     }
 
 //    func parentTableViewDidScroll(_ tableView: UITableView, offset: CGFloat, with velocity: CGFloat) {

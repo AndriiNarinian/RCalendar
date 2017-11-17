@@ -61,7 +61,9 @@ open class CalendarVC: VC, GoogleAPICompatible {
         scrollToToday(false)
         activityIndicator.startAnimating()
         RCalendar.main.startForCurrentUser(withOwner: self, calendarListCompletion: { [unowned self] in
-            self.configureFilterButton()
+            DispatchQueue.main.async {
+                self.configureFilterButton()
+            }
         }, completion: { [unowned self] in
             DispatchQueue.main.async {
                 self.isLoading = false
@@ -117,10 +119,11 @@ open class CalendarVC: VC, GoogleAPICompatible {
     }
     
     func configureFilterButton() {
-        filterButton.isEnabled = self.generateCalendarSamples().count > 0 && !isLoading
+        filterButton.isEnabled = self.generateCalendarSamples().count > 0// && !isLoading
     }
     
     func makeProxy() {
+        eventProxy = nil
         eventProxy = CoreDataProxy<Day>()
         
         let eventProxyConfig = ProxyConfigWithTableView(
@@ -175,6 +178,7 @@ open class CalendarVC: VC, GoogleAPICompatible {
     }
     
     func filter(with calendars: [Calendar]) {
+        RCalendar.main.cancelEventsFetching()
         selectedCalendars = calendars
         makeProxy()
         tableView.reloadData()
@@ -236,8 +240,8 @@ fileprivate extension CalendarVC {
 }
 
 extension CalendarVC: DayTableViewCellDelegate {
-    func dayTableViewCelldidSelectEvent(cell: DayTableViewCell, on day: Day?, at indexPath: IndexPath) {
-        guard let day = day, let event = day.sortedEvents[safe: indexPath.row] else { return }
+    func dayTableViewCell(cell: DayTableViewCell, didSelect event: Event?, at indexPath: IndexPath) {
+        guard let event = event else { return }
         self.selectedEventCell = cell.tableView.cellForRow(at: indexPath) as? EventCell
         let backView = (cell.tableView.cellForRow(at: indexPath) as! EventCell).backView!
         let localRect = cell.tableView.convert(backView.frame, from: backView)

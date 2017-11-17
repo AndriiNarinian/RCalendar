@@ -50,26 +50,26 @@ open class APIHelper {
         GIDSignIn.sharedInstance().signOut()
     }
     
-    static func getExtendedCalendars(owner: GoogleAPICompatible, completion: @escaping APICompletionArray, onError: RCalendarCompletion? = nil) {
+    static func getExtendedCalendars(owner: GoogleAPICompatible?, completion: @escaping APICompletionArray, onError: RCalendarCompletion? = nil) {
         requestFromGoogleAPI(owner: owner, router: .getExtendedCalendarList, completion: handleResponce(forArray: owner, completion: completion, onError: onError))
     }
     
-    static func getExtendedCalendarList(owner: GoogleAPICompatible, completion: @escaping APICompletion, onError: RCalendarCompletion? = nil) {
+    static func getExtendedCalendarList(owner: GoogleAPICompatible?, completion: @escaping APICompletion, onError: RCalendarCompletion? = nil) {
         requestFromGoogleAPI(owner: owner, router: .getExtendedCalendarList, completion: handleResponce(forObject: owner, completion: completion, onError: onError))
     }
     
-    static func getExtendedCalendar(with id: String?, for owner: GoogleAPICompatible, completion: @escaping APICompletion, onError: RCalendarCompletion? = nil) {
-        guard let id = id else { owner.displayError("calendar id is missing"); return }
+    static func getExtendedCalendar(with id: String?, for owner: GoogleAPICompatible?, completion: @escaping APICompletion, onError: RCalendarCompletion? = nil) {
+        guard let id = id else { owner?.displayError("calendar id is missing"); return }
         requestFromGoogleAPI(owner: owner, router: .getExtendedCalendar(id: id), completion: handleResponce(forObject: owner, completion: completion, onError: onError))
     }
     
-    static func getCalendar(with id: String?, for owner: GoogleAPICompatible, completion: @escaping APICompletion, onError: RCalendarCompletion? = nil) {
-        guard let id = id else { owner.displayError("calendar id is missing"); return }
+    static func getCalendar(with id: String?, for owner: GoogleAPICompatible?, completion: @escaping APICompletion, onError: RCalendarCompletion? = nil) {
+        guard let id = id else { owner?.displayError("calendar id is missing"); return }
         requestFromGoogleAPI(owner: owner, router: .getCalendar(id: id), completion: handleResponce(forObject: owner, completion: completion, onError: onError))
     }
     
-    static func getEventList(with calendarId: String?, for owner: GoogleAPICompatible, bound: PaginationBound? = nil, completion: @escaping APICompletion, onError: RCalendarCompletion? = nil) {
-        guard let calendarId = calendarId else { owner.displayError("calendar id is missing"); return }
+    static func getEventList(with calendarId: String?, for owner: GoogleAPICompatible?, bound: PaginationBound? = nil, completion: @escaping APICompletion, onError: RCalendarCompletion? = nil) {
+        guard let calendarId = calendarId else { owner?.displayError("calendar id is missing"); return }
 
         let params: Parameters = [
             "singleEvents": "true",
@@ -105,8 +105,8 @@ open class APIHelper {
         }, onError: onError)
     }
     
-    static func getAllPages(with calendarId: String?, for owner: GoogleAPICompatible, parameters: Parameters, transferDict: [String: Any]? = nil, nextPageToken: String? = nil, completion: @escaping APICompletion, onError: RCalendarCompletion? = nil) {
-        guard let calendarId = calendarId else { owner.displayError("calendar id is missing"); return }
+    static func getAllPages(with calendarId: String?, for owner: GoogleAPICompatible?, parameters: Parameters, transferDict: [String: Any]? = nil, nextPageToken: String? = nil, completion: @escaping APICompletion, onError: RCalendarCompletion? = nil) {
+        guard let calendarId = calendarId else { owner?.displayError("calendar id is missing"); return }
         var parameters = parameters
         if let nextPageToken = nextPageToken {
             parameters["pageToken"] = nextPageToken
@@ -139,7 +139,7 @@ open class APIHelper {
 // MARK: Private
 fileprivate extension APIHelper {
     
-    static func requestFromGoogleAPI(owner: GoogleAPICompatible, router: Router, completion: @escaping (Data?, URLResponse?, Error?) -> Void) {
+    static func requestFromGoogleAPI(owner: GoogleAPICompatible?, router: Router, completion: @escaping (Data?, URLResponse?, Error?) -> Void) {
         getAccessToken(owner: owner) { token in
             let headers = [
                 "authorization": "Bearer \(token)"
@@ -167,19 +167,19 @@ fileprivate extension APIHelper {
         }
     }
     
-    static func getAccessToken(owner: GoogleAPICompatible, completion: @escaping (String) -> Void) {
+    static func getAccessToken(owner: GoogleAPICompatible?, completion: @escaping (String) -> Void) {
         if let currentUser = GIDSignIn.sharedInstance().currentUser {
             completion(currentUser.authentication.accessToken)
         } else {
-            GIDSignIn.sharedInstance().delegate = owner.gIDSignInProxy
-            GIDSignIn.sharedInstance().uiDelegate = owner.gIDSignInProxy
-            owner.observeToken(completion: { token in
+            GIDSignIn.sharedInstance().delegate = owner?.gIDSignInProxy
+            GIDSignIn.sharedInstance().uiDelegate = owner?.gIDSignInProxy
+            owner?.observeToken(completion: { token in
                 completion(token)
             })
         }
     }
     
-    static func handleResponce(forArray owner: GoogleAPICompatible, completion: @escaping APICompletionArray, onError: RCalendarCompletion? = nil) -> (Data?, URLResponse?, Error?) -> Void {
+    static func handleResponce(forArray owner: GoogleAPICompatible?, completion: @escaping APICompletionArray, onError: RCalendarCompletion? = nil) -> (Data?, URLResponse?, Error?) -> Void {
         return { data, responce, error in
             if let error = error {
                 handleErrorString(error.localizedDescription, with: owner)
@@ -209,7 +209,7 @@ fileprivate extension APIHelper {
         }
     }
     
-    static func handleResponce(forObject owner: GoogleAPICompatible, completion: @escaping APICompletion, onError: RCalendarCompletion? = nil) -> (Data?, URLResponse?, Error?) -> Void {
+    static func handleResponce(forObject owner: GoogleAPICompatible?, completion: @escaping APICompletion, onError: RCalendarCompletion? = nil) -> (Data?, URLResponse?, Error?) -> Void {
         return { data, responce, error in
             if let error = error {
                 handleErrorString(error.localizedDescription, with: owner)
@@ -238,14 +238,14 @@ fileprivate extension APIHelper {
         }
     }
     
-    static func handleErrorString(_ errStr: String, with owner: GoogleAPICompatible) {
+    static func handleErrorString(_ errStr: String, with owner: GoogleAPICompatible?) {
         if (debugMode == .short) || (debugMode == .full) {
             print(">>>>>>>>>>")
             print("\nAPIHelper got an errror:\n\(errStr)\n")
             print("<<<<<<<<<<")
         }
         DispatchQueue.main.async {
-            owner.displayError(errStr)
+            owner?.displayError(errStr)
         }
     }
 }

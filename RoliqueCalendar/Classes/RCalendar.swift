@@ -17,27 +17,34 @@ open class RCalendar {
     fileprivate init() {}
     
     var calendarIds = [String]()
+    var selectedCalendarIds = [String]()
     var bounds: (max: Date, min: Date)?
     var minDate = defaultMinDate
     var maxDate = defaultMaxDate
+
+    fileprivate var operationQ: OperationQueue?
     
-    func startForCurrentUser(withOwner owner: GoogleAPICompatible, calendarListCompletion: RCalendarCompletion? = nil, completion: @escaping RCalendarCompletion, onError: RCalendarCompletion? = nil) {
+    func cancelEventsFetching() {
+       operationQ?.cancelAllOperations()
+    }
+    
+    func startForCurrentUser(withOwner owner: GoogleAPICompatible?, calendarListCompletion: RCalendarCompletion? = nil, completion: @escaping RCalendarCompletion, onError: RCalendarCompletion? = nil) {
         let operation = Operation()
         operation.main()
-        
-        let dispatchGroup = DispatchGroup()
-        dispatchGroup.enter()
         
         CalendarList.fetch(for: owner, completion: { calendarIds in
             self.calendarIds = calendarIds
             calendarListCompletion?()
-            RCalendar.main.getEventsForCalendarsRecurcively(withOwner: owner, for: calendarIds, completion: {
-                dispatchGroup.leave()
-            }, onError: onError)
+            
+            self.operationQ = OperationQueue()
+            
+            self.operationQ?.addOperation(FetchEventsOperation(calendarIds: calendarIds, owner: owner, completion: completion, onError: onError))
+            //self.operationQ?.waitUntilAllOperationsAreFinished()
+            
+//            RCalendar.main.getEventsForCalendarsRecurcively(withOwner: owner, for: calendarIds, completion: {
+//            }, onError: onError)
         }, onError: onError)
-        dispatchGroup.notify(queue: DispatchQueue.main) {
-            completion()
-        }
+        
     }
     
     func loadEventsForCurrentCalendars(withOwner owner: GoogleAPICompatible, bound: PaginationBound? = nil, completion: @escaping RCalendarCompletion, onError: RCalendarCompletion? = nil) {
@@ -56,21 +63,25 @@ open class RCalendar {
                 }
             }
         }
-        getEventsForCalendarsRecurcively(withOwner: owner, for: calendarIds, bound: bound, completion: completion, onError: onError)
+        
+        self.operationQ = OperationQueue()
+        
+        self.operationQ?.addOperation(FetchEventsOperation(calendarIds: calendarIds, owner: owner, completion: completion, onError: onError))
+        
+        //getEventsForCalendarsRecurcively(withOwner: owner, for: calendarIds, bound: bound, completion: completion, onError: onError)
     }
     
     fileprivate func getEventsForCalendarsRecurcively(withOwner owner: GoogleAPICompatible, for ids: [String], bound: PaginationBound? = nil, completion: @escaping RCalendarCompletion, onError: RCalendarCompletion? = nil) {
         var calendars = ids
         if calendars.count > 0 {
             let calendarId = calendars.removeFirst()
-            Event.all(calendarId: calendarId, for: owner, bound: bound, completion: { [unowned self] in
+            Event.all(calendarId: calendarId, for: owner, bound: bound, cancellationHandler: { false }, completion: { [unowned self] in
                 self.getEventsForCalendarsRecurcively(withOwner: owner, for: calendars, bound: bound, completion: completion, onError: onError)
             }, onError: onError)
         } else {
             completion()
         }
     }
-    
 }
 
 public extension RCalendar {
@@ -93,51 +104,130 @@ public extension RCalendar {
     }
 }
 
-class FetchEventsOperation: Operation {
+fileprivate class FetchEventsOperation: AsyncOperation {
     var calendarIds: [String]
-    
-    init(calendarIds: [String]) {
-        self.calendarIds = calendarIds
-    }
-    
-    override func main() {
-        super.main()
-        
-        if isCancelled { return }
-        
-        if isCancelled { return }
-    }
-}
-
-class FetchEventOperation: Operation {
-    var calendarId: String
     weak var owner: GoogleAPICompatible?
     var bound: PaginationBound?
     var completion: RCalendarCompletion?
     var onError: RCalendarCompletion?
+    let operationQ = OperationQueue()
     
-    init(calendarId: String, owner: GoogleAPICompatible?, bound: PaginationBound?, completion: RCalendarCompletion?, onError: RCalendarCompletion?) {
-        self.calendarId = calendarId
+    init(calendarIds: [String], owner: GoogleAPICompatible?, bound: PaginationBound? = nil, completion: RCalendarCompletion?, onError: RCalendarCompletion?) {
+        self.calendarIds = calendarIds
         self.owner = owner
         self.bound = bound
         self.completion = completion
         self.onError = onError
+        super.init()
+        self.operationQ.qualityOfService = .userInteractive
+    }
+    
+    override func cancel() {
+        super.cancel()
+        
+        operationQ.cancelAllOperations()
     }
     
     override func main() {
         super.main()
         
         if isCancelled { return }
-        guard let owner = owner, let completion = completion else { return }
-        Event.all(calendarId: calendarId, for: owner, bound: bound, completion: completion, onError: onError)
+
+        calendarIds.forEach { id in
+            let op = FetchEventsForCalendarOperation(calendarId: id, owner: owner, onError: onError)
+            operationQ.addOperation(op)
+        }
+        operationQ.waitUntilAllOperationsAreFinished()
+        print("FetchEventsOperation finished")
+        self.finish()
+        self.completion?()
     }
 }
 
-class PendingOperations {
-    lazy var fetchingEvents = [Calendar: Operation]()
-    lazy var fetchQueue: OperationQueue = {
-        var queue = OperationQueue()
-        queue.name = "Event Fetch Queue"
-        return queue
-    }()
+fileprivate class FetchEventsForCalendarOperation: AsyncOperation {
+    var calendarId: String
+    weak var owner: GoogleAPICompatible?
+    var bound: PaginationBound?
+    var onError: RCalendarCompletion?
+    
+    init(calendarId: String, owner: GoogleAPICompatible?, bound: PaginationBound? = nil, onError: RCalendarCompletion?) {
+        self.calendarId = calendarId
+        self.owner = owner
+        self.bound = bound
+        self.onError = onError
+        super.init()
+    }
+  
+    override func cancel() {
+        super.cancel()
+        finish()
+    }
+    
+    override func main() {
+        super.main()
+        if isCancelled { return }
+        Event.all(
+            calendarId: calendarId,
+            for: owner, bound: bound,
+            cancellationHandler: {
+                return self.isCancelled },
+            completion: {
+                guard !self.isCancelled else { return }
+                self.finish() },
+            onError: onError
+        )
+    }
+}
+
+fileprivate class AsyncOperation: Operation {
+    enum State: String {
+        case ready, executing, finished
+        
+        fileprivate var keyPath: String {
+            return "is" + rawValue.capitalized
+        }
+    }
+    
+    var state = State.ready {
+        willSet {
+            willChangeValue(forKey: newValue.keyPath)
+            willChangeValue(forKey: state.keyPath)
+        }
+        didSet {
+            didChangeValue(forKey: oldValue.keyPath)
+            didChangeValue(forKey: state.keyPath)
+            print("state did change: \(state)")
+        }
+    }
+}
+
+fileprivate extension AsyncOperation {
+    override var isReady: Bool {
+        return super.isReady && state == .ready
+    }
+    
+    override var isExecuting: Bool {
+        return state == .executing
+    }
+    
+    override var isFinished: Bool {
+        return state == .finished
+    }
+    
+    override var isAsynchronous: Bool {
+        return true
+    }
+    
+    override func start() {
+        if isCancelled {
+            state = .finished
+            return
+        }
+        main()
+        state = .executing
+    }
+    
+    func finish() {
+        state = .finished
+    }
 }

@@ -26,6 +26,10 @@ class EventDetailVC: DroppingModalVC {
 
     var event: Event!
     
+    var eventTitle: String? {
+        return event.summary ?? (event.visibility == "private" ? "private event" : "unknown")
+    }
+    
     var headerColor: UIColor {
         let calendarColorHex = event.calendars.first?.colorHex
         return calendarColorHex != nil ? UIColor(hexString: calendarColorHex!) : .darkGray
@@ -70,7 +74,7 @@ fileprivate extension EventDetailVC {
         
         closeButton.addTarget(self, action: #selector(closeButtonAction(sender:)), for: .touchUpInside)
         editButton.addTarget(self, action: #selector(editButtonAction(sender:)), for: .touchUpInside)
-        titleLabel.text = event.summary
+        titleLabel.text = eventTitle
         headerBackView.backgroundColor = headerColor
         configureStackView()
         

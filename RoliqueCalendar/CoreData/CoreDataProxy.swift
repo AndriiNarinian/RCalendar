@@ -180,9 +180,24 @@ class CoreDataProxy<ResultType: NSFetchRequestResult>: NSObject, UITableViewDele
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let day = fetchedResultsController?.object(at: indexPath) as? Day
-        let events = DayTableViewCell.filterEvents(events: day?.sortedEvents, with: config?.filterCalendarIds)
+        let events = filterEvents(events: day?.sortedEvents, with: config?.filterCalendarIds)
         let tableviewHeight = CGFloat(events.count) * 70
         return tableviewHeight > 0 ? tableviewHeight + 16 : 0
+    }
+    
+    func filterEvents(events: [Event]?, with calendarIds: [String]?) -> [Event] {
+        if let filterCalendarIds = calendarIds {
+            return events?.filter({ storedEvent -> Bool in
+                var result = false
+                for calendarId in filterCalendarIds {
+                    let ids = storedEvent.calendars.map { $0.id }
+                    if ids.contains(calendarId) { result = true }
+                }
+                return result
+            }) ?? []
+        } else {
+            return events ?? []
+        }
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
