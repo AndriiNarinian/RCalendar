@@ -27,9 +27,4 @@ open class EventCell: UITableViewCell {
         backView.layer.cornerRadius = 4.0
         calendarsLabel.text = event?.calendars.count == 1 ? event?.calendars.first?.name : "\(event?.calendars.count ?? 0) calendars"
     }
-
-//    func parentTableViewDidScroll(_ tableView: UITableView, offset: CGFloat, with velocity: CGFloat) {
-//        
-//        layer.frame.origin.y = velocity * offset
-//    }
 }

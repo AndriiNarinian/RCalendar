@@ -18,10 +18,16 @@ open class RCalendar {
     
     var calendarIds = [String]()
     var selectedCalendarIds = [String]()
-    var bounds: (max: Date, min: Date)?
+    var bounds: (max: Date, min: Date)? {
+        didSet {
+            print("max: \(String(describing: bounds?.max)), min: \(String(describing: bounds?.min))")
+        }
+    }
     var minDate = defaultMinDate
     var maxDate = defaultMaxDate
-
+    var bound: PaginationBound?
+    var isLoading = false
+    
     fileprivate var operationQ: OperationQueue?
     
     func cancelEventsFetching() {
@@ -37,12 +43,8 @@ open class RCalendar {
             calendarListCompletion?()
             
             self.operationQ = OperationQueue()
-            
             self.operationQ?.addOperation(FetchEventsOperation(calendarIds: calendarIds, owner: owner, completion: completion, onError: onError))
-            //self.operationQ?.waitUntilAllOperationsAreFinished()
-            
-//            RCalendar.main.getEventsForCalendarsRecurcively(withOwner: owner, for: calendarIds, completion: {
-//            }, onError: onError)
+
         }, onError: onError)
         
     }
@@ -66,21 +68,7 @@ open class RCalendar {
         
         self.operationQ = OperationQueue()
         
-        self.operationQ?.addOperation(FetchEventsOperation(calendarIds: calendarIds, owner: owner, completion: completion, onError: onError))
-        
-        //getEventsForCalendarsRecurcively(withOwner: owner, for: calendarIds, bound: bound, completion: completion, onError: onError)
-    }
-    
-    fileprivate func getEventsForCalendarsRecurcively(withOwner owner: GoogleAPICompatible, for ids: [String], bound: PaginationBound? = nil, completion: @escaping RCalendarCompletion, onError: RCalendarCompletion? = nil) {
-        var calendars = ids
-        if calendars.count > 0 {
-            let calendarId = calendars.removeFirst()
-            Event.all(calendarId: calendarId, for: owner, bound: bound, cancellationHandler: { false }, completion: { [unowned self] in
-                self.getEventsForCalendarsRecurcively(withOwner: owner, for: calendars, bound: bound, completion: completion, onError: onError)
-            }, onError: onError)
-        } else {
-            completion()
-        }
+        self.operationQ?.addOperation(FetchEventsOperation(calendarIds: calendarIds, owner: owner, bound: bound, completion: completion, onError: onError))
     }
 }
 
@@ -111,7 +99,7 @@ fileprivate class FetchEventsOperation: AsyncOperation {
     var completion: RCalendarCompletion?
     var onError: RCalendarCompletion?
     let operationQ = OperationQueue()
-    
+
     init(calendarIds: [String], owner: GoogleAPICompatible?, bound: PaginationBound? = nil, completion: RCalendarCompletion?, onError: RCalendarCompletion?) {
         self.calendarIds = calendarIds
         self.owner = owner
@@ -130,17 +118,18 @@ fileprivate class FetchEventsOperation: AsyncOperation {
     
     override func main() {
         super.main()
-        
+        RCalendar.main.isLoading = true
         if isCancelled { return }
-
+        
         calendarIds.forEach { id in
-            let op = FetchEventsForCalendarOperation(calendarId: id, owner: owner, onError: onError)
+            let op = FetchEventsForCalendarOperation(calendarId: id, owner: owner, bound: bound, onError: onError)
             operationQ.addOperation(op)
         }
         operationQ.waitUntilAllOperationsAreFinished()
         print("FetchEventsOperation finished")
         self.finish()
         self.completion?()
+        RCalendar.main.isLoading = false
     }
 }
 
@@ -150,7 +139,7 @@ fileprivate class FetchEventsForCalendarOperation: AsyncOperation {
     var bound: PaginationBound?
     var onError: RCalendarCompletion?
     
-    init(calendarId: String, owner: GoogleAPICompatible?, bound: PaginationBound? = nil, onError: RCalendarCompletion?) {
+    init(calendarId: String, owner: GoogleAPICompatible?, bound: PaginationBound?, onError: RCalendarCompletion?) {
         self.calendarId = calendarId
         self.owner = owner
         self.bound = bound
@@ -168,7 +157,7 @@ fileprivate class FetchEventsForCalendarOperation: AsyncOperation {
         if isCancelled { return }
         Event.all(
             calendarId: calendarId,
-            for: owner, bound: bound,
+            for: owner, bound: self.bound,
             cancellationHandler: {
                 return self.isCancelled },
             completion: {
@@ -196,7 +185,6 @@ fileprivate class AsyncOperation: Operation {
         didSet {
             didChangeValue(forKey: oldValue.keyPath)
             didChangeValue(forKey: state.keyPath)
-            print("state did change: \(state)")
         }
     }
 }

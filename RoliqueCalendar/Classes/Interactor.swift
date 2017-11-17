@@ -27,12 +27,6 @@ class Interactor: UIPercentDrivenInteractiveTransition {
         previousTranslation = nil
         panner.addTarget(self, action: #selector(handlePan(sender:)))
         vc.view.addGestureRecognizer(panner)
-        
-//        blackButton = UIButton(frame: .zero)
-//        blackButton.setTitle("✕", for: .normal)
-//        blackButton.setTitleColor(.black, for: .normal)
-//        //viewController?.view.superview?.insertSubview(blackButton, belowSubview: viewController?.view ?? UIView())
-//        viewController?.presentingViewController?.view.addSubview(blackButton)
     }
     
     @objc func handlePan(sender: UIPanGestureRecognizer) {

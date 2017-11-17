@@ -83,16 +83,16 @@ open class APIHelper {
                 
                 return dateTime ?? date
                 }.flatMap { $0 }.sorted(by: { $0 > $1 })
-            if let bound = bound, let loadedMaxDate = sortedAllDays.first?.withoutTime, let loadedMinDate = sortedAllDays.last?.withoutTime {
+            if let bound = bound, let _ = sortedAllDays.first?.withoutTime, let _ = sortedAllDays.last?.withoutTime {
                 switch bound {
                 case .max:
-                    let maxBound = RCalendar.main.maxDate// <= loadedMaxDate ? RCalendar.main.maxDate : loadedMaxDate
+                    let maxBound = RCalendar.main.maxDate
                     let minBound = RCalendar.main.bounds?.min ?? defaultMinDate
                     let bounds = (maxBound, minBound)
                     RCalendar.main.bounds = bounds
                 case .min:
                     let maxBound = RCalendar.main.bounds?.max ?? defaultMaxDate
-                    let minBound = RCalendar.main.minDate// >= loadedMinDate ? RCalendar.main.minDate : loadedMinDate
+                    let minBound = RCalendar.main.minDate
                     let bounds = (maxBound, minBound)
                     RCalendar.main.bounds = bounds
                 }

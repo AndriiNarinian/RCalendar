@@ -208,14 +208,14 @@ class CoreDataProxy<ResultType: NSFetchRequestResult>: NSObject, UITableViewDele
             if lastIndexPath < indexPath {
                 // going down
                 if let current = currentDate, let max = RCalendar.main.bounds?.max {
-                    if current > max {
+                    if (current > max) && !RCalendar.main.isLoading {
                         config?.proxyConfigTableViewDelegate?.willDisplayLastRow()
                     }
                 }
             } else {
                 // going up
                 if let current = currentDate, let min = RCalendar.main.bounds?.min {
-                    if current < min {
+                    if (current < min) && !RCalendar.main.isLoading {
                         config?.proxyConfigTableViewDelegate?.willDisplayFirstRow()
                     }
                 }
@@ -224,13 +224,13 @@ class CoreDataProxy<ResultType: NSFetchRequestResult>: NSObject, UITableViewDele
         lastIndexPath = indexPath
         
         if indexPath.section == 0 {
-            if indexPath.row == 0 {
+            if (indexPath.row == 0) && !RCalendar.main.isLoading {
                 config?.proxyConfigTableViewDelegate?.willDisplayFirstRow()
             }
         }
         if indexPath.section == (fetchedResultsController?.sections?.count ?? 1) - 1 {
             let sectionInfo = fetchedResultsController?.sections?[indexPath.section]
-            if indexPath.row == (sectionInfo?.numberOfObjects ?? 1) - 1 {
+            if (indexPath.row == (sectionInfo?.numberOfObjects ?? 1) - 1) && !RCalendar.main.isLoading {
                 config?.proxyConfigTableViewDelegate?.willDisplayLastRow()
             }
         }

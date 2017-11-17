@@ -24,7 +24,6 @@ class EventSectionHeaderView: NibLoadingView {
     
     
     func initialize() {
-        //shadowView.layer.addSublayer(SideShadowLayer(frame: shadowView.layer.frame, side: .bottom, shadowMagnitude: 4))
         shadowView.layer.shadowColor = UIColor.black.cgColor
         shadowView.layer.shadowRadius = 4.0
         shadowView.layer.shadowOffset = CGSize(width: 0, height: 4)

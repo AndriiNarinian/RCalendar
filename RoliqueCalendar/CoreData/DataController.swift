@@ -9,7 +9,6 @@
 import UIKit
 import CoreData
 
-
 class CoreData: NSObject {
     static var controller: DataController {
         return DataController.main
@@ -52,9 +51,9 @@ class CoreData: NSObject {
             } catch {
                 print(error)
             }
-//            DispatchQueue.main.async {
-                completion()
-//            }
+            //            DispatchQueue.main.async {
+            completion()
+            //            }
         }
     }
     

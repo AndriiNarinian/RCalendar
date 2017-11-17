@@ -59,13 +59,7 @@ enum Router {
             return URL(string: urlString)
         }
         let urlComponents = NSURLComponents(string: urlString)
-        
-//        urlComponents?.queryItems = parameters.map({ (arg0) -> URLQueryItem in
-//            
-//            let (key, value) = arg0
-//            return URLQueryItem(name: key, value: value as! String)
-//        })
-//        
+
         urlComponents?.queryItems = parameters.map { URLQueryItem(name: $0.key, value: ($0.value as? String).stringValue) }
         return urlComponents?.url
     }

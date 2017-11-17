@@ -23,7 +23,6 @@ open class CalendarVC: VC, GoogleAPICompatible {
                     if self.generateCalendarSamples().count > 0 { self.isClean = false }
                 }
             }
-            
         }
     }
     fileprivate var topDay: Day?
