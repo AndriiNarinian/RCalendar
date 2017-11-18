@@ -17,15 +17,19 @@ open class RCalendar {
     fileprivate init() {}
     
     var calendarIds = [String]()
-    var selectedCalendarIds = [String]()
-    var bounds: (max: Date, min: Date)? {
-        didSet {
-            print("max: \(String(describing: bounds?.max)), min: \(String(describing: bounds?.min))")
+    var selectedCalendarIds: [String]? {
+        get {
+            return UserDefaults.standard.object(forKey: "SelectedCalendarsKey") as? [String]
+        }
+        set {
+            
+            UserDefaults.standard.set(newValue, forKey: "SelectedCalendarsKey")
         }
     }
+    
+    var bounds: (max: Date, min: Date)?
     var minDate = defaultMinDate
     var maxDate = defaultMaxDate
-    var bound: PaginationBound?
     var isLoading = false
     
     fileprivate var operationQ: OperationQueue?
@@ -43,8 +47,8 @@ open class RCalendar {
             calendarListCompletion?()
             
             self.operationQ = OperationQueue()
-            self.operationQ?.addOperation(FetchEventsOperation(calendarIds: calendarIds, owner: owner, completion: completion, onError: onError))
-
+            self.operationQ?.addOperation(FetchEventsOperation(calendarIds: self.selectedCalendarIds ?? calendarIds, owner: owner, completion: completion, onError: onError))
+            
         }, onError: onError)
         
     }
@@ -68,7 +72,7 @@ open class RCalendar {
         
         self.operationQ = OperationQueue()
         
-        self.operationQ?.addOperation(FetchEventsOperation(calendarIds: calendarIds, owner: owner, bound: bound, completion: completion, onError: onError))
+        self.operationQ?.addOperation(FetchEventsOperation(calendarIds: selectedCalendarIds ?? calendarIds, owner: owner, bound: bound, completion: completion, onError: onError))
     }
 }
 

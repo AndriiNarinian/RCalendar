@@ -78,7 +78,7 @@ class PopAnimator: NSObject, UIViewControllerAnimatedTransitioning {
                 if !self.presenting {
                     transitionColorView?.alpha = 1
                 }
-        },
+            },
             completion: { _ in
                 if !self.presenting {
                     self.dismissCompletion?()

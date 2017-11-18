@@ -20,7 +20,7 @@ open class CalendarVC: VC, GoogleAPICompatible {
                 self.reloadButton.isHidden = self.isLoading
                 self.configureFilterButton()
                 if self.isClean {
-                    if self.generateCalendarSamples().count > 0 { self.isClean = false }
+                    if self.getCalendarsFromDB().count > 0 { self.isClean = false }
                 }
             }
         }
@@ -35,7 +35,6 @@ open class CalendarVC: VC, GoogleAPICompatible {
     var lastMinOffset: CGFloat?
     var lastBound: PaginationBound?
     var selectedEventCell: EventCell?
-    var selectedCalendars: [Calendar]?
     var isClean = false
     
     @IBOutlet weak var overlayButton: OverlayButton!
@@ -106,7 +105,7 @@ open class CalendarVC: VC, GoogleAPICompatible {
     
     @objc func cleanUI() {
         configureFilterButton()
-        selectedCalendars = []
+        RCalendar.main.selectedCalendarIds = []
         Dealer<Calendar>.clearAllObjects()
         Dealer<Event>.clearAllObjects()
         Dealer<Day>.clearAllObjects()
@@ -118,7 +117,8 @@ open class CalendarVC: VC, GoogleAPICompatible {
     }
     
     func configureFilterButton() {
-        filterButton.isEnabled = self.generateCalendarSamples().count > 0// && !isLoading
+        filterButton.isEnabled = self.getCalendarsFromDB().count > 0
+        configureFilterButton(with: RCalendar.main.selectedCalendarIds)
     }
     
     func makeProxy() {
@@ -128,14 +128,14 @@ open class CalendarVC: VC, GoogleAPICompatible {
         let eventProxyConfig = ProxyConfigWithTableView(
             tableView: tableView,
             sortDescriptors: [(#keyPath(Day.date), true)],
-            filterCalendarIds: selectedCalendars != nil ? selectedCalendars!.map { $0.id ?? "" } : nil,
+            filterCalendarIds: RCalendar.main.selectedCalendarIds,
             updateMode: .tableViewReload,
             proxyConfigTableViewDelegate: self
         ) { [unowned self] (object, indexPath) -> UITableViewCell in
             if let day = object as? Day {
                 let cell = self.tableView.dequeueReusableCell(withIdentifier: "DayTableViewCell") as! DayTableViewCell
-                let filter = self.selectedCalendars != nil ? self.selectedCalendars!.map { $0.id ?? "" } : nil
-                cell.update(with: day, delegate: self, filterCalendarIds: filter)
+
+                cell.update(with: day, delegate: self, filterCalendarIds: RCalendar.main.selectedCalendarIds)
                 return cell
             }
             return UITableViewCell()
@@ -144,16 +144,13 @@ open class CalendarVC: VC, GoogleAPICompatible {
     }
     
     @objc func showInfo() {
-        let calendars = generateCalendarSamples()
+        let calendars = getCalendarsFromDB()
+        let selectedCalendars = calendars.filter{ (RCalendar.main.selectedCalendarIds ?? [String]()).contains($0.id ?? "") }
         let rowHeight: CGFloat = 50
         let vc = TableInfoViewController.deploy(with: calendars, selectedCalendars: selectedCalendars) { [unowned self] selectedCalendars in
-                self.filter(with: selectedCalendars)
-                var title = ""
-                switch selectedCalendars.count {
-                case calendars.count: title = "All"
-                default: title = "\(selectedCalendars.count) of \(calendars.count)"
-            }
-            self.filterButton.setTitle(title, for: .normal)
+            UserDefaults.standard.set(selectedCalendars.flatMap { $0.id }, forKey: "SelectedCalendarsKey")
+            self.filter(with: selectedCalendars)
+            self.configureFilterButton(with: selectedCalendars.flatMap { $0.id })
         }
         vc.modalPresentationStyle = .popover
         vc.preferredContentSize = CGSize(width: 300, height: rowHeight * CGFloat(calendars.count + 1))
@@ -165,7 +162,17 @@ open class CalendarVC: VC, GoogleAPICompatible {
         present(vc, animated: true)
     }
     
-    func generateCalendarSamples() -> [Calendar] {
+    fileprivate func configureFilterButton(with selectedCalendars: [String]?) {
+        let calendars = getCalendarsFromDB()
+        guard let selectedCalendarsCount = selectedCalendars?.count, selectedCalendarsCount == calendars.count else {
+            self.filterButton.setTitle("all", for: .normal)
+            
+            return
+        }
+        self.filterButton.setTitle("\(selectedCalendarsCount) of \(calendars.count)", for: .normal)
+    }
+    
+    func getCalendarsFromDB() -> [Calendar] {
         let calendarIds = RCalendar.main.calendarIds
         
         let calendars = calendarIds.flatMap { Dealer<Calendar>.fetch(with: "id", value: $0) }
@@ -178,7 +185,6 @@ open class CalendarVC: VC, GoogleAPICompatible {
     
     func filter(with calendars: [Calendar]) {
         RCalendar.main.cancelEventsFetching()
-        selectedCalendars = calendars
         makeProxy()
         tableView.reloadData()
         scrollToToday(true)

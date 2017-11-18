@@ -51,9 +51,7 @@ class CoreData: NSObject {
             } catch {
                 print(error)
             }
-            //            DispatchQueue.main.async {
             completion()
-            //            }
         }
     }
     
