@@ -45,6 +45,7 @@ class EventDetailVC: DroppingModalVC {
         super.viewDidLayoutSubviews()
         
         tableviewHeightConstraint.constant = (stackView.arrangedSubviews[safe: 5] as? GuestTableEventAttributeView)?.tableViewHeight ?? 0
+        calendarTableviewHeightConstraint.constant = (stackView.arrangedSubviews[safe: 7] as? CalendarTableEventAttributeView)?.tableViewHeight ?? 0
     }
     
     @IBAction func closeButtonAction(sender: UIButton) {
@@ -53,7 +54,8 @@ class EventDetailVC: DroppingModalVC {
     
     @IBAction func editButtonAction(sender: UIButton) {
         let editVC = EventEditVC.deploy(with: event)
-        navigationController?.pushViewController(editVC, animated: true)
+        editVC.modalTransitionStyle = .flipHorizontal
+        present(editVC, animated: true, completion: nil)
     }
     
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -87,7 +89,7 @@ fileprivate extension EventDetailVC {
     
     func configureStackView() {
         stackView.arrangedSubviews.forEach { view in
-            guard let type = (view as? BasicEventAttributeView)?.type else { return }
+            guard let type = (view as? EventAttributeView)?.type else { return }
             switch type {
             case .time, .location, .reminder, .hangout, .guests, .calendar:
                 (view as? BasicEventAttributeView)?.update(with: event)

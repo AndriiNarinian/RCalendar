@@ -52,7 +52,8 @@ class EventEditVC: DroppingModalVC {
     }
     
     @IBAction func editButtonAction(sender: UIButton) {
-        
+        save()
+        dismiss(animated: true) { }
     }
     
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -69,6 +70,10 @@ extension EventEditVC: DroppingModalVCDataSource {
 }
 
 fileprivate extension EventEditVC {
+    func save() {
+        
+    }
+    
     func configure() {
         
         configureDroppingModalVC(dataSource: self)

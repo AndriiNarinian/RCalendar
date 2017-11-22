@@ -15,7 +15,7 @@
         <!--CalendarVC-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController storyboardIdentifier="ViewController" id="BYZ-38-t0r" customClass="CalendarVC" customModule="RoCalendar" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ViewController" id="BYZ-38-t0r" customClass="CalendarVC" customModule="RoCalendar" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -202,7 +202,7 @@
         <!--Event DetailVC-->
         <scene sceneID="wK1-ZX-FhD">
             <objects>
-                <viewController storyboardIdentifier="EventDetailVC" id="MdJ-9Z-zCn" customClass="EventDetailVC" customModule="RoCalendar" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="EventDetailVC" id="MdJ-9Z-zCn" customClass="EventDetailVC" customModule="RoCalendar" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="xBf-sD-FvD"/>
                         <viewControllerLayoutGuide type="bottom" id="jWD-rt-byp"/>
@@ -218,7 +218,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="573"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="110" placeholderIntrinsicHeight="200" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="64x-J2-q6j">
-                                                <rect key="frame" x="0.0" y="0.0" width="375" height="0.0"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="375" height="200"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wxt-u5-wi1" customClass="BasicEventAttributeView" customModule="RoCalendar" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="0.0" width="375" height="0.0"/>
@@ -278,7 +278,7 @@
                                                         </userDefinedRuntimeAttributes>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gKT-w9-iKy" customClass="BasicEventAttributeView" customModule="RoCalendar" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="-70" width="375" height="0.0"/>
+                                                        <rect key="frame" x="0.0" y="-70" width="375" height="200"/>
                                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <userDefinedRuntimeAttributes>
                                                             <userDefinedRuntimeAttribute type="number" keyPath="typeId">
@@ -286,8 +286,8 @@
                                                             </userDefinedRuntimeAttribute>
                                                         </userDefinedRuntimeAttributes>
                                                     </view>
-                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Nt5-uo-uy7" customClass="GuestTableEventAttributeView" customModule="RoCalendar" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="-70" width="375" height="200"/>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Nt5-uo-uy7" customClass="CalendarTableEventAttributeView" customModule="RoCalendar" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="130" width="375" height="200"/>
                                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="200" id="d2P-WB-kHD"/>
@@ -388,6 +388,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="calendarTableviewHeightConstraint" destination="d2P-WB-kHD" id="wmf-8d-PFh"/>
                         <outlet property="closeButton" destination="1vE-nD-EBL" id="08R-aw-yG1"/>
                         <outlet property="editButton" destination="vUB-TK-Dpt" id="ghu-0O-bmb"/>
                         <outlet property="headerBackView" destination="umG-Pg-0g6" id="Dhc-Yw-6Si"/>
@@ -405,7 +406,7 @@
         <!--Table Info View Controller-->
         <scene sceneID="QOZ-IS-ANA">
             <objects>
-                <viewController storyboardIdentifier="TableInfoViewController" automaticallyAdjustsScrollViewInsets="NO" id="pms-Hk-W9Y" customClass="TableInfoViewController" customModule="RoCalendar" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TableInfoViewController" automaticallyAdjustsScrollViewInsets="NO" id="pms-Hk-W9Y" customClass="TableInfoViewController" customModule="RoCalendar" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="rp4-Ux-gk5"/>
                         <viewControllerLayoutGuide type="bottom" id="iaF-zp-IEx"/>
@@ -454,7 +455,7 @@
         <!--Event EditVC-->
         <scene sceneID="L0d-4g-adE">
             <objects>
-                <viewController storyboardIdentifier="EventEditVC" id="7Ws-19-RUs" customClass="EventEditVC" customModule="RoCalendar" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="EventEditVC" id="7Ws-19-RUs" customClass="EventEditVC" customModule="RoCalendar" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="pkn-xB-pPz"/>
                         <viewControllerLayoutGuide type="bottom" id="v2f-yf-TLf"/>
@@ -538,7 +539,7 @@
                                                             </userDefinedRuntimeAttribute>
                                                         </userDefinedRuntimeAttributes>
                                                     </view>
-                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Lwd-Ra-LZM" customClass="GuestTableEventAttributeView" customModule="RoCalendar" customModuleProvider="target">
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Lwd-Ra-LZM" customClass="CalendarTableEventAttributeView" customModule="RoCalendar" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="130" width="375" height="200"/>
                                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <constraints>
@@ -640,6 +641,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="calendarTableviewHeightConstraint" destination="gev-kF-qgR" id="YlS-Nz-ZlC"/>
                         <outlet property="closeButton" destination="IcY-C3-9fG" id="QNY-Xe-Jmh"/>
                         <outlet property="editButton" destination="yq0-Pq-N6w" id="2Cf-xo-CcW"/>
                         <outlet property="headerBackView" destination="WND-9i-ejp" id="66n-BY-mDE"/>

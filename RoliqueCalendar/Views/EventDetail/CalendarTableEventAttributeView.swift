@@ -10,12 +10,11 @@ import UIKit
 
 class CalendarTableEventAttributeView: NibLoadingView, EventAttributeView, UITableViewDataSource, UITableViewDelegate {
     enum SectionType: Int {
-        case accepted = 0, awaiting, declined
+        case own = 0, others
         var title: String {
             switch self {
-            case .accepted: return "Accepted"
-            case .awaiting: return "Awaiting"
-            case .declined: return "Declined"
+            case .own: return "Own"
+            case .others: return "Others"
             }
         }
     }
@@ -43,27 +42,21 @@ class CalendarTableEventAttributeView: NibLoadingView, EventAttributeView, UITab
 
     var event: Event?
 
-    var acceptedUsers: [User]? {
-        let accepted = event?.sortedGuests.filter { $0.responseStatus == "accepted" } ?? [User]()
-        return accepted.isEmpty ? nil : accepted
-    }
-    var pendingUsers: [User]? {
-        let awaiting = event?.sortedGuests.filter { $0.responseStatus != "accepted" } ?? [User]()
-        return awaiting.isEmpty ? nil : awaiting
-    }
-    var refusedUsers: [User]? {
-        let awaiting = event?.sortedGuests.filter { $0.responseStatus == "declined" } ?? [User]()
-        return awaiting.isEmpty ? nil : awaiting
+    var ownCalendars: [(id: String, name: String, colorHex: String)]? {
+        return event?.calendars
     }
 
-    var tableData: [SectionType: [User]] {
-        var data = [SectionType: [User]]()
-        if let acceptedUsers = acceptedUsers { data[.accepted] = acceptedUsers }
-        if let pendingUsers = pendingUsers { data[.awaiting] = pendingUsers }
-        if let refusedUsers = refusedUsers { data[.declined] = refusedUsers }
+    var othersCalendars: [(id: String, name: String, colorHex: String)]? {
+        return event?.calendars
+    }
+    
+    var tableData: [SectionType: [(id: String, name: String, colorHex: String)]] {
+        var data = [SectionType: [(id: String, name: String, colorHex: String)]]()
+        if let ownCalendars = ownCalendars { data[.own] = ownCalendars }
+        if let othersCalendars = othersCalendars { data[.others] = othersCalendars }
         return data
     }
-
+    
     var tableViewHeight: CGFloat {
         return tableData.keys.map { self.getHeightForTableDataKey($0) }.reduce(0, +)
     }
@@ -76,7 +69,7 @@ class CalendarTableEventAttributeView: NibLoadingView, EventAttributeView, UITab
         return kHeaderHeight + (kRowHeight * CGFloat(self.tableData[key]?.count ?? 0))
     }
 
-    func getArray(for section: Int) -> [User] {
+    func getArray(for section: Int) -> [(id: String, name: String, colorHex: String)] {
         guard let key = allSections[safe: section] else { return [] }
         return tableData[key] ?? []
     }
@@ -113,10 +106,10 @@ class CalendarTableEventAttributeView: NibLoadingView, EventAttributeView, UITab
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .default, reuseIdentifier: "CalendarTableEventAttributeView")
-        guard let user = getArray(for: indexPath.section)[safe: indexPath.row] else { return UITableViewCell() }
+        guard let calendarData = getArray(for: indexPath.section)[safe: indexPath.row] else { return UITableViewCell() }
 
-        cell.imageView?.loadImageUsingCacheWithURLString(user.imageUrl.stringValue, placeHolder: nil)
-        cell.textLabel?.text = user.displayName ?? user.email
+//        cell.imageView?.loadImageUsingCacheWithURLString(user.imageUrl.stringValue, placeHolder: nil)
+        cell.textLabel?.text = calendarData.name
 
         return cell
     }
