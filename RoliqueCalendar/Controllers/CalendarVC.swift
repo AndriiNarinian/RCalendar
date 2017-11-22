@@ -165,11 +165,12 @@ open class CalendarVC: VC, GoogleAPICompatible {
     fileprivate func configureFilterButton(with selectedCalendars: [String]?) {
         let calendars = getCalendarsFromDB()
         guard let selectedCalendarsCount = selectedCalendars?.count, selectedCalendarsCount == calendars.count else {
-            self.filterButton.setTitle("all", for: .normal)
+            self.filterButton.setTitle("\(selectedCalendars?.count ?? 0) of \(calendars.count)", for: .normal)
             
             return
         }
-        self.filterButton.setTitle("\(selectedCalendarsCount) of \(calendars.count)", for: .normal)
+        self.filterButton.setTitle("all", for: .normal)
+        
     }
     
     func getCalendarsFromDB() -> [Calendar] {

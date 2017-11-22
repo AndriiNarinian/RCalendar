@@ -9,7 +9,7 @@
 import UIKit
 
 enum EventAttributeViewType: Int {
-    case time = 0, location = 1, reminder = 2, hangout = 3, guests = 4, guestsTable = 5, calendar = 6
+    case time = 0, location = 1, reminder = 2, hangout = 3, guests = 4, guestsTable = 5, calendar = 6, calendarTable = 7
     
     var icon: UIImage? {
         switch self {
@@ -20,12 +20,12 @@ enum EventAttributeViewType: Int {
         case .guests: return UIImage(named: "users", in: bundle, compatibleWith: nil)
         case .guestsTable: return nil
         case .calendar: return UIImage(named: "calendar", in: bundle, compatibleWith: nil)
+        case .calendarTable: return nil
         }
     }
 }
 
 protocol EventAttributeView: class {
-    var typeId: Int { get set }
     var type: EventAttributeViewType? { get set }
 }
 
@@ -74,7 +74,7 @@ class BasicEventAttributeView: NibLoadingView, EventAttributeView {
             titleLabel.text = event.calendars.first?.name
             subtitleLabel.text = ""
         case .guestsTable: break
-
+        case .calendarTable: break
         }
     }
 }

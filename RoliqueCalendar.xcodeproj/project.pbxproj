@@ -39,12 +39,16 @@
 		B52C4EDF1F7EAC81000CECC3 /* Source.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52C4EDE1F7EAC81000CECC3 /* Source.swift */; };
 		B52C4EE11F7EACD2000CECC3 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52C4EE01F7EACD2000CECC3 /* Event.swift */; };
 		B52C4EE31F7F06C4000CECC3 /* Day.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52C4EE21F7F06C4000CECC3 /* Day.swift */; };
+		B52E036C1FC487B800E7BA9C /* CalendarTableEventAttributeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B52E036A1FC487B800E7BA9C /* CalendarTableEventAttributeView.xib */; };
+		B52E036D1FC487B800E7BA9C /* CalendarTableEventAttributeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52E036B1FC487B800E7BA9C /* CalendarTableEventAttributeView.swift */; };
 		B52E2F4E1F8CF0590031FDED /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52E2F4D1F8CF0590031FDED /* UserCell.swift */; };
 		B52E2F501F8CF0800031FDED /* BasicEventAttributeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52E2F4F1F8CF0800031FDED /* BasicEventAttributeView.swift */; };
-		B52E2F521F8D05270031FDED /* TableEventAttributeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52E2F511F8D05270031FDED /* TableEventAttributeView.swift */; };
+		B52E2F521F8D05270031FDED /* GuestTableEventAttributeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52E2F511F8D05270031FDED /* GuestTableEventAttributeView.swift */; };
 		B52E2F541F8D05B20031FDED /* BasicEventAttributeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B52E2F531F8D05B20031FDED /* BasicEventAttributeView.xib */; };
-		B52E2F561F8D06C70031FDED /* TableEventAttributeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B52E2F551F8D06C70031FDED /* TableEventAttributeView.xib */; };
+		B52E2F561F8D06C70031FDED /* GuestTableEventAttributeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B52E2F551F8D06C70031FDED /* GuestTableEventAttributeView.xib */; };
 		B52E2F581F8D10D60031FDED /* EventDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52E2F571F8D10D60031FDED /* EventDetailVC.swift */; };
+		B53DB3751FC5C0D100627B3E /* CalendarTableEventAttributeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52E036B1FC487B800E7BA9C /* CalendarTableEventAttributeView.swift */; };
+		B53DB3761FC5C0D500627B3E /* CalendarTableEventAttributeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B52E036A1FC487B800E7BA9C /* CalendarTableEventAttributeView.xib */; };
 		B550ACBA1FA884810067082C /* RoCalendar.h in Headers */ = {isa = PBXBuildFile; fileRef = B550ACB81FA884810067082C /* RoCalendar.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B550ACBD1FA884820067082C /* RoCalendar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B550ACB61FA884810067082C /* RoCalendar.framework */; };
 		B550ACBE1FA884820067082C /* RoCalendar.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B550ACB61FA884810067082C /* RoCalendar.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -60,8 +64,8 @@
 		B550ACCC1FA884D10067082C /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52E2F4D1F8CF0590031FDED /* UserCell.swift */; };
 		B550ACCD1FA884D10067082C /* BasicEventAttributeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52E2F4F1F8CF0800031FDED /* BasicEventAttributeView.swift */; };
 		B550ACCE1FA884D10067082C /* BasicEventAttributeView.xib in Sources */ = {isa = PBXBuildFile; fileRef = B52E2F531F8D05B20031FDED /* BasicEventAttributeView.xib */; };
-		B550ACCF1FA884D10067082C /* TableEventAttributeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52E2F511F8D05270031FDED /* TableEventAttributeView.swift */; };
-		B550ACD01FA884D10067082C /* TableEventAttributeView.xib in Sources */ = {isa = PBXBuildFile; fileRef = B52E2F551F8D06C70031FDED /* TableEventAttributeView.xib */; };
+		B550ACCF1FA884D10067082C /* GuestTableEventAttributeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52E2F511F8D05270031FDED /* GuestTableEventAttributeView.swift */; };
+		B550ACD01FA884D10067082C /* GuestTableEventAttributeView.xib in Sources */ = {isa = PBXBuildFile; fileRef = B52E2F551F8D06C70031FDED /* GuestTableEventAttributeView.xib */; };
 		B550ACD11FA884D10067082C /* TableEventAttributeHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5266BF81F8F5BCA007A266E /* TableEventAttributeHeaderView.swift */; };
 		B550ACD21FA884D10067082C /* TableEventAttributeHeaderView.xib in Sources */ = {isa = PBXBuildFile; fileRef = B5266BF61F8F5BB7007A266E /* TableEventAttributeHeaderView.xib */; };
 		B550ACD31FA884D10067082C /* NibLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51099961F850D4D00A416BE /* NibLoadingView.swift */; };
@@ -120,11 +124,11 @@
 		B550AD081FA884D10067082C /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F638C11F7A493F00E80DEC /* Extensions.swift */; };
 		B550AD091FA884D10067082C /* RCDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B5C4F5D51F7B976500C1FF23 /* RCDataModel.xcdatamodeld */; };
 		B550AD0A1FA884D10067082C /* Assets.xcassets in Sources */ = {isa = PBXBuildFile; fileRef = B5F638991F78F5BC00E80DEC /* Assets.xcassets */; };
-		B550AD0B1FA884D10067082C /* Info.plist in Sources */ = {isa = PBXBuildFile; fileRef = B5F6389E1F78F5BC00E80DEC /* Info.plist */; };
 		B550AD0C1FA884D10067082C /* GoogleService-Info.plist in Sources */ = {isa = PBXBuildFile; fileRef = B5F638AF1F79062100E80DEC /* GoogleService-Info.plist */; };
 		B550AD101FA8876F0067082C /* GoogleSignIn.bundle in Frameworks */ = {isa = PBXBuildFile; fileRef = B5F638A41F7902F100E80DEC /* GoogleSignIn.bundle */; };
 		B550AD111FA8876F0067082C /* GoogleSignIn.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5F638A51F7902F100E80DEC /* GoogleSignIn.framework */; };
 		B550AD121FA8876F0067082C /* GoogleSignInDependencies.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5F638A61F7902F100E80DEC /* GoogleSignInDependencies.framework */; };
+		B550D9141FC5CA33002BF26F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B5F6389B1F78F5BC00E80DEC /* LaunchScreen.storyboard */; };
 		B55AFFA21F96245E006AA072 /* DroppingModalVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55AFFA01F96245E006AA072 /* DroppingModalVC.swift */; };
 		B55AFFA31F96245E006AA072 /* DroppingModalVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = B55AFFA11F96245E006AA072 /* DroppingModalVC.xib */; };
 		B56E7AAB1F7C8C7B0007B4DC /* Calendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56E7AAA1F7C8C7B0007B4DC /* Calendar.swift */; };
@@ -140,6 +144,8 @@
 		B59BAD901F7AA3D400A65AD1 /* GErrorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B59BAD8F1F7AA3D400A65AD1 /* GErrorModel.swift */; };
 		B59BAD921F7AA3EC00A65AD1 /* GError.swift in Sources */ = {isa = PBXBuildFile; fileRef = B59BAD911F7AA3EC00A65AD1 /* GError.swift */; };
 		B5AE8BAC1FA8E25900536262 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B5F638961F78F5BC00E80DEC /* Main.storyboard */; };
+		B5B6C98E1FC5C720009381CC /* EventEditVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BD99BC1FC5C3640001454D /* EventEditVC.swift */; };
+		B5BD99BD1FC5C3640001454D /* EventEditVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BD99BC1FC5C3640001454D /* EventEditVC.swift */; };
 		B5C4F5D71F7B976500C1FF23 /* RCDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B5C4F5D51F7B976500C1FF23 /* RCDataModel.xcdatamodeld */; };
 		B5C4F5D91F7BA2D300C1FF23 /* GCalendarExtendedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C4F5D81F7BA2D300C1FF23 /* GCalendarExtendedList.swift */; };
 		B5C6ACBB1F8693DA001FA175 /* EventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C6ACB91F8693DA001FA175 /* EventCell.swift */; };
@@ -229,11 +235,13 @@
 		B52C4EDE1F7EAC81000CECC3 /* Source.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Source.swift; sourceTree = "<group>"; };
 		B52C4EE01F7EACD2000CECC3 /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		B52C4EE21F7F06C4000CECC3 /* Day.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Day.swift; sourceTree = "<group>"; };
+		B52E036A1FC487B800E7BA9C /* CalendarTableEventAttributeView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CalendarTableEventAttributeView.xib; sourceTree = "<group>"; };
+		B52E036B1FC487B800E7BA9C /* CalendarTableEventAttributeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarTableEventAttributeView.swift; sourceTree = "<group>"; };
 		B52E2F4D1F8CF0590031FDED /* UserCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
 		B52E2F4F1F8CF0800031FDED /* BasicEventAttributeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicEventAttributeView.swift; sourceTree = "<group>"; };
-		B52E2F511F8D05270031FDED /* TableEventAttributeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableEventAttributeView.swift; sourceTree = "<group>"; };
+		B52E2F511F8D05270031FDED /* GuestTableEventAttributeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuestTableEventAttributeView.swift; sourceTree = "<group>"; };
 		B52E2F531F8D05B20031FDED /* BasicEventAttributeView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BasicEventAttributeView.xib; sourceTree = "<group>"; };
-		B52E2F551F8D06C70031FDED /* TableEventAttributeView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TableEventAttributeView.xib; sourceTree = "<group>"; };
+		B52E2F551F8D06C70031FDED /* GuestTableEventAttributeView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GuestTableEventAttributeView.xib; sourceTree = "<group>"; };
 		B52E2F571F8D10D60031FDED /* EventDetailVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventDetailVC.swift; sourceTree = "<group>"; };
 		B550ACB61FA884810067082C /* RoCalendar.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RoCalendar.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B550ACB81FA884810067082C /* RoCalendar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RoCalendar.h; sourceTree = "<group>"; };
@@ -252,6 +260,7 @@
 		B59BAD8A1F7A9B8E00A65AD1 /* GAttachment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GAttachment.swift; sourceTree = "<group>"; };
 		B59BAD8F1F7AA3D400A65AD1 /* GErrorModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GErrorModel.swift; sourceTree = "<group>"; };
 		B59BAD911F7AA3EC00A65AD1 /* GError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GError.swift; sourceTree = "<group>"; };
+		B5BD99BC1FC5C3640001454D /* EventEditVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventEditVC.swift; sourceTree = "<group>"; };
 		B5C4F5D61F7B976500C1FF23 /* RCDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = RCDataModel.xcdatamodel; sourceTree = "<group>"; };
 		B5C4F5D81F7BA2D300C1FF23 /* GCalendarExtendedList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GCalendarExtendedList.swift; sourceTree = "<group>"; };
 		B5C6ACB91F8693DA001FA175 /* EventCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventCell.swift; sourceTree = "<group>"; };
@@ -358,11 +367,13 @@
 		B52E2F4C1F8CEFEB0031FDED /* EventDetail */ = {
 			isa = PBXGroup;
 			children = (
+				B52E036B1FC487B800E7BA9C /* CalendarTableEventAttributeView.swift */,
+				B52E036A1FC487B800E7BA9C /* CalendarTableEventAttributeView.xib */,
 				B52E2F4D1F8CF0590031FDED /* UserCell.swift */,
 				B52E2F4F1F8CF0800031FDED /* BasicEventAttributeView.swift */,
 				B52E2F531F8D05B20031FDED /* BasicEventAttributeView.xib */,
-				B52E2F511F8D05270031FDED /* TableEventAttributeView.swift */,
-				B52E2F551F8D06C70031FDED /* TableEventAttributeView.xib */,
+				B52E2F511F8D05270031FDED /* GuestTableEventAttributeView.swift */,
+				B52E2F551F8D06C70031FDED /* GuestTableEventAttributeView.xib */,
 				B5266BF81F8F5BCA007A266E /* TableEventAttributeHeaderView.swift */,
 				B5266BF61F8F5BB7007A266E /* TableEventAttributeHeaderView.xib */,
 			);
@@ -467,6 +478,7 @@
 		B5F638BB1F794CFE00E80DEC /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				B5BD99BC1FC5C3640001454D /* EventEditVC.swift */,
 				B5F638C71F7A64C500E80DEC /* CalendarVC.swift */,
 				B51C549C1F7BCF6A00A7D2CF /* BaseVC+GoogleSignIn.swift */,
 				B52E2F571F8D10D60031FDED /* EventDetailVC.swift */,
@@ -600,6 +612,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B53DB3761FC5C0D500627B3E /* CalendarTableEventAttributeView.xib in Resources */,
+				B550D9141FC5CA33002BF26F /* LaunchScreen.storyboard in Resources */,
 				B5AE8BAC1FA8E25900536262 /* Main.storyboard in Resources */,
 				B51581DE1FB46FC400F186FC /* CalendarSelectionCell.xib in Resources */,
 			);
@@ -609,7 +623,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B52E2F561F8D06C70031FDED /* TableEventAttributeView.xib in Resources */,
+				B52E2F561F8D06C70031FDED /* GuestTableEventAttributeView.xib in Resources */,
 				B5F638A71F7902F100E80DEC /* GoogleSignIn.bundle in Resources */,
 				B5F6389D1F78F5BC00E80DEC /* LaunchScreen.storyboard in Resources */,
 				B5D538501F88739100928E64 /* OverlayButton.xib in Resources */,
@@ -621,6 +635,7 @@
 				B510999B1F851A0F00A416BE /* DayTableViewCell.xib in Resources */,
 				B5C6ACBC1F8693DA001FA175 /* EventCell.xib in Resources */,
 				B52E2F541F8D05B20031FDED /* BasicEventAttributeView.xib in Resources */,
+				B52E036C1FC487B800E7BA9C /* CalendarTableEventAttributeView.xib in Resources */,
 				B5F638B01F79062100E80DEC /* GoogleService-Info.plist in Resources */,
 				B55AFFA31F96245E006AA072 /* DroppingModalVC.xib in Resources */,
 			);
@@ -645,8 +660,8 @@
 				B550ACCC1FA884D10067082C /* UserCell.swift in Sources */,
 				B550ACCD1FA884D10067082C /* BasicEventAttributeView.swift in Sources */,
 				B550ACCE1FA884D10067082C /* BasicEventAttributeView.xib in Sources */,
-				B550ACCF1FA884D10067082C /* TableEventAttributeView.swift in Sources */,
-				B550ACD01FA884D10067082C /* TableEventAttributeView.xib in Sources */,
+				B550ACCF1FA884D10067082C /* GuestTableEventAttributeView.swift in Sources */,
+				B550ACD01FA884D10067082C /* GuestTableEventAttributeView.xib in Sources */,
 				B550ACD11FA884D10067082C /* TableEventAttributeHeaderView.swift in Sources */,
 				B550ACD21FA884D10067082C /* TableEventAttributeHeaderView.xib in Sources */,
 				B550ACD31FA884D10067082C /* NibLoadingView.swift in Sources */,
@@ -654,6 +669,7 @@
 				B550ACD51FA884D10067082C /* EventSectionHeaderView.xib in Sources */,
 				B550ACD61FA884D10067082C /* DayTableViewCell.swift in Sources */,
 				B550ACD71FA884D10067082C /* DayTableViewCell.xib in Sources */,
+				B5B6C98E1FC5C720009381CC /* EventEditVC.swift in Sources */,
 				B550ACD81FA884D10067082C /* EventCell.swift in Sources */,
 				B550ACD91FA884D10067082C /* EventCell.xib in Sources */,
 				B51581DD1FB46EBD00F186FC /* TableInfoViewController.swift in Sources */,
@@ -692,6 +708,7 @@
 				B550ACF91FA884D10067082C /* NotificationSettings.swift in Sources */,
 				B550ACFA1FA884D10067082C /* Attachment.swift in Sources */,
 				B550ACFB1FA884D10067082C /* User.swift in Sources */,
+				B53DB3751FC5C0D100627B3E /* CalendarTableEventAttributeView.swift in Sources */,
 				B550ACFC1FA884D10067082C /* DateNoTz.swift in Sources */,
 				B550ACFD1FA884D10067082C /* TimeStamp.swift in Sources */,
 				B550ACFE1FA884D10067082C /* Properties.swift in Sources */,
@@ -707,7 +724,6 @@
 				B550AD081FA884D10067082C /* Extensions.swift in Sources */,
 				B550AD091FA884D10067082C /* RCDataModel.xcdatamodeld in Sources */,
 				B550AD0A1FA884D10067082C /* Assets.xcassets in Sources */,
-				B550AD0B1FA884D10067082C /* Info.plist in Sources */,
 				B550AD0C1FA884D10067082C /* GoogleService-Info.plist in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -731,6 +747,7 @@
 				B5FFD1FE1F7E51000034CAB8 /* CalendarList.swift in Sources */,
 				B5C4F5D91F7BA2D300C1FF23 /* GCalendarExtendedList.swift in Sources */,
 				B5D5384E1F87FE3800928E64 /* Spinner.swift in Sources */,
+				B52E036D1FC487B800E7BA9C /* CalendarTableEventAttributeView.swift in Sources */,
 				B52C4ED51F7E9D5E000CECC3 /* DateNoTz.swift in Sources */,
 				B5F638CE1F7A668000E80DEC /* GReminder.swift in Sources */,
 				B58EECEE1F7A99170076EFDD /* GEventReminders.swift in Sources */,
@@ -741,7 +758,7 @@
 				B59BAD901F7AA3D400A65AD1 /* GErrorModel.swift in Sources */,
 				B5D538521F8874D200928E64 /* OverlayButton.swift in Sources */,
 				B52C4ED71F7EA128000CECC3 /* TimeStamp.swift in Sources */,
-				B52E2F521F8D05270031FDED /* TableEventAttributeView.swift in Sources */,
+				B52E2F521F8D05270031FDED /* GuestTableEventAttributeView.swift in Sources */,
 				B5F638931F78F5BC00E80DEC /* AppDelegate.swift in Sources */,
 				B51099911F84EB9D00A416BE /* MultiActionAlert.swift in Sources */,
 				B5F638B41F7908E400E80DEC /* Constants.swift in Sources */,
@@ -774,6 +791,7 @@
 				B5FFD1FC1F7D7F1A0034CAB8 /* NotificationSettings.swift in Sources */,
 				B52E2F4E1F8CF0590031FDED /* UserCell.swift in Sources */,
 				B51099971F850D4D00A416BE /* NibLoadingView.swift in Sources */,
+				B5BD99BD1FC5C3640001454D /* EventEditVC.swift in Sources */,
 				B58EECE81F7A935F0076EFDD /* GTimeStamp.swift in Sources */,
 				B52161EA1F7C18A2005A55FD /* Model.swift in Sources */,
 				B5FFD1FA1F7D7EAD0034CAB8 /* Notification.swift in Sources */,

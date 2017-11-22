@@ -1,5 +1,5 @@
 //
-//  EventDetailVC.swift
+//  EventEditVC.swift
 //  RoliqueCalendar
 //
 //  Created by Andrii Narinian on 10/10/17.
@@ -8,9 +8,9 @@
 
 import UIKit
 
-class EventDetailVC: DroppingModalVC {
-    class func deploy(with event: Event) -> EventDetailVC {
-        let vc = EventDetailVC.instantiateFromStoryboardId(.main)
+class EventEditVC: DroppingModalVC {
+    class func deploy(with event: Event) -> EventEditVC {
+        let vc = EventEditVC.instantiateFromStoryboardId(.main)
         vc.event = event
         return vc
     }
@@ -52,8 +52,7 @@ class EventDetailVC: DroppingModalVC {
     }
     
     @IBAction func editButtonAction(sender: UIButton) {
-        let editVC = EventEditVC.deploy(with: event)
-        navigationController?.pushViewController(editVC, animated: true)
+        
     }
     
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -63,13 +62,13 @@ class EventDetailVC: DroppingModalVC {
     }
 }
 
-extension EventDetailVC: DroppingModalVCDataSource {
+extension EventEditVC: DroppingModalVCDataSource {
     var _scrollView: UIScrollView? {
         return scrollView
     }
 }
 
-fileprivate extension EventDetailVC {
+fileprivate extension EventEditVC {
     func configure() {
         
         configureDroppingModalVC(dataSource: self)

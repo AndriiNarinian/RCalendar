@@ -1,5 +1,5 @@
 //
-//  TableEventAttributeView.swift
+//  GuestTableEventAttributeView.swift
 //  RoliqueCalendar
 //
 //  Created by Andrii Narinian on 10/10/17.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TableEventAttributeView: NibLoadingView, EventAttributeView, UITableViewDataSource, UITableViewDelegate {
+class GuestTableEventAttributeView: NibLoadingView, EventAttributeView, UITableViewDataSource, UITableViewDelegate {
     enum SectionType: Int {
         case accepted = 0, awaiting, declined
         var title: String {
@@ -111,7 +111,7 @@ class TableEventAttributeView: NibLoadingView, EventAttributeView, UITableViewDa
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: .default, reuseIdentifier: "EventAttributeTableviewCell")
+        let cell = UITableViewCell(style: .default, reuseIdentifier: "GuestTableEventAttributeView")
         guard let user = getArray(for: indexPath.section)[safe: indexPath.row] else { return UITableViewCell() }
         
         cell.imageView?.loadImageUsingCacheWithURLString(user.imageUrl.stringValue, placeHolder: nil)
