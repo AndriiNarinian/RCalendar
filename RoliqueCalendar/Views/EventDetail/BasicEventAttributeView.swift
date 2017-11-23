@@ -71,8 +71,8 @@ class BasicEventAttributeView: NibLoadingView, EventAttributeView {
             let acceptedCount = event.sortedGuests.filter({ $0.responseStatus == "accepted" }).count
             subtitleLabel.text = "\(acceptedCount) accepted, \(event.sortedGuests.count - acceptedCount) awaiting"
         case .calendar:
-            titleLabel.text = event.calendars.first?.name
-            subtitleLabel.text = ""
+            titleLabel.text = "calendars"
+            subtitleLabel.text = event.calendars.count > 1 ? "contained in \(event.calendars.count) calendars" : ""
         case .guestsTable: break
         case .calendarTable: break
         }

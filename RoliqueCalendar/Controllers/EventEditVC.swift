@@ -45,6 +45,7 @@ class EventEditVC: DroppingModalVC {
         super.viewDidLayoutSubviews()
         
         tableviewHeightConstraint.constant = (stackView.arrangedSubviews[safe: 5] as? GuestTableEventAttributeView)?.tableViewHeight ?? 0
+        calendarTableviewHeightConstraint.constant = (stackView.arrangedSubviews[safe: 7] as? CalendarTableEventAttributeView)?.tableViewHeight ?? 0
     }
     
     @IBAction func closeButtonAction(sender: UIButton) {
@@ -75,15 +76,12 @@ fileprivate extension EventEditVC {
     }
     
     func configure() {
-        
         configureDroppingModalVC(dataSource: self)
-        
         closeButton.addTarget(self, action: #selector(closeButtonAction(sender:)), for: .touchUpInside)
         editButton.addTarget(self, action: #selector(editButtonAction(sender:)), for: .touchUpInside)
         titleLabel.text = eventTitle
         headerBackView.backgroundColor = headerColor
         configureStackView()
-        
         shadowView.layer.shadowColor = UIColor.black.cgColor
         shadowView.layer.shadowRadius = 4.0
         shadowView.layer.shadowOffset = CGSize(width: 0, height: 4)
@@ -91,7 +89,7 @@ fileprivate extension EventEditVC {
     
     func configureStackView() {
         stackView.arrangedSubviews.forEach { view in
-            guard let type = (view as? BasicEventAttributeView)?.type else { return }
+            guard let type = (view as? EventAttributeView)?.type else { return }
             switch type {
             case .time, .location, .reminder, .hangout, .guests, .calendar:
                 (view as? BasicEventAttributeView)?.update(with: event)
@@ -112,7 +110,7 @@ fileprivate extension EventEditVC {
             case .guests:
                 stackView.configureViews(for: [4], isHidden: event.sortedGuests.count == 0) {}
             case .calendar:
-                stackView.configureViews(for: [6], isHidden: event.sortedGuests.count == 0) {}
+                stackView.configureViews(for: [6], isHidden: event.calendars.count == 0) {}
             default: break
             }
         }

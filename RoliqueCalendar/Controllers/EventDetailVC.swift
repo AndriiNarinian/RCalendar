@@ -110,7 +110,7 @@ fileprivate extension EventDetailVC {
             case .guests:
                 stackView.configureViews(for: [4], isHidden: event.sortedGuests.count == 0) {}
             case .calendar:
-                stackView.configureViews(for: [6], isHidden: event.sortedGuests.count == 0) {}
+                stackView.configureViews(for: [6], isHidden: event.calendars.count == 0) {}
             default: break
             }
         }
