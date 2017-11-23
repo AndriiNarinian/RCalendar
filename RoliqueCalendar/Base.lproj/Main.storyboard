@@ -328,17 +328,16 @@
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="94"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1vE-nD-EBL">
-                                                <rect key="frame" x="8" y="24" width="46" height="30"/>
+                                                <rect key="frame" x="8" y="24" width="30" height="30"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="26"/>
                                                 <state key="normal" title="✕">
                                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </state>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vUB-TK-Dpt">
-                                                <rect key="frame" x="321" y="24" width="46" height="30"/>
+                                                <rect key="frame" x="337" y="24" width="30" height="30"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="30" id="FBv-jo-Mll"/>
-                                                    <constraint firstAttribute="width" constant="46" id="ICc-Kf-fgC"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                 <state key="normal" title="•••">
@@ -354,7 +353,9 @@
                                         </subviews>
                                         <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
+                                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="1vE-nD-EBL" secondAttribute="trailing" constant="20" symbolic="YES" id="1ZP-GF-GbX"/>
                                             <constraint firstItem="1vE-nD-EBL" firstAttribute="height" secondItem="vUB-TK-Dpt" secondAttribute="height" id="2eK-Pa-phB"/>
+                                            <constraint firstItem="vUB-TK-Dpt" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="umG-Pg-0g6" secondAttribute="leading" constant="20" symbolic="YES" id="Clp-HW-wU1"/>
                                             <constraint firstItem="1vE-nD-EBL" firstAttribute="leading" secondItem="umG-Pg-0g6" secondAttribute="leading" constant="8" id="KgW-Zw-4JT"/>
                                             <constraint firstItem="1vE-nD-EBL" firstAttribute="centerY" secondItem="vUB-TK-Dpt" secondAttribute="centerY" id="NVh-Af-nuD"/>
                                             <constraint firstAttribute="bottom" secondItem="SCp-3S-V0R" secondAttribute="bottom" constant="8" id="OFC-sx-VpI"/>
@@ -471,7 +472,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="573"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="110" placeholderIntrinsicHeight="200" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Biz-h3-fOQ">
-                                                <rect key="frame" x="0.0" y="0.0" width="375" height="0.0"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="375" height="200"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cx1-fl-uZu" customClass="BasicEventAttributeView" customModule="RoCalendar" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="0.0" width="375" height="0.0"/>
@@ -483,7 +484,7 @@
                                                         </userDefinedRuntimeAttributes>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6io-aa-iAr" customClass="BasicEventAttributeView" customModule="RoCalendar" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="-70" width="375" height="0.0"/>
+                                                        <rect key="frame" x="0.0" y="-667" width="375" height="0.0"/>
                                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <userDefinedRuntimeAttributes>
                                                             <userDefinedRuntimeAttribute type="number" keyPath="typeId">
@@ -492,7 +493,7 @@
                                                         </userDefinedRuntimeAttributes>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Mxg-2X-rvd" customClass="BasicEventAttributeView" customModule="RoCalendar" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="-70" width="375" height="0.0"/>
+                                                        <rect key="frame" x="0.0" y="-667" width="375" height="0.0"/>
                                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <userDefinedRuntimeAttributes>
                                                             <userDefinedRuntimeAttribute type="number" keyPath="typeId">
@@ -501,7 +502,7 @@
                                                         </userDefinedRuntimeAttributes>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fou-t3-VdC" customClass="BasicEventAttributeView" customModule="RoCalendar" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="-70" width="375" height="0.0"/>
+                                                        <rect key="frame" x="0.0" y="-667" width="375" height="0.0"/>
                                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <userDefinedRuntimeAttributes>
                                                             <userDefinedRuntimeAttribute type="number" keyPath="typeId">
@@ -510,7 +511,7 @@
                                                         </userDefinedRuntimeAttributes>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yOf-2n-82Y" customClass="BasicEventAttributeView" customModule="RoCalendar" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="-70" width="375" height="0.0"/>
+                                                        <rect key="frame" x="0.0" y="-667" width="375" height="0.0"/>
                                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <userDefinedRuntimeAttributes>
                                                             <userDefinedRuntimeAttribute type="number" keyPath="typeId">
@@ -519,7 +520,7 @@
                                                         </userDefinedRuntimeAttributes>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="o38-Ml-ZXk" customClass="GuestTableEventAttributeView" customModule="RoCalendar" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="-70" width="375" height="200"/>
+                                                        <rect key="frame" x="0.0" y="-667" width="375" height="200"/>
                                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="200" id="hEU-me-xTf"/>
@@ -531,7 +532,7 @@
                                                         </userDefinedRuntimeAttributes>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Sse-Kf-kgM" customClass="BasicEventAttributeView" customModule="RoCalendar" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="-70" width="375" height="0.0"/>
+                                                        <rect key="frame" x="0.0" y="248" width="375" height="200"/>
                                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <userDefinedRuntimeAttributes>
                                                             <userDefinedRuntimeAttribute type="number" keyPath="typeId">
@@ -540,7 +541,7 @@
                                                         </userDefinedRuntimeAttributes>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Lwd-Ra-LZM" customClass="CalendarTableEventAttributeView" customModule="RoCalendar" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="-70" width="375" height="200"/>
+                                                        <rect key="frame" x="0.0" y="-467" width="375" height="200"/>
                                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="200" id="gev-kF-qgR"/>
@@ -581,16 +582,15 @@
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="94"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IcY-C3-9fG">
-                                                <rect key="frame" x="8" y="24" width="46" height="30"/>
+                                                <rect key="frame" x="8" y="24" width="43" height="30"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="26"/>
                                                 <state key="normal" title="✕">
                                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </state>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yq0-Pq-N6w">
-                                                <rect key="frame" x="321" y="24" width="46" height="30"/>
+                                                <rect key="frame" x="324" y="24" width="43" height="30"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" constant="46" id="cqr-px-vaj"/>
                                                     <constraint firstAttribute="height" constant="30" id="loz-TY-qv0"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
@@ -607,6 +607,7 @@
                                         </subviews>
                                         <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
+                                            <constraint firstItem="yq0-Pq-N6w" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="WND-9i-ejp" secondAttribute="leading" constant="20" symbolic="YES" id="2fN-SB-9kz"/>
                                             <constraint firstItem="IcY-C3-9fG" firstAttribute="leading" secondItem="WND-9i-ejp" secondAttribute="leading" constant="8" id="3OI-m1-fXp"/>
                                             <constraint firstItem="mUl-NU-5ZO" firstAttribute="top" secondItem="yq0-Pq-N6w" secondAttribute="bottom" constant="8" id="BKm-md-eqR"/>
                                             <constraint firstItem="IcY-C3-9fG" firstAttribute="height" secondItem="yq0-Pq-N6w" secondAttribute="height" id="Cop-E6-1YE"/>
@@ -614,6 +615,7 @@
                                             <constraint firstItem="mUl-NU-5ZO" firstAttribute="leading" secondItem="WND-9i-ejp" secondAttribute="leading" constant="8" id="NMY-vf-Kn7"/>
                                             <constraint firstAttribute="trailing" secondItem="yq0-Pq-N6w" secondAttribute="trailing" constant="8" id="PEs-r9-1Ru"/>
                                             <constraint firstItem="yq0-Pq-N6w" firstAttribute="top" secondItem="WND-9i-ejp" secondAttribute="top" constant="24" id="SiA-by-idC"/>
+                                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="IcY-C3-9fG" secondAttribute="trailing" constant="20" symbolic="YES" id="X5v-2H-x6u"/>
                                             <constraint firstItem="IcY-C3-9fG" firstAttribute="width" secondItem="yq0-Pq-N6w" secondAttribute="width" id="YiH-w4-pi4"/>
                                             <constraint firstAttribute="bottom" secondItem="mUl-NU-5ZO" secondAttribute="bottom" constant="8" id="qbF-la-JPw"/>
                                             <constraint firstItem="IcY-C3-9fG" firstAttribute="centerY" secondItem="yq0-Pq-N6w" secondAttribute="centerY" id="xEx-9L-8nd"/>

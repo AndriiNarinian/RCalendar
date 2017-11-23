@@ -8,7 +8,7 @@
 
 import UIKit
 
-class EventEditVC: DroppingModalVC {
+class EventEditVC: UIViewController {
     class func deploy(with event: Event) -> EventEditVC {
         let vc = EventEditVC.instantiateFromStoryboardId(.main)
         vc.event = event
@@ -57,16 +57,12 @@ class EventEditVC: DroppingModalVC {
         dismiss(animated: true) { }
     }
     
-    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        super.scrollViewDidScroll(scrollView)
-        
-        shadowView.layer.shadowOpacity = scrollView.contentOffset.y > 0 ? 0.5 : 0
-    }
+    
 }
 
-extension EventEditVC: DroppingModalVCDataSource {
-    var _scrollView: UIScrollView? {
-        return scrollView
+extension EventEditVC: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        shadowView.layer.shadowOpacity = scrollView.contentOffset.y > 0 ? 0.5 : 0
     }
 }
 
@@ -76,7 +72,6 @@ fileprivate extension EventEditVC {
     }
     
     func configure() {
-        configureDroppingModalVC(dataSource: self)
         closeButton.addTarget(self, action: #selector(closeButtonAction(sender:)), for: .touchUpInside)
         editButton.addTarget(self, action: #selector(editButtonAction(sender:)), for: .touchUpInside)
         titleLabel.text = eventTitle
