@@ -204,7 +204,6 @@ class CoreDataProxy<ResultType: NSFetchRequestResult>: NSObject, UITableViewDele
         let day = (fetchedResultsController?.object(at: indexPath) as? Day)
         if let lastIndexPath = lastIndexPath {
             let currentDate = day?.date as Date?
-            
             if lastIndexPath < indexPath {
                 // going down
                 if let current = currentDate, let max = RCalendar.main.bounds?.max {
